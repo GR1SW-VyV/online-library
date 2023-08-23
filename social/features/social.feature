@@ -8,3 +8,9 @@ Feature: Activities following
 
   Scenario: Receiving a notification of a collection's activity
     # Enter steps here
+
+  Scenario: Stop receiving a notification of another reader's activity
+    # Enter steps here
+
+  Scenario: Stop receiving a notification of a collection's activity
+    # Enter steps here
