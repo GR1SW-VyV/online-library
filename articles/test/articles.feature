@@ -15,12 +15,13 @@ Feature: Upload public articles
 
 
   Scenario Outline: Generate unique ID
-    Given the <title>, <autor> and <subject>
+    Given <local_path> on the disk
+    And  <title>, <autor>, <subject>
     When the article is uploaded
     Then it must auto generate a <unique_id>
     And the <unique_id> index with the <subject_path>
 
     Examples:
-      | title                | autor          | subject | unique_id   | subject_path                                           |
-      | Arirmetica de Baldor | Aurelio Baldor | Math    | ArAuMath    | articles/resources/MathResources/mathArticle.pdf       |
-      | Fisica Cuantica      | Max Planck     | Physics | FiMaPhysics | articles/resources/PhysicsResources/physicsArticle.pdf |
+      |local_path                                          | title                | autor          | subject | unique_id   | subject_path                                           |
+      |articles/test/resources/articles/mathArticle.pdf    | Arirmetica de Baldor | Aurelio Baldor | Math    | ArAuMath    | articles/resources/MathResources/mathArticle.pdf       |
+      |articles/test/resources/articles/physicsArticle.pdf | Fisica Cuantica      | Max Planck     | Physics | FiMaPhysics | articles/resources/PhysicsResources/physicsArticle.pdf |
