@@ -10,7 +10,7 @@ Feature: Upload public articles
 
     Examples:
       |  local_path                                         |subject  |  subject_path                                               | message                              |
-      |articles/test/resources/articles/mathArticle.pdf     | Math    |articles/test/resources/MathResources/mathArticle.pdf        |Successful upload to Math Resources   |
-      |articles/test/resources/articles/physicsArticle.pdf  | Physics |articles/test/resources/PhysicsResources/physicsArticle.pdf  |Successful upload to Physics Resources|
+      |articles/test/resources/articles/mathArticle.pdf     | Math    |articles/resources/MathResources/mathArticle.pdf        |Successful upload to Math Resources   |
+      |articles/test/resources/articles/physicsArticle.pdf  | Physics |articles/resources/PhysicsResources/physicsArticle.pdf  |Successful upload to Physics Resources|
 
 
