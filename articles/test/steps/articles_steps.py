@@ -17,6 +17,8 @@ def step_impl(context, local_path):
     """
     context.local_path = local_path
     print(os.path.realpath(local_path))
+    with open(local_path,'w') as f:
+        f.write("sample")
     assert os.path.isfile(local_path)
 
 
