@@ -14,3 +14,13 @@ Feature: Upload public articles
       |articles/test/resources/articles/physicsArticle.pdf  | Physics |articles/resources/PhysicsResources/physicsArticle.pdf  |Successful upload to Physics Resources|
 
 
+  Scenario Outline: Generate unique ID
+    Given the <title>, <autor> and <subject>
+    When the article is uploaded
+    Then it must auto generate a <unique_id>
+    And the <unique_id> index with the <subject_path>
+
+    Examples:
+      | title                | autor          | subject | unique_id   | subject_path                                           |
+      | Arirmetica de Baldor | Aurelio Baldor | Math    | ArAuMath    | articles/resources/MathResources/mathArticle.pdf       |
+      | Fisica Cuantica      | Max Planck     | Physics | FiMaPhysics | articles/resources/PhysicsResources/physicsArticle.pdf |
