@@ -1,16 +1,27 @@
-# Created by Andrés Ponce at 22/8/2023
-Feature: Activities following
+# language:en
+Feature:
   As a reader
-  I want follow the activities of another reader or any collections of my interests
+  I want to follow the activities of another reader or a collection of my interest as a follow-up
+  so that I can quickly access the content of other users
 
-  Scenario: Receiving a notification of another reader's activity
-    # Enter steps here
+  Scenario: Show updates of followed collection
+    Given : that I follow a collection
+    When : the owner of the collection adds a new book
+    Then : the book will appear in my feed
 
-  Scenario: Receiving a notification of a collection's activity
-    # Enter steps here
+  Scenario:  Follow a reader
+    Given : that there is a reader Andrés
+    And that there is a reader Juan
+    When : Andrés follows Juan
+    Then : Juan will appear in the list of following of Andrés
+    And : Andrés will appear in the list of followers of Juan
 
-  Scenario: Stop receiving a notification of another reader's activity
-    # Enter steps here
+  Scenario: Show updates of followed reader
+    Given : that I follow a reader in my tracked list
+    When : the reader do a new activity
+    Then : the activity will appear in the list of recent activities
 
-  Scenario: Stop receiving a notification of a collection's activity
-    # Enter steps here
+  Scenario: Follow a collection of other readers
+    Given : that there is a collection
+    When : I follow the collection
+    Then : the new collection will appear in my list of followed collections
