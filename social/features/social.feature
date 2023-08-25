@@ -1,8 +1,8 @@
 # language:en
 Feature:
   As a reader
-  I want to follow the activities of another reader or a collection of my interest as a follow-up
-  so that I can quickly access the content of other users
+  I want to follow the activities or collections of another reader of my interest as a follow-up
+  so that I can easily access the content of other users
 
   Scenario: Show updates of followed collection
     Given : that I follow a collection
@@ -18,7 +18,7 @@ Feature:
 
   Scenario: Show updates of followed reader
     Given : that I follow a reader in my tracked list
-    When : the reader do a new activity
+    When : the reader does a new activity
     Then : the activity will appear in the list of recent activities
 
   Scenario: Follow a collection of other readers

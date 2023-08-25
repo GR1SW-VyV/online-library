@@ -75,7 +75,7 @@ def step_impl(context):
     raise NotImplementedError(u'STEP: Given : that I follow a reader in my tracked list')
 
 
-@when(": the reader do a new activity")
+@when(": the reader does a new activity")
 def step_impl(context):
     """
     :type context: behave.runner.Context
