@@ -7,8 +7,8 @@ from typing import List
 
 class User(Observer, Observable):
     name = ""
-    followedUsers: List['User'] = []
-    followedCollections: List[Collection] = []
+    followed_users: List['User'] = []
+    followed_collections: List[Collection] = []
 
     def notify(self):
         pass
@@ -16,5 +16,5 @@ class User(Observer, Observable):
     def update(self, activity: Activity):
         pass
 
-    def doActivity(self):
+    def do_activity(self):
         pass

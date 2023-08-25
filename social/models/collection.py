@@ -7,7 +7,7 @@ class Collection(Observable):
     name = ""
     documents: List[Document] = []
 
-    def addDocument(self, document: Document):
+    def add_document(self, document: Document):
         pass
 
     def notify(self):

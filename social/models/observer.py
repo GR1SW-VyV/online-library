@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from social.models.observable import Observable
-
 from social.models.activity import Activity
 
 
