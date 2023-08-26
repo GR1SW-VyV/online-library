@@ -3,7 +3,7 @@ from behave import *
 from social.models.user import User
 from social.models.collection import Collection
 from social.models.document import Document
-from social.models.activity import Activity, CollectionActivity
+from social.models.activity import Activity, CollectionActivity, UserActivity
 from faker import Faker
 
 
@@ -107,7 +107,7 @@ def step_impl(context):
     """
     :type context: behave.runner.Context
     """
-    context.activity = Activity()
+    context.activity = UserActivity()
     context.activity.observable = context.followed_user
     context.activity.detail = "does a new activity"
     context.followed_user.do_activity()

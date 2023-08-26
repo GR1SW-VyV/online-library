@@ -25,3 +25,7 @@ class CollectionActivity(Activity):
 
     def __hash__(self):
         return super().__hash__() + hash(self.document)
+
+
+class UserActivity(Activity):
+    pass
