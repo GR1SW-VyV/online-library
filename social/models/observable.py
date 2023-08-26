@@ -9,7 +9,7 @@ class Observable(ABC):
         return follower in self.followers
 
     def add_follower(self, observer):
-        self.followers |= {observer}
+        self.followers.append(observer)
 
     @abstractmethod
     def notify(self):
