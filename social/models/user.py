@@ -15,3 +15,9 @@ class User(Observer, Observable):
 
     def do_activity(self):
         pass
+
+    def is_following(self, observable):
+        pass
+
+    def is_in_my_following_collection(self, collection):
+        pass

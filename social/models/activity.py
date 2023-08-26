@@ -5,4 +5,4 @@ from datetime import datetime
 class Activity:
     observable = None
     detail = ""
-    date = datetime.date()
+    date = datetime.today()
