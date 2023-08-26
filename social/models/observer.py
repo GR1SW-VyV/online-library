@@ -12,9 +12,8 @@ class Observer(ABC):
     def is_following(self, observable):
         pass
 
-
     def follow(self, observable):
-        pass
+        observable.add_follower(self)
 
     def in_my_feed(self, activity):
-        pass
+        return activity in self.feed

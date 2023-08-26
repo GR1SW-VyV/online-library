@@ -5,12 +5,11 @@ class Observable(ABC):
     followers = []
     activities = []
 
-
     def is_followed_by(self, follower):
-        pass
+        return follower in self.followers
 
     def add_follower(self, observer):
-        pass
+        self.followers |= {observer}
 
     @abstractmethod
     def notify(self):
