@@ -131,3 +131,8 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+
+pyvenv.cfg
+lib64
+bin
+.idea
