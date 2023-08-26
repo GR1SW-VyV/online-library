@@ -1,3 +1,4 @@
+from social.models.activity import UserActivity
 from social.models.observable import Observable
 from social.models.observer import Observer
 from social.models.collection import Collection
@@ -9,13 +10,21 @@ class User(Observer, Observable):
     followed_collections = []
 
     def notify(self):
-        pass
+        for observer in self.followers:
+            observer.update(self.activities[-1])
 
     def update(self, activity):
         self.feed.append(activity)
 
     def do_activity(self):
-        pass
+        activity = self.create_user_activity("does a new activity")
+        self.add_activity(activity)
+
+    def create_user_activity(self, detail):
+        activity = UserActivity()
+        activity.observable = self
+        activity.detail = detail
+        return activity
 
     def follow(self, observable):
         super().follow(observable)
