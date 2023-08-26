@@ -1,13 +1,11 @@
-from social.models.document import Document
 from social.models.observable import Observable
-from typing import List
 
 
 class Collection(Observable):
     name = ""
-    documents: List[Document] = []
+    documents = []
 
-    def add_document(self, document: Document):
+    def add_document(self, document):
         pass
 
     def notify(self):

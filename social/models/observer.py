@@ -1,12 +1,10 @@
 from abc import ABC, abstractmethod
-from social.models.observable import Observable
-from social.models.activity import Activity
 
 
 class Observer(ABC):
     @abstractmethod
-    def update(self, activity: Activity):
+    def update(self, activity):
         pass
 
-    def follow(self, observable: Observable):
+    def follow(self, observable):
         pass

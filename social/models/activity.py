@@ -3,6 +3,6 @@ from datetime import datetime
 
 
 class Activity:
-    observable: Observable
+    observable = None
     detail = ""
     date = datetime.date()
