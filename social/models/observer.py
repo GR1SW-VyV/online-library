@@ -16,3 +16,5 @@ class Observer(ABC):
     def follow(self, observable):
         pass
 
+    def in_my_feed(self, activity):
+        pass
