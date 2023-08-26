@@ -1,8 +1,11 @@
-from social.models.observable import Observable
 from datetime import datetime
 
 
 class Activity:
     observable = None
     detail = ""
-    date = datetime.today()
+    date = datetime.today().date()
+
+
+class CollectionActivity(Activity):
+    document = None

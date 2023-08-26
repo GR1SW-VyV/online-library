@@ -3,7 +3,7 @@ from behave import *
 from social.models.user import User
 from social.models.collection import Collection
 from social.models.document import Document
-from social.models.activity import Activity
+from social.models.activity import Activity, CollectionActivity
 from faker import Faker
 
 
@@ -34,7 +34,8 @@ def step_impl(context):
     context.document = Document
     context.document.title = Faker().catch_phrase()
     context.collection.add_document(context.document)
-    context.activity = Activity()
+    context.activity = CollectionActivity()
+    context.activity.document = context.document
     context.activity.observable = context.collection
     context.activity.detail = "add a new document"
 
