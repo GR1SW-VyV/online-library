@@ -27,7 +27,7 @@ def step_impl(context, subject):
     :type context: behave.runner.Context
     :type subject: str
     """
-    context.article = article.from_local_path(context.local_path, subject=subject)
+    context.article = article.from_local_path(context.local_path, category=subject)
 
 
 @then("the article must be on {subject_path}")
