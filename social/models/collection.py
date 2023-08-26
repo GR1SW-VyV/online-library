@@ -1,3 +1,4 @@
+from social.models.activity import CollectionActivity
 from social.models.observable import Observable
 
 
@@ -6,7 +7,17 @@ class Collection(Observable):
     documents = []
 
     def add_document(self, document):
-        pass
+        self.documents.append(document)
+        activity = self.create_collection_activity(document)
+        self.add_activity(activity)
+
+    def create_collection_activity(self, document):
+        activity = CollectionActivity()
+        activity.document = document
+        activity.observable = self
+        activity.detail = "add a new document"
+        return activity
 
     def notify(self):
-        pass
+        for observer in self.followers:
+            observer.update(self.activities[-1])

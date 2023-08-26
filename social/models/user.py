@@ -12,7 +12,7 @@ class User(Observer, Observable):
         pass
 
     def update(self, activity):
-        pass
+        self.feed.append(activity)
 
     def do_activity(self):
         pass
