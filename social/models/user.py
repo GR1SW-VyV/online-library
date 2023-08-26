@@ -30,9 +30,11 @@ class User(Observer, Observable):
         super().follow(observable)
         if isinstance(observable, User):
             self.followed_users.append(observable)
+        elif isinstance(observable, Collection):
+            self.followed_collections.append(observable)
 
     def is_following(self, observable):
         return observable in self.followed_users
 
     def is_in_my_following_collection(self, collection):
-        pass
+        return collection in self.followed_collections
