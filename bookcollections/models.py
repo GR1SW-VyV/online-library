@@ -7,7 +7,7 @@ class MockArticle(models.Model):
     Mocking model to handle dependencies with Article model
     """
     class Category(models.IntegerChoices):
-        UNKNOWN = 0, _('Desconocido')
+        UNKNOWN = 0, _('UNKNOWN')
 
 
 class Collection(models.Model):
