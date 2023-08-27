@@ -11,6 +11,9 @@ class MockArticle(models.Model):
 
 
 class Collection(models.Model):
+    """
+    Model representing a collection of books.
+    """
     name = models.CharField(max_length=255, null=False)
     description = models.TextField()
     is_public = models.BooleanField(default=False, null=False)
@@ -25,7 +28,7 @@ class Collection(models.Model):
         return self.name
 
     def get_collection(self, collection_id):
-        return Collection.objects.get(id=collection_id)
+        return self.objects.get(id=collection_id)
 
     def add_book(self, book):
         pass
