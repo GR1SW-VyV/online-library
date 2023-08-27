@@ -23,3 +23,12 @@ class Collection(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_collection(self, collection_id):
+        return Collection.objects.get(id=collection_id)
+
+    def add_book(self, book):
+        pass
+
+    def create(self, collection):
+        pass
