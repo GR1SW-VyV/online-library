@@ -1,7 +1,13 @@
 from django.db import models
-from articles.models import Article
+from django.utils.translation import gettext_lazy as _
 
-# Create your models here.
+
+class MockArticle(models.Model):
+    """
+    Mocking model to handle dependencies with Article model
+    """
+    class Category(models.IntegerChoices):
+        UNKNOWN = 0, _('Desconocido')
 
 
 class Collection(models.Model):
@@ -11,8 +17,8 @@ class Collection(models.Model):
 
     category = models.CharField(
         max_length=100,
-        choices=Article.Category.choices,
-        default=Article.Category.UNKNOWN
+        choices=MockArticle.Category.choices,
+        default=MockArticle.Category.UNKNOWN
     )
 
     def __str__(self):
