@@ -32,7 +32,7 @@ class Article(models.Model):
         default=Type.BOOK
     )
     category = models.CharField(
-        max_length=10,
+        max_length=20,
         choices=Category.choices,
         default=Category.UNKNOWN
     )
