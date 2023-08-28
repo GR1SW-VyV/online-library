@@ -72,7 +72,7 @@ def step_impl(context):
         context.local_path,
         title=context.title,
         author=context.author,
-        subject=context.subject
+        category=context.subject
     )
 
 
@@ -93,4 +93,5 @@ def step_impl(context, unique_id, subject_path):
     :type subject_path: str
     """
     assert os.path.isfile(subject_path)
+    print(f"{context.article.uid}, {unique_id}")
     assert context.article.uid == unique_id

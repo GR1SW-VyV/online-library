@@ -15,5 +15,5 @@ def from_local_path(path, /, author="", title="", category=Article.Category.UNKN
     title_prefix = title[0:2]
     category_prefix = str(category).capitalize()
 
-    kwargs["uid"] = "".join([author_prefix, title_prefix, category_prefix])
+    kwargs["uid"] = "".join([title_prefix, author_prefix, category_prefix])
     return Article(**kwargs)
