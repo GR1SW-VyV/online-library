@@ -56,6 +56,15 @@ class CollectionDAO():
         return Collection.objects.filter(user_id=user_id)
 
     @classmethod
+    def to_list(cls, collections):
+        return list(collections)
+
+    @classmethod
+    def get_first(cls, collections):
+        cls.to_list(collections)
+        return collections[0]
+
+    @classmethod
     def get_collection(cls, collection_id):
         return Collection.objects.get(id=collection_id)
 
