@@ -16,12 +16,23 @@ Feature: Upload public articles
 
   Scenario Outline: Generate unique ID
     Given <local_path> on the disk
-    And  <title>, <autor>, <subject>
+    And  <title>, <author>, <subject>
     When the article is uploaded
     Then it must auto generate a <unique_id>
     And the <unique_id> index with the <subject_path>
 
     Examples:
-      |local_path                                          | title                | autor          | subject | unique_id   | subject_path                                           |
+      |local_path                                          | title                | author          | subject | unique_id   | subject_path                                           |
       |articles/test/resources/articles/mathArticle.pdf    | Arirmetica de Baldor | Aurelio Baldor | Math    | ArAuMath    | articles/resources/MathResources/mathArticle.pdf       |
       |articles/test/resources/articles/physicsArticle.pdf | Fisica Cuantica      | Max Planck     | Physics | FiMaPhysics | articles/resources/PhysicsResources/physicsArticle.pdf |
+
+
+  Scenario Outline: Avoid duplicate files
+    Given <file> from a <subject>
+    When I upload another <upload-file> at the same <subject>
+    Then if the file is the same send an error <message>
+
+    Examples:
+      |  file                                               |subject  |  upload-file                                           | message                              |
+      |articles/test/resources/articles/mathArticle.pdf     | Math    |articles/resources/MathResources/mathArticle.pdf        |The file already exist                |
+      |articles/test/resources/articles/physicsArticle.pdf  | Physics |articles/resources/PhysicsResources/physicsArticle.pdf  |The file already exist                |
