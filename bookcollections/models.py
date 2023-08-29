@@ -7,6 +7,13 @@ from django.utils.translation import gettext_lazy as _
 
 # Many to Many relationship
 
+class MockUser(models.Model):
+    """
+    Mocking model to handle dependencies with User model
+    """
+    pass
+
+
 class MockArticle(models.Model):
     """
     Mocking model to handle dependencies with Article model
@@ -31,17 +38,8 @@ class Collection(models.Model):
         default=MockArticle.Category.UNKNOWN
     )
 
-    def __str__(self):
-        return self.name
+    user = models.ForeignKey(MockUser, on_delete=models.CASCADE)
 
-    def get_collection(self, collection_id):
-        pass
-
-    def add_book(self, book):
-        pass
-
-    def create(self, collection):
-        pass
 
 # get all collections by user
 # get collection by id
@@ -83,3 +81,30 @@ class CollectionDAO():
     @classmethod
     def search_by_category_and_user(cls, category, user_id):
         return Collection.objects.filter(category=category, user_id=user_id)
+
+    @classmethod
+    def create(cls, name, description, is_public, category, user_id):
+        user = MockUser.objects.get(id=user_id)
+
+        collection = Collection.objects.create(
+            name=name,
+            description=description,
+            is_public=is_public,
+            category=category,
+            user=user
+        )
+        collection.save()
+        return collection
+
+    @classmethod
+    def create_with_book(cls, name, description, is_public, category, user_id, book_id):
+        collection = cls.create(
+            name,
+            description,
+            is_public,
+            category,
+            user_id
+        )
+        cls.add_book(collection.id, book_id)
+        last_collection = cls.get_collection(collection_id=collection.id)
+        return last_collection
