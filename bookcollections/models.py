@@ -5,12 +5,14 @@ from django.utils.translation import gettext_lazy as _
 # A collection has many books
 # A book can be in many collections
 
-# Many to Many relationship
+# Many-to-Many relationship
+
 
 class MockUser(models.Model):
     """
     Mocking model to handle dependencies with User model
     """
+
     pass
 
 
@@ -18,16 +20,18 @@ class MockArticle(models.Model):
     """
     Mocking model to handle dependencies with Article model
     """
-    class Category(models.IntegerChoices):
-        UNKNOWN = 0, _('UNKNOWN')
 
-    collections = models.ManyToManyField('Collection', related_name='books')
+    class Category(models.IntegerChoices):
+        UNKNOWN = 0, _("UNKNOWN")
+
+    collections = models.ManyToManyField("Collection", related_name="books")
 
 
 class Collection(models.Model):
     """
     Model representing a collection of books.
     """
+
     name = models.CharField(max_length=255, null=False)
     description = models.TextField()
     is_public = models.BooleanField(default=False, null=False)
@@ -41,18 +45,22 @@ class Collection(models.Model):
     user = models.ForeignKey(MockUser, on_delete=models.CASCADE)
 
 
-# get all collections by user
-# get collection by id
+class CollectionDAO:
+    """
+    This class provides data access methods for retrieving collections
+    """
 
-# Search by name, category
-# 2 fncs:
-    # results in general
-    # results by user
-
-
-class CollectionDAO():
     @classmethod
     def get_all_by_user(cls, user_id):
+        """
+        Retrieve all collections associated with a specific user.
+
+        Args:
+            user_id (int): The ID of the user.
+
+        Returns:
+            QuerySet: A queryset containing the collections associated with the user.
+        """
         return Collection.objects.filter(user_id=user_id)
 
     @classmethod
@@ -77,18 +85,58 @@ class CollectionDAO():
 
     @classmethod
     def search_by_name(cls, name):
+        """
+        Search for collections by name.
+
+        Args:
+            name (str): The name to search for.
+
+        Returns:
+            QuerySet: A queryset containing the collections with names matching the search.
+        """
         return Collection.objects.filter(name__icontains=name)
 
     @classmethod
     def search_by_name_and_user(cls, name, user_id):
+        """
+        Search for collections by name and user.
+
+        Args:
+            name (str): The name to search for.
+            user_id (int): The ID of the user.
+
+        Returns:
+            QuerySet: A queryset containing the collections with names
+            matching the search and associated with the user.
+        """
         return Collection.objects.filter(name__icontains=name, user_id=user_id)
 
     @classmethod
     def search_by_category(cls, category):
+        """
+        Search for collections by category.
+
+        Args:
+            category: The category to search for.
+
+        Returns:
+            QuerySet: A queryset containing the collections with the specified category.
+        """
         return Collection.objects.filter(category=category)
 
     @classmethod
     def search_by_category_and_user(cls, category, user_id):
+        """
+        Search for collections by category and user.
+
+        Args:
+            category: The category to search for.
+            user_id: The ID of the user.
+
+        Returns:
+            QuerySet: A queryset containing the collections
+            with the specified category and associated with the user.
+        """
         return Collection.objects.filter(category=category, user_id=user_id)
 
     @classmethod
@@ -106,14 +154,10 @@ class CollectionDAO():
         return collection
 
     @classmethod
-    def create_with_book(cls, name, description, is_public, category, user_id, book_id):
-        collection = cls.create(
-            name,
-            description,
-            is_public,
-            category,
-            user_id
-        )
+    def create_with_book(
+            cls, name, description, is_public, category, user_id, book_id
+    ):
+        collection = cls.create(name, description, is_public, category, user_id)
         cls.add_book(collection.id, book_id)
         last_collection = cls.get_collection(collection_id=collection.id)
         return last_collection
