@@ -7,7 +7,7 @@ from django.db import models
 # Create your models here.
 
 
-class Article(models.Model):
+class Document(models.Model):
     class Category(models.TextChoices):
         UNKNOWN = "UNKNOWN", _('UNKNOWN')
         MATH = "MATH", _('MATH')

@@ -3,7 +3,7 @@ import os
 from behave import *
 
 import articles
-from articles.services import article
+from articles.services import documents
 
 use_step_matcher("parse")
 
@@ -27,7 +27,7 @@ def step_impl(context, subject):
     :type context: behave.runner.Context
     :type subject: str
     """
-    context.article = article.from_local_path(context.local_path, category=subject)
+    context.documents = documents.from_local_path(context.local_path, category=subject)
 
 
 @then("the article must be on {subject_path}")
@@ -68,7 +68,7 @@ def step_impl(context):
     """
     :type context: behave.runner.Context
     """
-    context.article = article.from_local_path(
+    context.documents = documents.from_local_path(
         context.local_path,
         title=context.title,
         author=context.author,
@@ -82,7 +82,7 @@ def step_impl(context, unique_id):
     :type context: behave.runner.Context
     :type unique_id: str
     """
-    assert context.article.uid is not None
+    assert context.documents.uid is not None
 
 
 @then("the {unique_id} index with the {subject_path}")
@@ -93,5 +93,5 @@ def step_impl(context, unique_id, subject_path):
     :type subject_path: str
     """
     assert os.path.isfile(subject_path)
-    print(f"{context.article.uid}, {unique_id}")
-    assert context.article.uid == unique_id
+    print(f"{context.documents.uid}, {unique_id}")
+    assert context.documents.uid == unique_id
