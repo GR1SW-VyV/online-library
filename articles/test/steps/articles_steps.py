@@ -3,7 +3,7 @@ import os
 from behave import *
 
 import articles
-from articles.services import article
+from articles.services import documents_service
 
 use_step_matcher("parse")
 
@@ -27,7 +27,7 @@ def step_impl(context, subject):
     :type context: behave.runner.Context
     :type subject: str
     """
-    context.article = article.from_local_path(context.local_path, category=subject)
+    context.article = documents_service.from_local_path(context.local_path, category=subject)
 
 
 @then("the article must be on {subject_path}")
@@ -68,7 +68,7 @@ def step_impl(context):
     """
     :type context: behave.runner.Context
     """
-    context.article = article.from_local_path(
+    context.article = documents_service.from_local_path(
         context.local_path,
         title=context.title,
         author=context.author,

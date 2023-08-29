@@ -7,7 +7,7 @@ from django.db import models
 # Create your models here.
 
 
-class Article(models.Model):
+class Document(models.Model):
     class Category(models.TextChoices):
         UNKNOWN = "UNKNOWN", _('UNKNOWN')
         MATH = "MATH", _('MATH')
@@ -42,8 +42,11 @@ class Article(models.Model):
     def url(self) -> str:
         return ""
 
-    def reviews(self) -> list:
+    def collections(self) -> list[models.Model]:
         return list()
 
-    def notes(self) -> list:
+    def reviews(self) -> list[models.Model]:
+        return list()
+
+    def notes(self) -> list[models.Model]:
         return list()

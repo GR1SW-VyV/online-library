@@ -1,10 +1,10 @@
 import os
 import shutil
 
-from articles.models import Article
+from articles.models import Document
 
 
-def from_local_path(path, /, author="", title="", category=Article.Category.UNKNOWN, **kwargs) -> Article:
+def from_local_path(path, /, author="", title="", category=Document.Category.UNKNOWN, **kwargs) -> Document:
     categoryStr = str(category).capitalize()
     os.makedirs(f'./articles/resources/{categoryStr}Resources', exist_ok=True)
     shutil.copy(path, f'./articles/resources/{categoryStr}Resources/')
@@ -16,4 +16,4 @@ def from_local_path(path, /, author="", title="", category=Article.Category.UNKN
     category_prefix = str(category).capitalize()
 
     kwargs["uid"] = "".join([title_prefix, author_prefix, category_prefix])
-    return Article(**kwargs)
+    return Document(**kwargs)
