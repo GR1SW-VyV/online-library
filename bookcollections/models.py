@@ -13,18 +13,17 @@ class MockUser(models.Model):
     Mocking model to handle dependencies with User model
     """
 
-    pass
-
 
 class MockArticle(models.Model):
     """
     Mocking model to handle dependencies with Article model
     """
-
+    name=models.TextField(null=True)
+    collections = models.ManyToManyField("Collection", related_name="books")
     class Category(models.IntegerChoices):
         UNKNOWN = 0, _("UNKNOWN")
 
-    collections = models.ManyToManyField("Collection", related_name="books")
+
 
 
 class Collection(models.Model):
@@ -163,9 +162,11 @@ class CollectionDAO:
         return collection
 
     @classmethod
-    def add_book_with_name(cls, collection_name, book_name):
-        collection = Collection.objects.get(name=collection_name)
+    def add_book_with_name(cls, coll_name, book_name):
+        collection = Collection.objects.filter(name=coll_name).first()
         book = MockArticle.objects.get(name=book_name)
+        print(book.name)
         book.collections.add(collection)
         book.save()
-        return collection
+        collection.save()
+        print("Agregar libro", collection.books)

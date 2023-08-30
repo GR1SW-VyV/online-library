@@ -1,5 +1,5 @@
 from behave import *
-from bookcollections.models import Collection, CollectionDAO, MockArticle
+from bookcollections.models import Collection, CollectionDAO, MockArticle, MockUser
 
 use_step_matcher("re")
 MockArticle.objects.create(name="Baldor's Algebra").save()
@@ -38,13 +38,15 @@ def step_impl(context):
     """
     :type context: behave.runner.Context
     """
-    obj = Collection.objects.create()
+
+    obj = Collection.objects.create(user=MockUser.objects.create())
     obj.name = context.input_name
     obj.description = context.input_description
     obj.is_public = context.input_privacy
     obj.save()
     # this method must be implemented in CollectionDAO
     CollectionDAO.add_book_with_name(context.input_name, context.input_book_name)
+    print()
 
 
 @then(
@@ -55,7 +57,7 @@ def step_impl(context):
     :type context: behave.runner.Context
     """
     context.collection_object = CollectionDAO.search_by_name(context.input_name).first()
-    print(context.collection_object)
+    print(context.collection_object, "nombre ")
     assert context.collection_object.name == context.input_name
     assert context.collection_object.description == context.input_description
     assert context.collection_object.is_public == context.input_privacy
@@ -66,5 +68,6 @@ def step_impl(context):
     """
     :type context: behave.runner.Context
     """
-    print(context.collection_object.books.name, context.input_book_name)
-    assert context.collection_object.books.name == context.input_book_name
+    context.collection_object.books.get()
+    print(context.collection_object.books, context.input_book_name)
+    assert context.collection_object.books.get(name=context.input_book_name) is not None
