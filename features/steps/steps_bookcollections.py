@@ -1,10 +1,15 @@
 from behave import *
-from steps_bookcollections.models import Collection, CollectionDAO, MockArticle
+from bookcollections.models import Collection, CollectionDAO, MockArticle
 
 use_step_matcher("re")
 MockArticle.objects.create(name="Baldor's Algebra").save()
 
-@given("the collection's name: (?P<name>.+), description: (?P<description>.+) type of privacy: (?P<type_privacy>.+)")
+
+@given(
+    "the collection's name: (?P<name>.+), "
+    "description: (?P<description>.+) "
+    "type of privacy: (?P<type_privacy>.+)"
+)
 def step_impl(context, name, description, type_privacy):
     """
     :type context: behave.runner.Context
@@ -15,6 +20,7 @@ def step_impl(context, name, description, type_privacy):
     context.input_name = name
     context.input_description = description
     context.input_privacy = type_privacy == "True"
+
 
 @step("as optional a (?P<book_name>.+)")
 def step_impl(context, book_name):
@@ -37,10 +43,13 @@ def step_impl(context):
     obj.description = context.input_description
     obj.is_public = context.input_privacy
     obj.save()
+    # this method must be implemented in CollectionDAO
     CollectionDAO.add_book_with_name(context.input_name, context.input_book_name)
 
 
-@then("the collection will be created with the name, description and type of privacy given")
+@then(
+    "the collection will be created with the name, description and type of privacy given"
+)
 def step_impl(context):
     """
     :type context: behave.runner.Context
@@ -59,4 +68,3 @@ def step_impl(context):
     """
     print(context.collection_object.books.name, context.input_book_name)
     assert context.collection_object.books.name == context.input_book_name
-
