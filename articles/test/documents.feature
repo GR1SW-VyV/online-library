@@ -39,6 +39,7 @@ Feature: Upload public articles
 
   Scenario Outline: Suggest author for autocomplete
     Given the text "<text>"
+    And a default repertoire of Authors
     When lookup for an author
     Then it must return an <array> from authors
     Examples:

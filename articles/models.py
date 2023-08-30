@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 from django.db import models
 
-
+from . import services
 # Create your models here.
 
 
@@ -25,6 +25,7 @@ class Document(models.Model):
 
     uid = models.CharField(max_length=50, primary_key=True)
 
+    filename = models.CharField(max_length=200,null=True)
     title = models.CharField(max_length=120)
     type = models.CharField(
         max_length=10,
@@ -46,7 +47,7 @@ class Document(models.Model):
         self.save()
 
     def url(self) -> str:
-        return ""
+        return f"/articles/resources/{self.category}/{self.filename}"
 
     def collections(self) -> list[models.Model]:
         return list()
