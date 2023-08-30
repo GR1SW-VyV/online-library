@@ -10,7 +10,7 @@ def view_base(request):
 
 #return collections.html
 def view_collections(request):
-      return render(request, './collections.html')
+      return render(request, './collections.html', context={'collections': collections})
 
 #create collections data for test 
 
@@ -18,6 +18,7 @@ collections = [
    {
       'id': 1,
       'name': 'collection1',
+      'cover':'https://i.pinimg.com/originals/97/fa/fb/97fafb39a6dcf0814775eba7c9f813b3.jpg',
       'description': 'description1',
       'categories': ['Categoría A', 'Categoría B'],
       'books': [
@@ -36,6 +37,7 @@ collections = [
       'id': 2,
       'name': 'collection2',
       'description': 'description2',
+      'cover':'https://i.pinimg.com/564x/d1/a5/cc/d1a5cc99e240591db113023438329fce.jpg',
       'categories': ['Categoría C', 'Categoría D'],
       'books': [
          {
@@ -48,6 +50,7 @@ collections = [
    {
       'id': 3,
       'name': 'collection3',
+      'cover':'https://i.pinimg.com/564x/a6/46/b2/a646b21d519edd807e7817e14c28af07.jpg',
       'description': 'description3',
       'categories': ['Categoría F', 'Categoría E'],
       'books': [
