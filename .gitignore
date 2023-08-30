@@ -136,7 +136,13 @@ GitHub.sublime-settings
 !.vscode/extensions.json 
 .history
 
+<<<<<<< Updated upstream
 pyvenv.cfg
 lib64
 bin
 .idea
+=======
+include
+Scripts
+pyvenv.cfg
+>>>>>>> Stashed changes

@@ -39,6 +39,12 @@ class Document(models.Model):
 
     author = models.CharField(max_length=60)
 
+    view_count = models.IntegerField(null=False, default=0)
+
+    def increase_view_count(self, count=1):
+        self.view_count += 1
+        self.save()
+
     def url(self) -> str:
         return ""
 

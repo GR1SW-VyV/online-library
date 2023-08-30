@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Document',
+            name='Article',
             fields=[
                 ('uid', models.CharField(max_length=50, primary_key=True, serialize=False)),
                 ('title', models.CharField(max_length=120)),
