@@ -1,3 +1,6 @@
+from datetime import datetime
+
+
 class GeneralNote:
 
     def __init__(self, content, user_id, document_id):
