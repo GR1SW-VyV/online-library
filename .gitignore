@@ -12,8 +12,8 @@ media
 # If you are using PyCharm # 
 # User-specific stuff
 .idea/
-misc.xml
-onlinelibrary.iml
+.idea/misc.xml
+.idea/onlinelibrary.iml
 
 # AWS User-specific
 .idea/**/aws.xml
