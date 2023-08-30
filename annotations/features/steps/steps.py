@@ -1,7 +1,7 @@
 from behave import *
-from annotations.models.note import Note
-from annotations.models.user import User
-from annotations.models.document import Document
+from annotations.models.notee import Note
+from annotations.models.userr import User
+from annotations.models.documen import Document
 
 use_step_matcher("re")
 
