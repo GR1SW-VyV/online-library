@@ -3,7 +3,11 @@ import os
 from behave import *
 
 import articles
+<<<<<<< HEAD:articles/test/steps/articles_steps.py
+from articles.services import documents_service
+=======
 from articles.services import documents
+>>>>>>> 41864e09a53208b7b3cf8ad83f65b56c978244d3:articles/test/steps/documents_steps.py
 
 use_step_matcher("parse")
 
@@ -27,7 +31,11 @@ def step_impl(context, subject):
     :type context: behave.runner.Context
     :type subject: str
     """
+<<<<<<< HEAD:articles/test/steps/articles_steps.py
+    context.article = documents_service.from_local_path(context.local_path, category=subject)
+=======
     context.documents = documents.from_local_path(context.local_path, category=subject)
+>>>>>>> 41864e09a53208b7b3cf8ad83f65b56c978244d3:articles/test/steps/documents_steps.py
 
 
 @then("the article must be on {subject_path}")
@@ -68,7 +76,11 @@ def step_impl(context):
     """
     :type context: behave.runner.Context
     """
+<<<<<<< HEAD:articles/test/steps/articles_steps.py
+    context.article = documents_service.from_local_path(
+=======
     context.documents = documents.from_local_path(
+>>>>>>> 41864e09a53208b7b3cf8ad83f65b56c978244d3:articles/test/steps/documents_steps.py
         context.local_path,
         title=context.title,
         author=context.author,

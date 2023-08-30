@@ -42,8 +42,11 @@ class Document(models.Model):
     def url(self) -> str:
         return ""
 
-    def reviews(self) -> list:
+    def collections(self) -> list[models.Model]:
         return list()
 
-    def notes(self) -> list:
+    def reviews(self) -> list[models.Model]:
+        return list()
+
+    def notes(self) -> list[models.Model]:
         return list()
