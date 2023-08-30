@@ -1,4 +1,4 @@
-from .notee import Note
+from .note import Note
 
 
 class User:
