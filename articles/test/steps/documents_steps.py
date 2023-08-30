@@ -3,6 +3,7 @@ import os
 from behave import *
 
 import articles
+from articles import views
 from articles.models import Document
 from articles.services import documents_service
 
@@ -28,7 +29,7 @@ def step_impl(context, subject):
     :type context: behave.runner.Context
     :type subject: str
     """
-    context.documents = documents_service.from_local_path(context.local_path, category=subject)
+    context.document = documents_service.from_local_path(context.local_path, category=subject)
 
 
 @then("the article must be on {subject_path}")
@@ -75,6 +76,7 @@ def step_impl(context):
         author=context.author,
         category=context.subject
     )
+    print(f"url: {context.document.url()}")
     context.document.increase_view_count()
 
 
@@ -97,3 +99,12 @@ def step_impl(context, unique_id, subject_path):
     assert os.path.isfile(subject_path)
     print(f"{context.documents.uid}, {unique_id}")
     assert context.documents.uid == unique_id
+
+
+@then("the file is available at {subject_path} through http/s")
+def step_impl(context, subject_path:str):
+    from django.test import RequestFactory
+    request_factory = RequestFactory()
+    my_request = request_factory.get(subject_path)
+    response = views.serve_document(my_request,subject_path.lstrip("articles"))
+    assert response.status_code == 200
