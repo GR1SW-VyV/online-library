@@ -14,12 +14,12 @@ Feature: Upload public articles
       |articles/test/resources/articles/physicsArticle.pdf  | Physics |articles/resources/PhysicsResources/physicsArticle.pdf  |Successful upload to Physics Resources|
 
 
-  Scenario Outline: Generate unique ID
+  Scenario Outline: Serve file
     Given <local_path> on the disk
     And  <title>, <author>, <subject>
     When the article is uploaded
     Then it must auto generate a <unique_id>
-    And the <unique_id> index with the <subject_path>
+    And the file is available at <subject_path> through http/s
 
     Examples:
       |local_path                                          | title                | author          | subject | unique_id   | subject_path                                           |
@@ -36,3 +36,13 @@ Feature: Upload public articles
       |  file                                               |subject  |  upload-file                                           | message                              |
       |articles/test/resources/articles/mathArticle.pdf     | Math    |articles/resources/MathResources/mathArticle.pdf        |The file already exist                |
       |articles/test/resources/articles/physicsArticle.pdf  | Physics |articles/resources/PhysicsResources/physicsArticle.pdf  |The file already exist                |
+
+  Scenario Outline: Suggest author for autocomplete
+    Given the text "<text>"
+    When lookup for an author
+    Then it must return an <array> from authors
+    Examples:
+      | text | array                                                |
+      | B    |["Baldor Aurelio", "Balaca Ricardo", "Berro Adolfo"]  |
+      |Ba    |["Baldor Aurelio", "Balaca Ricardo"]                  |
+      |Be    |["Berro Adolfo"]                                      |
