@@ -2,12 +2,12 @@ from pytest_bdd import scenario, given, when, then
 
 
 @given("I am reading a document <name_document>")
-def step_impl():
+def step_impl(name_document):
     raise NotImplementedError(u'STEP: Given I am reading a document <name_document>')
 
 
 @when("I add a note with the text <note_text> of page <number_page>")
-def step_impl():
+def step_impl(note_text, number_page):
     raise NotImplementedError(u'STEP: When I add a note with the text <note_text> of page <number_page>')
 
 
@@ -17,12 +17,12 @@ def step_impl():
 
 
 @given("I am seeing the document information about <name_document>")
-def step_impl():
+def step_impl(name_document):
     raise NotImplementedError(u'STEP: Given I am seeing the document information about <name_document>')
 
 
 @when("I add an note with the text <annotation_text>")
-def step_impl():
+def step_impl(annotation_text):
     raise NotImplementedError(u'STEP: When I add an note with the text <annotation_text>')
 
 
