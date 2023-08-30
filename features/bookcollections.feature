@@ -2,26 +2,16 @@
 Feature: Generate a Book Collection
   As reader I want to create private or public book collections to be able to share my tastes and interests.
 
-  Scenario: Adding a book to collection
-    Scenario Outline:
-      Given a collection's name: <name_collection> and the book: <name_book>
-      When the user add the book to collection
-      Then the book will be displayed into the collection
-
-      Examples:
-      |name_collection|name_book            |
-      |Math Books     |Baldor - Mathematics |
-      |Chemistry Books|Chemistry for dummies|
-      |Personal Books |The name of the wind |
-
   Scenario: Creation of a book collection
     Scenario Outline:
-      Given the collection's name: <name>, description: <description> and type of privacy: <type_privacy>
+      Given the collection's name: <name>, description: <description> type of privacy: <type_privacy>
+      And as optional a <book_name>
       When the user create the collection
-      Then the collection will be created with the information given
+      Then the collection will be created with the name, description and type of privacy given
+      And with the book if it was given
 
       Examples:
-      |name              |description                                 |type_privacy|
-      |Math Books        |This my Math Books collection               |public      |
-      |Chemistry Books   |My personal Chemistry Books collection      |private     |
-      |Personal Books    |All the books I love                        |public      |
+      |name              |description                                 |type_privacy|book_name  |
+      |Math Books        |This my Math Books collection               |True        |"Baldor's Algebra"|
+      |Chemistry Books   |My personal Chemistry Books collection      |False       |null              |
+      |Personal Books    |All the books I love                        |True        |"The way to the self-discovery"
