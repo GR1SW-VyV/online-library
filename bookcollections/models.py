@@ -157,7 +157,15 @@ class CollectionDAO:
     def create_with_book(
             cls, name, description, is_public, category, user_id, book_id
     ):
-        collection = cls.create(name, description, is_public, category, user_id)
+        collection = cls.create(
+            name, description, is_public, category, user_id)
         cls.add_book(collection.id, book_id)
-        last_collection = cls.get_collection(collection_id=collection.id)
-        return last_collection
+        return collection
+
+    @classmethod
+    def add_book_with_name(cls, collection_name, book_name):
+        collection = Collection.objects.get(name=collection_name)
+        book = MockArticle.objects.get(name=book_name)
+        book.collections.add(collection)
+        book.save()
+        return collection
