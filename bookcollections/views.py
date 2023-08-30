@@ -4,10 +4,6 @@ from django.http import HttpResponse
 
 
 
-#return base.html
-def view_base(request):
-   return render(request, './base.html')
-
 #return collections.html
 def view_collections(request):
       return render(request, './collections.html', context={'collections': collections})
@@ -18,7 +14,7 @@ collections = [
    {
       'id': 1,
       'name': 'collection1',
-      'cover':'https://i.pinimg.com/originals/97/fa/fb/97fafb39a6dcf0814775eba7c9f813b3.jpg',
+      'cover':'https://i.pinimg.com/564x/91/83/7d/91837dd303b431b003d9d9e76ea91d30.jpg',
       'description': 'description1',
       'categories': ['Categoría A', 'Categoría B'],
       'books': [
@@ -61,10 +57,6 @@ collections = [
          {
                'title': 'Libro 7',
                'author': 'Autor 7',
-            },
-         {
-               'title': 'Libro 5',
-               'author': 'Autor 5',
             },
       ]
    },
