@@ -44,6 +44,8 @@ class Document(models.Model):
         default=Category.UNKNOWN
     )
 
+    view_count = models.IntegerField()
+
     author = models.CharField(max_length=60)
 
     view_count = models.IntegerField(null=False, default=0)
