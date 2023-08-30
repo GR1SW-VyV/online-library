@@ -27,14 +27,9 @@ Feature: Write notes
       | "research_paper.html"    | "Review this section later"    |
       | "ebook.epub"             | "Highlight this paragraph"     |
 
-  Scenario Template: Mark an annotation as favorite
+  Scenario: Mark an annotation as favorite
 
-    Given I am reading a document <name_document>
+    Given I am reading the book "Cien años de soledad"
+    And I want to take an important note
     When I mark the note as favorite
     Then I should see the note with the mark
-    Examples:
-      | name_document            | annotation_text                | favorite_boolean |
-      | "sample_document.pdf"    | "This is a test annotation"    | true             |
-      | "chapter1.docx"          | "Important note here"          | false            |
-      | "research_paper.html"    | "Review this section later"    | true             |
-      | "ebook.epub"             | "Highlight this paragraph"     | false            |

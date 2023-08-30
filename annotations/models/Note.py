@@ -12,8 +12,8 @@ class Note:
         self.user_id = user_id
         self.document_id = document_id
 
-        def set_importance():
-            self.is_important = not self.is_important
+    def set_importance(self):
+        self.is_important = not self.is_important
 
 
 
