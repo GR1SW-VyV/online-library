@@ -18,12 +18,11 @@ class MockArticle(models.Model):
     """
     Mocking model to handle dependencies with Article model
     """
-    name=models.TextField(null=True)
+    name = models.TextField(null=True)
     collections = models.ManyToManyField("Collection", related_name="books")
+
     class Category(models.IntegerChoices):
         UNKNOWN = 0, _("UNKNOWN")
-
-
 
 
 class Collection(models.Model):
