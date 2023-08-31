@@ -1,10 +1,11 @@
+import json
 import os
 
 from behave import *
 
 import articles
 from articles import views
-from articles.models import Document
+from articles.models import Document, Author
 from articles.services import documents_service
 
 use_step_matcher("parse")
@@ -112,12 +113,12 @@ def the_file_is_available_at_subject_path_through_http_s(context, subject_path: 
 
 
 @given('the text "{author_prefix}"')
-def the_text_author_prefix(context, text):
+def the_text_author_prefix(context, author_prefix):
     """
     :type context: behave.runner.Context
-    :type text: str
+    :type author_prefix: str
     """
-    raise NotImplementedError(u'STEP: Given the text "<text>"')
+    context.author_prefix = author_prefix
 
 
 @step("a default repertoire of Authors")
@@ -125,7 +126,10 @@ def a_default_repertoire_of_authors(context):
     """
     :type context: behave.runner.Context
     """
-    raise NotImplementedError(u'STEP: And a default repertoire of Authors')
+    a1 = Author(name="Baldor Aurelio")
+    a2 = Author(name="Balaca Ricardo")
+    a3 = Author(name="Berro Adolfo")
+    for a in [a1, a2, a3]: a.save()
 
 
 @when("lookup for an author")
@@ -133,7 +137,9 @@ def lookup_for_an_author(context):
     """
     :type context: behave.runner.Context
     """
-    raise NotImplementedError(u'STEP: When lookup for an author')
+    print("author_prefix:",context.author_prefix)
+    print("author_objects:",list(a.name for a in Author.objects.filter()))
+    context.suggested_authors = Author.get_by_prefix(context.author_prefix)
 
 
 @then("it must return {array} as potential authors")
@@ -142,7 +148,9 @@ def it_must_return_array_as_potential_authors(context, array):
     :type context: behave.runner.Context
     :type array: str
     """
-    raise NotImplementedError(u'STEP: Then it must return <array> as potential authors')
+    authors_json = json.dumps(list(a.name for a in context.suggested_authors))
+    print('suggested_authors:',authors_json)
+    assert array == authors_json
 
 
 @step("a hash check is performed")
@@ -152,7 +160,6 @@ def a_hash_check_is_performed(context):
     """
 
     context.collision = Document.find_colliding_document(context.local_path)
-
 
 
 @given("{local_path} on the disk has been uploaded")
@@ -168,8 +175,8 @@ def no_collision_is_found(context):
     :type warnings: str
     """
     for f in Document.objects.filter():
-        print("No collision",f.sha512)
-    print("Assert none",context.collision)
+        print("No collision", f.sha512)
+    print("Assert none", context.collision)
     assert context.collision is None
 
 
@@ -180,8 +187,8 @@ def a_collision_is_found(context):
     :type warnings: str
     """
     for f in Document.objects.filter():
-        print("Collision",f.sha512)
-    print("Assert not none",context.collision)
+        print("Collision", f.sha512)
+    print("Assert not none", context.collision)
     assert context.collision is not None
 
 
