@@ -5,10 +5,20 @@ from django.utils.translation import gettext_lazy as _
 from django.db import models
 
 from . import services
+
+
 # Create your models here.
 
-class Document:...
+class Document: ...
+class Author:...
 
+
+class Author(models.Model):
+    name = models.CharField(max_length=50)
+
+    @staticmethod
+    def get_by_prefix(prefix:str):
+        return Author.objects.filter(name__contains=prefix)
 
 class Document(models.Model):
     class Category(models.TextChoices):
@@ -29,7 +39,7 @@ class Document(models.Model):
     uid = models.AutoField(primary_key=True)
 
     sha512 = models.CharField(max_length=128, default="")
-    filename = models.CharField(max_length=200,null=True)
+    filename = models.CharField(max_length=200, null=True)
     title = models.CharField(max_length=120)
     type = models.CharField(
         max_length=10,
@@ -41,7 +51,7 @@ class Document(models.Model):
         choices=Category.choices,
         default=Category.UNKNOWN
     )
-    author = models.CharField(max_length=60)
+    author = models.ManyToManyField(Author)
     view_count = models.IntegerField(null=False, default=0)
 
     def increase_view_count(self, count=1):
@@ -65,4 +75,6 @@ class Document(models.Model):
         file = open(local_path, "rb")
         sha512 = hashlib.sha512(file.read()).hexdigest()
         return Document.objects.filter(sha512=sha512).first()
+
+
 
