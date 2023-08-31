@@ -146,3 +146,4 @@ include
 Scripts
 pyvenv.cfg
 >>>>>>> Stashed changes
+*/migrations

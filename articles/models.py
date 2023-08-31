@@ -7,6 +7,8 @@ from django.db import models
 from . import services
 # Create your models here.
 
+class Document:...
+
 
 class Document(models.Model):
     class Category(models.TextChoices):
@@ -24,13 +26,9 @@ class Document(models.Model):
         BOOK = "BOOK", _('BOOK')
         ARTICLE = "ARTICLE", _('ARTICLE')
 
-    uid = models.CharField(max_length=50, primary_key=True)
+    uid = models.AutoField(primary_key=True)
 
-<<<<<<< HEAD
     sha512 = models.CharField(max_length=128, default="")
-
-=======
->>>>>>> team2-feature4
     filename = models.CharField(max_length=200,null=True)
     title = models.CharField(max_length=120)
     type = models.CharField(
@@ -43,11 +41,7 @@ class Document(models.Model):
         choices=Category.choices,
         default=Category.UNKNOWN
     )
-
-    view_count = models.IntegerField()
-
     author = models.CharField(max_length=60)
-
     view_count = models.IntegerField(null=False, default=0)
 
     def increase_view_count(self, count=1):
@@ -67,7 +61,8 @@ class Document(models.Model):
         return list()
 
     @staticmethod
-    def check_existence(local_path):
+    def find_colliding_document(local_path) -> Document:
         file = open(local_path, "rb")
-        sha512 = hashlib.sha512(file.readlines())
-        Mode
+        sha512 = hashlib.sha512(file.read()).hexdigest()
+        return Document.objects.filter(sha512=sha512).first()
+

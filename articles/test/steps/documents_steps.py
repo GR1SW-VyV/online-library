@@ -17,10 +17,10 @@ def local_path_on_the_disk(context, local_path):
     :type local_path: str
     """
     context.local_path = local_path
-    print(os.path.realpath(local_path))
-    with open(local_path, 'w') as f:
-        f.write("sample")
-    assert os.path.isfile(local_path)
+    if not os.path.isfile(local_path):
+        import random
+        with open(local_path, 'wb') as f:
+            f.write(random.randbytes(1024))
 
 
 @when("I upload the article as {subject}")
@@ -76,10 +76,7 @@ def the_article_is_uploaded(context):
         author=context.author,
         category=context.subject
     )
-<<<<<<< HEAD
     context.document.save()
-=======
->>>>>>> team2-feature4
     print(f"url: {context.document.url()}")
     context.document.increase_view_count()
 
@@ -106,17 +103,12 @@ def the_unique_id_index_with_the_subject_path(context, unique_id, subject_path):
 
 
 @then("the file is available at {subject_path} through http/s")
-<<<<<<< HEAD
-def the_file_is_available_at_subject_path_through_http_s(context, subject_path:str):
-=======
-def step_impl(context, subject_path:str):
->>>>>>> team2-feature4
+def the_file_is_available_at_subject_path_through_http_s(context, subject_path: str):
     from django.test import RequestFactory
     request_factory = RequestFactory()
     my_request = request_factory.get(subject_path)
-    response = views.serve_document(my_request,subject_path.lstrip("articles"))
+    response = views.serve_document(my_request, subject_path.lstrip("articles"))
     assert response.status_code == 200
-<<<<<<< HEAD
 
 
 @given('the text "{author_prefix}"')
@@ -158,21 +150,54 @@ def a_hash_check_is_performed(context):
     """
     :type context: behave.runner.Context
     """
-    documents_service.from_local_path(context.local_path)
 
+    context.collision = Document.find_colliding_document(context.local_path)
 
-@then("{warnigs} warning_s are shown")
-def warnigs_warning_s_are_shown(context, warnigs):
-    """
-    :type context: behave.runner.Context
-    :type warnigs: str
-    """
-    raise NotImplementedError(u'STEP: Then <warnigs> warning_s are shown')
 
 
 @given("{local_path} on the disk has been uploaded")
 def local_path_on_the_disk_has_been_uploaded(context, local_path):
-    local_path_on_the_disk(local_path)
-    the_article_is_uploaded()
-=======
->>>>>>> team2-feature4
+    local_path_on_the_disk(context, local_path)
+    the_article_is_uploaded(context)
+
+
+@then("no collision is found")
+def no_collision_is_found(context):
+    """
+    :type context: behave.runner.Context
+    :type warnings: str
+    """
+    for f in Document.objects.filter():
+        print("No collision",f.sha512)
+    print("Assert none",context.collision)
+    assert context.collision is None
+
+
+@then("a collision is found")
+def a_collision_is_found(context):
+    """
+    :type context: behave.runner.Context
+    :type warnings: str
+    """
+    for f in Document.objects.filter():
+        print("Collision",f.sha512)
+    print("Assert not none",context.collision)
+    assert context.collision is not None
+
+
+@then("a colliding file is shown")
+def a_colliding_file_is_shown(context):
+    """
+    :type context: behave.runner.Context
+    :type warnings: str
+    """
+    # raise NotImplementedError(u'STEP: And <warnings> colliding file is shown')
+
+
+@then("no colliding file is shown")
+def no_colliding_file_is_shown(context):
+    """
+    :type context: behave.runner.Context
+    :type warnings: str
+    """
+    # raise NotImplementedError(u'STEP: And <warnings> colliding file is shown')
