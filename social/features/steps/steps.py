@@ -10,7 +10,7 @@ from faker import Faker
 use_step_matcher("re")
 
 
-@given(": that I follow a collection")
+@given("that I follow a collection")
 def step_impl(context):
     """
     :type context: behave.runner.Context
@@ -26,7 +26,7 @@ def step_impl(context):
 
 
 
-@when(": the owner of the collection adds a new book")
+@when("the owner of the collection adds a new book")
 def step_impl(context):
     """
     :type context: behave.runner.Context
@@ -41,7 +41,7 @@ def step_impl(context):
 
 
 
-@then(": the book will appear in my feed")
+@then("the book will appear in my feed")
 def step_impl(context):
     """
     :type context: behave.runner.Context
@@ -49,7 +49,7 @@ def step_impl(context):
     assert context.user.in_my_feed(context.activity)
 
 
-@given(": that there is a reader Andrés")
+@given("that there is a reader Andrés")
 def step_impl(context):
     """
     :type context: behave.runner.Context
@@ -67,14 +67,14 @@ def step_impl(context):
     context.juan = User()
     context.juan.name = "Juan"
 
-@when(": Andrés follows Juan")
+@when("Andrés follows Juan")
 def step_impl(context):
     """
     :type context: behave.runner.Context
     """
     context.andres.follow(context.juan)
 
-@then(": Juan will appear in the list of following of Andrés")
+@then("Juan will appear in the list of following of Andrés")
 def step_impl(context):
     """
     :type context: behave.runner.Context
@@ -82,7 +82,7 @@ def step_impl(context):
     assert context.andres.is_following(context.juan)
 
 
-@step(": Andrés will appear in the list of followers of Juan")
+@step("Andrés will appear in the list of followers of Juan")
 def step_impl(context):
     """
     :type context: behave.runner.Context
@@ -90,7 +90,7 @@ def step_impl(context):
     assert context.juan.is_followed_by(context.andres)
 
 
-@given(": that I follow a reader in my tracked list")
+@given("that I follow a reader in my tracked list")
 def step_impl(context):
     """
     :type context: behave.runner.Context
@@ -102,7 +102,7 @@ def step_impl(context):
     context.user.follow(context.followed_user)
 
 
-@when(": the reader does a new activity")
+@when("the reader does a new activity")
 def step_impl(context):
     """
     :type context: behave.runner.Context
@@ -113,7 +113,7 @@ def step_impl(context):
     context.followed_user.do_activity()
 
 
-@then(": the activity will appear in the list of recent activities")
+@then("the activity will appear in the list of recent activities")
 def step_impl(context):
     """
     :type context: behave.runner.Context
@@ -122,7 +122,7 @@ def step_impl(context):
 
 
 
-@given(": that there is a collection")
+@given("that there is a collection")
 def step_impl(context):
     """
     :type context: behave.runner.Context
@@ -131,7 +131,7 @@ def step_impl(context):
     context.collection.name = Faker().color_name()
 
 
-@when(": I follow the collection")
+@when("I follow the collection")
 def step_impl(context):
     """
     :type context: behave.runner.Context
@@ -140,7 +140,7 @@ def step_impl(context):
     context.user.name = Faker().name()
     context.user.follow(context.collection)
 
-@then(": the new collection will appear in my list of followed collections")
+@then("the new collection will appear in my list of followed collections")
 def step_impl(context):
     """
     :type context: behave.runner.Context
