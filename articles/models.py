@@ -26,8 +26,11 @@ class Document(models.Model):
 
     uid = models.CharField(max_length=50, primary_key=True)
 
+<<<<<<< HEAD
     sha512 = models.CharField(max_length=128, default="")
 
+=======
+>>>>>>> team2-feature4
     filename = models.CharField(max_length=200,null=True)
     title = models.CharField(max_length=120)
     type = models.CharField(
