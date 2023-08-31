@@ -1,3 +1,4 @@
+import hashlib
 import shutil
 from django.utils.translation import gettext_lazy as _
 
@@ -24,6 +25,8 @@ class Document(models.Model):
         ARTICLE = "ARTICLE", _('ARTICLE')
 
     uid = models.CharField(max_length=50, primary_key=True)
+
+    sha512 = models.CharField(max_length=128, default="")
 
     filename = models.CharField(max_length=200,null=True)
     title = models.CharField(max_length=120)
@@ -57,3 +60,9 @@ class Document(models.Model):
 
     def notes(self) -> list[models.Model]:
         return list()
+
+    @staticmethod
+    def check_existence(local_path):
+        file = open(local_path, "rb")
+        sha512 = hashlib.sha512(file.readlines())
+        Mode

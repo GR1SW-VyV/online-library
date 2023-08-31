@@ -27,10 +27,11 @@ Feature: Upload public articles
       |articles/test/resources/articles/physicsArticle.pdf | Fisica Cuantica      | Max Planck     | Physics | FiMaPhysics | articles/resources/PhysicsResources/physicsArticle.pdf |
 
 
-  Scenario Outline: Avoid duplicate files
-    Given <file> from a <subject>
-    When I upload another <upload-file> at the same <subject>
-    Then if the file is the same send an error <message>
+  Scenario Outline: Avoid duplicate by hash collision
+    Given <local_path> on the disk has been uploaded
+    And <local_path> on the disk
+    When a hash check is performed
+    Then <warnigs> warning_s are shown
 
     Examples:
       |  file                                               |subject  |  upload-file                                           | message                              |
@@ -38,12 +39,12 @@ Feature: Upload public articles
       |articles/test/resources/articles/physicsArticle.pdf  | Physics |articles/resources/PhysicsResources/physicsArticle.pdf  |The file already exist                |
 
   Scenario Outline: Suggest author for autocomplete
-    Given the text "<text>"
+    Given the text "<author_prefix>"
     And a default repertoire of Authors
     When lookup for an author
-    Then it must return an <array> from authors
+    Then it must return <array> as potential authors
     Examples:
-      | text | array                                                |
+      | author_prefix | array                                                |
       | B    |["Baldor Aurelio", "Balaca Ricardo", "Berro Adolfo"]  |
-      |Ba    |["Baldor Aurelio", "Balaca Ricardo"]                  |
-      |Be    |["Berro Adolfo"]                                      |
+      | Ba    |["Baldor Aurelio", "Balaca Ricardo"]                  |
+      | Be    |["Berro Adolfo"]                                      |
