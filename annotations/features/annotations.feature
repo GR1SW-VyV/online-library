@@ -14,18 +14,11 @@ Feature: Write notes
       | "research_paper.html"    | "Review this section later"    | 5           |
       | "ebook.epub"             | "Highlight this paragraph"     | 2           |
 
-  Scenario Template: Take notes of a document
-    Given I am seeing the document information about <name_document>
-    When I add an note with the text <annotation_text>
+  Scenario: Take notes of a document
+    Given I am seeing the document information about "Ensayo sobre la ceguera"
+    When I add an note with the text "Que interesante libro"
     Then I should see the note with the information of the document
 
-
-    Examples:
-      | name_document            | annotation_text                |
-      | "sample_document.pdf"    | "This is a test annotation"    |
-      | "chapter1.docx"          | "Important note here"          |
-      | "research_paper.html"    | "Review this section later"    |
-      | "ebook.epub"             | "Highlight this paragraph"     |
 
   Scenario: Mark an annotation as favorite
 

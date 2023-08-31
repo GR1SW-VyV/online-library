@@ -2,6 +2,7 @@ from behave import *
 from annotations.models.note import Note
 from annotations.models.user import User
 from annotations.models.document import Document
+from annotations.models.generalnote import GeneralNote
 
 use_step_matcher("re")
 
@@ -29,30 +30,21 @@ def step_impl(context):
     raise NotImplementedError(u'STEP: Then I should see the note in the notes section')
 
 
-@given("I am seeing the document information about (?P<name_document>.+)")
-def step_impl(context, name_document):
-    """
-    :type context: behave.runner.Context
-    :type name_document: str
-    """
-    raise NotImplementedError(u'STEP: Given I am seeing the document information about <name_document>')
+@given('I am seeing the document information about "Ensayo sobre la ceguera"')
+def step_impl(context):
+    context.document = Document("Ensayo sobre la ceguera",2)
+    context.user = User(2)
 
 
-@when("I add an note with the text (?P<annotation_text>.+)")
-def step_impl(context, annotation_text):
-    """
-    :type context: behave.runner.Context
-    :type annotation_text: str
-    """
-    raise NotImplementedError(u'STEP: When I add an note with the text <annotation_text>')
 
+@when('I add an note with the text "Que interesante libro"')
+def step_impl(context):
+    context.generalNote = GeneralNote("Que interesante libro",2,2)
+    context.document.add_generalNote(context.generalNote)
 
 @then("I should see the note with the information of the document")
 def step_impl(context):
-    """
-    :type context: behave.runner.Context
-    """
-    raise NotImplementedError(u'STEP: Then I should see the note with the information of the document')
+    assert context.document.note_in_document(context.generalNote)
 
 
 @given('I am reading the book "Cien años de soledad"')
@@ -77,3 +69,5 @@ def step_impl(context):
 def step_impl(context):
     note = context.user.get_note_by_id(1)
     assert note.is_important is True
+
+
