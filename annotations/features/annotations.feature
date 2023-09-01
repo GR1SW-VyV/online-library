@@ -3,20 +3,14 @@ Feature: Write notes
 
   As a reader I want to make notes in a document to synthesize and facilitate my learning.
 
-  Scenario Template: Take notes of a page of a document
-    Given I am reading a document <name_document>
-    When I add a note with the text <note_text> of page <number_page>
+  Scenario: Take notes of a page of a document
+    Given I am reading a document about "Lean Software Development"
+    When I add a note with the text "Tomar en cuenta estos principios" in the page 10
     Then I should see the note in the notes section
-    Examples:
-      | name_document            | note_text                      | number_page |
-      | "sample_document.pdf"    | "This is a test annotation"    | 1           |
-      | "chapter1.docx"          | "Important note here"          | 3           |
-      | "research_paper.html"    | "Review this section later"    | 5           |
-      | "ebook.epub"             | "Highlight this paragraph"     | 2           |
 
   Scenario: Take notes of a document
     Given I am seeing the document information about "Ensayo sobre la ceguera"
-    When I add an note with the text "Que interesante libro"
+    When I add an note with the text "Que interesante libro" 
     Then I should see the note with the information of the document
 
 
