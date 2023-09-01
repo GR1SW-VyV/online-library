@@ -39,14 +39,14 @@ def step_impl(context, my_general_annotations):
     raise NotImplementedError(u'STEP: Then it should display my personal general annotations <my_general_annotations>')
 
 
-@step("the general annotattions (?P<general_annotations>.+) from other users ordered by their number of followers\.")
+@step("the general annotations (?P<general_annotations>.+) from other users ordered by their number of followers\.")
 def step_impl(context, general_annotations):
     """
     :type context: behave.runner.Context
     :type general_annotations: str
     """
     raise NotImplementedError(
-        u'STEP: And the general annotattions <general_annotations> from other users ordered by their number of followers.')
+        u'STEP: And the general annotations <general_annotations> from other users ordered by their number of followers.')
 
 
 @when("I am reading the page (?P<page_number>.+)")
