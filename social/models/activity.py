@@ -1,31 +1,42 @@
 from datetime import datetime
 
+from django.db import models
+from polymorphic.models import PolymorphicModel
 
-class Activity:
-    observable = None
-    detail = ""
-    date = datetime.today().date()
+
+class Activity(PolymorphicModel):
+    detail = models.CharField(max_length=100)
+    date = models.DateField(default=datetime.today)
 
     def __eq__(self, other):
         if isinstance(other, Activity):
-            return self.observable == other.observable and self.detail == other.detail and self.date == other.date
+            return self.detail == other.detail and self.date == other.date
         return False
 
     def __hash__(self):
-        return hash(self.observable) + hash(self.detail) + hash(self.date)
+        return hash(self.detail) + hash(self.date)
 
 
 class CollectionActivity(Activity):
-    document = None
+    document = models.ForeignKey('Document', on_delete=models.CASCADE)
+    collection = models.ForeignKey('Collection', on_delete=models.CASCADE)
 
     def __eq__(self, other):
         if isinstance(other, CollectionActivity):
-            return super().__eq__(other) and self.document == other.document
+            return super().__eq__(other) and self.document == other.document and self.collection == other.collection
         return False
 
     def __hash__(self):
-        return super().__hash__() + hash(self.document)
+        return super().__hash__() + hash(self.collection) + hash(self.document)
 
 
 class UserActivity(Activity):
-    pass
+    responsible = models.ForeignKey('User', on_delete=models.CASCADE)
+
+    def __eq__(self, other):
+        if isinstance(other, UserActivity):
+            return super().__eq__(other) and self.responsible == other.responsible
+        return False
+
+    def __hash__(self):
+        return super().__hash__() + hash(self.responsible)

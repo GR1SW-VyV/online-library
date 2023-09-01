@@ -1,14 +1,9 @@
-from abc import ABC, abstractmethod
-
-
-class Observer(ABC):
+class Observer:
     feed = []
 
-    @abstractmethod
     def update(self, activity):
         pass
 
-    @abstractmethod
     def is_following(self, observable):
         pass
 
@@ -16,4 +11,4 @@ class Observer(ABC):
         observable.add_follower(self)
 
     def in_my_feed(self, activity):
-        return activity in self.feed
+        return activity in self.feed.all()

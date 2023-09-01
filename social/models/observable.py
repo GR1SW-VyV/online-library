@@ -1,20 +1,15 @@
-from abc import ABC, abstractmethod
-
-
-class Observable(ABC):
-    followers = []
+class Observable:
     activities = []
 
     def is_followed_by(self, follower):
-        return follower in self.followers
+        pass
 
     def add_follower(self, observer):
-        self.followers.append(observer)
+        pass
 
     def add_activity(self, activity):
         self.activities.append(activity)
         self.notify()
 
-    @abstractmethod
     def notify(self):
         pass

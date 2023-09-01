@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'social',
-    'behave_django'
+    'behave_django',
+    'polymorphic'
 ]
 
 MIDDLEWARE = [
