@@ -22,7 +22,7 @@ class GeneralNote(models.Model):
     document = models.ForeignKey(MockDocument, on_delete=models.CASCADE)
 
 
-class Note(models.Model):
+class PageNote(models.Model):
     content = models.TextField()
     date = models.DateField()
     is_favorite = models.BooleanField(default=False)
@@ -31,15 +31,15 @@ class Note(models.Model):
     document = models.ForeignKey(MockDocument, on_delete=models.CASCADE)
 
 
-class NoteDAO:
+class PageNoteDAO:
     @classmethod
-    def get_personal_notes(cls, username, book_id, page):
-        notes = Note.objects.all().filter(user__username=username, document__id=book_id, page=page)
+    def get_personal_page_notes(cls, username, book_id, page):
+        notes = PageNote.objects.all().filter(user__username=username, document__id=book_id, page=page)
         return list(notes)
 
     @classmethod
-    def get_notes(cls, username, book_id, page):
-        notes = Note.objects.all().exclude(user__username=username).filter(document__id=book_id, page=page)
+    def get_page_notes(cls, username, book_id, page):
+        notes = PageNote.objects.all().exclude(user__username=username).filter(document__id=book_id, page=page)
         return list(notes)
 
 
