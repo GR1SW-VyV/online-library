@@ -21,6 +21,7 @@ class MockArticle(models.Model):
     """
     name = models.TextField(null=True)
     collections = models.ManyToManyField("Collection", related_name="books")
+    score = models.DecimalField(max_digits=4, decimal_places=2)
 
     class Category(models.IntegerChoices):
         UNKNOWN = 0, _("UNKNOWN")
@@ -188,3 +189,21 @@ class CollectionDAO:
             book.collections.add(collection)
             book.save()
         collection.save()
+
+    @classmethod
+    def get_collection_score(cls, collection_id):
+        collection = Collection.objects.get(id=collection_id)
+        books = collection.books.all()
+        score = 0
+        for book in books:
+            score += book.score
+        return score / len(books)
+
+    @classmethod
+    def get_collection_score(cls, collection_name):
+        collection = Collection.objects.filter(name=collection_name).first()
+        books = collection.books.all()
+        score = 0
+        for book in books:
+            score += book.score
+        return score/len(books)
