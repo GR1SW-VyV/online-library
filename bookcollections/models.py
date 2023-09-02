@@ -12,8 +12,7 @@ class MockUser(models.Model):
     """
     Mocking model to handle dependencies with User model
     """
-
-    pass
+    name = models.TextField(max_length=255, null=False)
 
 
 class MockArticle(models.Model):
