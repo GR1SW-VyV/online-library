@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from bookcollections.models import CollectionDAO
 from django.http import HttpResponse
 
 

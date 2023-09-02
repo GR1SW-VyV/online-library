@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+
 from django.utils.translation import gettext_lazy as _
 
 
@@ -33,14 +35,13 @@ class Collection(models.Model):
     name = models.CharField(max_length=255, null=False)
     description = models.TextField()
     is_public = models.BooleanField(default=False, null=False)
-
     category = models.CharField(
         max_length=100,
         choices=MockArticle.Category.choices,
         default=MockArticle.Category.UNKNOWN
     )
 
-    user = models.ForeignKey(MockUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 class CollectionDAO:
@@ -75,9 +76,15 @@ class CollectionDAO:
         return Collection.objects.get(id=collection_id)
 
     @classmethod
-    def add_book(cls, collection_id, book_id):
-        collection = cls.get_collection(collection_id)
-        book = MockArticle.objects.get(id=book_id)
+    def add_book(
+            cls,
+            collection_ref: Collection | int,
+            book_ref: MockArticle | int
+    ):
+        collection = (collection_ref if type(collection_ref) == Collection
+                      else cls.get_collection(collection_ref))
+        book = (book_ref if type(collection_ref) == MockArticle
+                else MockArticle.objects.get(id=book_ref))
         book.collections.add(collection)
         book.save()
 
@@ -138,8 +145,15 @@ class CollectionDAO:
         return Collection.objects.filter(category=category, user_id=user_id)
 
     @classmethod
-    def create(cls, name, description, is_public, category, user_id):
-        user = MockUser.objects.get(id=user_id)
+    def create(
+            cls,
+            name,
+            description,
+            is_public,
+            category,
+            user_ref: User | int
+    ):
+        user = User.objects.get(id=user_ref) if type(user_ref) == int else user_ref
 
         collection = Collection.objects.create(
             name=name,
@@ -153,19 +167,25 @@ class CollectionDAO:
 
     @classmethod
     def create_with_book(
-            cls, name, description, is_public, category, user_id, book_id
+            cls,
+            name,
+            description,
+            is_public,
+            category,
+            user_ref: User | int,
+            book_ref: MockArticle | int
     ):
         collection = cls.create(
-            name, description, is_public, category, user_id)
-        cls.add_book(collection.id, book_id)
+            name, description, is_public, category, user_ref)
+
+        cls.add_book(collection.id, book_ref)
         return collection
 
     @classmethod
     def add_book_with_name(cls, coll_name, book_name):
         collection = Collection.objects.filter(name=coll_name).first()
-        book = MockArticle.objects.get(name=book_name)
-        print(book.name)
-        book.collections.add(collection)
-        book.save()
+        book = MockArticle.objects.filter(name=book_name).first()
+        if book is not None:
+            book.collections.add(collection)
+            book.save()
         collection.save()
-        print("Agregar libro", collection.books)
