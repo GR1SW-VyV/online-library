@@ -8,7 +8,7 @@ Feature: Generate a Book Collection
       And as optional a <book_name>
       When the user create the collection
       Then the collection will be created with the name, description and type of privacy given
-      And with the book if it was given
+      And will contain the book if it was given
 
       Examples:
       |name              |description                                 |type_privacy|book_name                       |
