@@ -52,3 +52,9 @@ class User(Observer, Observable, models.Model):
 
     def is_followed_by(self, follower):
         return follower in self.followers.all()
+
+    def following_users_count(self):
+        return User.objects.filter(user_followers=self).count()
+
+    def following_collections_count(self):
+        return Collection.objects.filter(collection_followers=self).count()
