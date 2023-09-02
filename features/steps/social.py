@@ -7,6 +7,7 @@ from social.models import Collection
 from social.models import Document
 from social.models import Activity, CollectionActivity, UserActivity
 from faker import Faker
+import logging
 
 
 use_step_matcher("re")

@@ -45,16 +45,16 @@ class User(Observer, Observable, models.Model):
             self.followed_collections.append(observable)
 
     def is_following(self, observable):
-        return observable in self.followed_users
+        return self in observable.followers.all()
 
     def is_in_my_following_collection(self, collection):
-        return collection in self.followed_collections
+        return self in collection.followers.all()
 
     def is_followed_by(self, follower):
         return follower in self.followers.all()
 
     def following_users_count(self):
-        return User.objects.filter(user_followers=self).count()
+        return User.objects.filter(followers=self).count()
 
     def following_collections_count(self):
-        return Collection.objects.filter(collection_followers=self).count()
+        return Collection.objects.filter(followers=self).count()
