@@ -12,7 +12,7 @@ class User(Observer, Observable, models.Model):
     followed_users = []
     followed_collections = []
     feed = models.ManyToManyField('Activity')
-    followers = models.ManyToManyField('User', symmetrical=False, blank=True, related_name='following')
+    followers = models.ManyToManyField('User', symmetrical=False, blank=True, related_name='user_followers')
 
     def notify(self):
         for observer in self.followers.all():
