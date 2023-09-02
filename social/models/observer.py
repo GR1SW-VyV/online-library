@@ -1,5 +1,8 @@
+from django.db import models
+
+
 class Observer:
-    feed = []
+    feed = models.ManyToManyField('self')
 
     def update(self, activity):
         pass

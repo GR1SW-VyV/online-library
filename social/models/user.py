@@ -67,9 +67,16 @@ class User(Observer, Observable, AbstractUser):
         activity.save()
         self.add_activity(activity)
 
-    def create_user_activity(self, detail):
+    def create_collection(self, collection):
+        # TODO: create collection
+        activity = self.create_user_activity("created a new collection", collection)
+        activity.save()
+        self.add_activity(activity)
+
+    def create_user_activity(self, detail, collection=None):
         activity = UserActivity()
         activity.responsible = self
+        activity.collection = collection
         activity.detail = detail
         return activity
 

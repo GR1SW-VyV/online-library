@@ -6,3 +6,5 @@ from social.models.document import Document
 from social.models.observable import Observable
 from social.models.observer import Observer
 from social.models.user import User
+from social.models.user import create_reader_user
+from social.models.user import create_professor_user

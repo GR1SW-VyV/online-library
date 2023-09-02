@@ -5,10 +5,8 @@ from behave import *
 from social.models import User
 from social.models import Collection
 from social.models import Document
-from social.models import Activity, CollectionActivity, UserActivity
+from social.models import CollectionActivity, UserActivity
 from faker import Faker
-import logging
-
 
 use_step_matcher("re")
 
@@ -26,11 +24,7 @@ def step_impl(context):
     context.collection.name = Faker().color_name()
     context.collection.save()
 
-
     context.user.follow(context.collection)
-
-
-
 
 
 @when("the owner of the collection adds a new book")
@@ -50,8 +44,6 @@ def step_impl(context):
     context.activity.date = datetime.date.today()
 
 
-
-
 @then("the book will appear in my feed")
 def step_impl(context):
     """
@@ -61,15 +53,17 @@ def step_impl(context):
     assert context.user.in_my_feed(context.activity)
 
 
-
 @given("that there is a reader Andrés")
 def step_impl(context):
     """
     :type context: behave.runner.Context
     """
-    context.andres = User()
-    context.andres.name = "Andrés"
-    context.andres.save()
+    context.andres = User.objects.create_user(
+        username='andres',
+        password=Faker().password(),
+        first_name='Andrés',
+        email=Faker().email()
+    )
 
 
 @step("that there is a reader Juan")
@@ -77,9 +71,13 @@ def step_impl(context):
     """
     :type context: behave.runner.Context
     """
-    context.juan = User()
-    context.juan.name = "Juan"
-    context.juan.save()
+    context.juan = User.objects.create_user(
+        username='juan',
+        password=Faker().password(),
+        first_name='Juan',
+        email=Faker().email()
+    )
+
 
 @when("Andrés follows Juan")
 def step_impl(context):
@@ -87,6 +85,7 @@ def step_impl(context):
     :type context: behave.runner.Context
     """
     context.andres.follow(context.juan)
+
 
 @then("Juan will appear in the list of following of Andrés")
 def step_impl(context):
@@ -109,12 +108,18 @@ def step_impl(context):
     """
     :type context: behave.runner.Context
     """
-    context.user = User()
-    context.user.name = Faker().name()
-    context.user.save()
-    context.followed_user = User()
-    context.followed_user.name = Faker().name()
-    context.followed_user.save()
+    context.user = User.objects.create_user(
+        username=Faker().name(),
+        password=Faker().password(),
+        first_name=Faker().name(),
+        email=Faker().email()
+    )
+    context.followed_user = User.objects.create_user(
+        username=Faker().name(),
+        password=Faker().password(),
+        first_name=Faker().name(),
+        email=Faker().email()
+    )
     context.user.follow(context.followed_user)
 
 
@@ -138,7 +143,6 @@ def step_impl(context):
     assert context.user.in_my_feed(context.activity)
 
 
-
 @given("that there is a collection")
 def step_impl(context):
     """
@@ -158,6 +162,7 @@ def step_impl(context):
     context.user.name = Faker().name()
     context.user.save()
     context.user.follow(context.collection)
+
 
 @then("the new collection will appear in my list of followed collections")
 def step_impl(context):
