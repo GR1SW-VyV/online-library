@@ -6,7 +6,7 @@ from social.models.observable import Observable
 
 class Collection(Observable, models.Model):
     name = models.CharField(max_length=20)
-    followers = models.ManyToManyField('User', symmetrical=False, blank=True, related_name='collection_followers')
+    followers = models.ManyToManyField('User', symmetrical=False, blank=True, related_name='collection_following')
 
     def add_document(self, document):
         document.collections.add(self)
