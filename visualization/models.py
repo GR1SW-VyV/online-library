@@ -6,6 +6,7 @@ class MockUser(models.Model):
     """
     Mocking model to handle dependencies with User model
     """
+    username = models.TextField()
 
 
 class MockDocument(models.Model):
@@ -28,3 +29,27 @@ class Note(models.Model):
     page = models.IntegerField()
     user = models.ForeignKey(MockUser, on_delete=models.CASCADE)
     document = models.ForeignKey(MockDocument, on_delete=models.CASCADE)
+
+
+class NoteDAO:
+    @classmethod
+    def get_personal_notes(cls, username, book_id, page):
+        notes = Note.objects.all().filter(user__username=username, document__id=book_id, page=page)
+        return list(notes)
+
+    @classmethod
+    def get_notes(cls, username, book_id, page):
+        notes = Note.objects.all().exclude(user__username=username).filter(document__id=book_id, page=page)
+        return list(notes)
+
+
+class GeneralNoteDAO:
+    @classmethod
+    def get_personal_general_notes(cls, username, book_id):
+        notes = GeneralNote.objects.all().filter(user__username=username, document__id=book_id)
+        return list(notes)
+
+    @classmethod
+    def get_general_notes(cls, username, book_id):
+        notes = GeneralNote.objects.all().exclude(user__username=username).filter(document__id=book_id)
+        return list(notes)
