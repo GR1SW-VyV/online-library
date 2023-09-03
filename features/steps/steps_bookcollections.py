@@ -56,12 +56,12 @@ def step_impl(context):
     obj.description = context.input_description
     obj.is_public = context.input_privacy
     obj.save()
-    # this method must be implemented in CollectionDAO
     CollectionDAO.add_book_with_name(context.input_name, context.input_book_name)
 
 
 @then(
-    "the collection will be created with the given name, description and type of privacy"
+    "the collection will be created with the given name, "
+    "description and type of privacy"
 )
 def step_impl(context):
     """
@@ -79,7 +79,10 @@ def step_impl(context):
     """
     :type context: behave.runner.Context
     """
-    assert context.collection_object.books.filter(name=context.input_book_name).first() == context.book
+    assert (
+        context.collection_object.books.filter(name=context.input_book_name).first()
+        == context.book
+    )
 
 
 @step("will have (?P<collection_score>.+) points")
@@ -111,7 +114,7 @@ def step_impl(context, book_1, book_2):
     context.input_book_2 = book_2
 
 
-@step("their respectives points: (?P<book_score_1>.+), (?P<book_score_2>.+)")
+@step("their respective points: (?P<book_score_1>.+), (?P<book_score_2>.+)")
 def step_impl(context, book_score_1, book_score_2):
     """
     :type context: behave.runner.Context
@@ -121,8 +124,12 @@ def step_impl(context, book_score_1, book_score_2):
     context.input_score_1 = float(book_score_1)
     context.input_score_2 = float(book_score_2)
 
-    context.book_1 = fake_book_dependencies(context.input_book_1, context.input_score_1)
-    context.book_2 = fake_book_dependencies(context.input_book_2, context.input_score_2)
+    context.book_1 = fake_book_dependencies(
+        context.input_book_1,
+        context.input_score_1)
+    context.book_2 = fake_book_dependencies(
+        context.input_book_2,
+        context.input_score_2)
 
     CollectionDAO.add_book_with_name("generic", context.input_book_1)
     CollectionDAO.add_book_with_name("generic", context.input_book_2)
@@ -137,7 +144,10 @@ def step_impl(context, book_3, book_score_3):
     """
     context.input_book_3 = book_3
     context.input_score_3 = float(book_score_3)
-    context.book_3 = fake_book_dependencies(context.input_book_3, context.input_score_3)
+    context.book_3 = fake_book_dependencies(
+        context.input_book_3,
+        context.input_score_3
+    )
 
 
 @when("the user adds the book (?P<book_3>.+)")
@@ -149,13 +159,16 @@ def step_impl(context, book_3):
     CollectionDAO.add_book_with_name("generic", context.input_book_3)
 
 
-@then("the collection score will be (?P<collection_points>.+) representing average points of all books")
+@then(
+    "the collection score will be (?P<collection_points>.+) "
+    "representing average points of all books"
+)
 def step_impl(context, collection_points):
     """
     :type context: behave.runner.Context
     :type collection_points: str
     """
     context.input_expected_score = float(collection_points)
-    objetc = CollectionDAO.search_by_name("generic").first()
-    print(type(context.input_expected_score), type(objetc.score))
-    assert float(objetc.score) == context.input_expected_score
+    object = CollectionDAO.search_by_name("generic").first()
+    print(type(context.input_expected_score), type(object.score))
+    assert float(object.score) == context.input_expected_score
