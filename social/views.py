@@ -29,6 +29,10 @@ def feed(request):
 def follow_collection(request, collection_id):
     collection = Collection.objects.get(id=collection_id)
     user_profile = User.objects.get(id=request.user.id)
+
+    if collection.is_followed_by(user_profile):
+        return redirect('collections', user_id=request.user.id)
+
     user_profile.follow(collection)
     return redirect('collections', user_id=request.user.id)
 
@@ -39,6 +43,9 @@ def follow_reader(request, user_id):
     user_profile = User.objects.get(id=request.user.id)
 
     if reader_to_follow.id == user_profile.id:
+        return redirect('profile', user_id=user_id)
+
+    if reader_to_follow.is_followed_by(user_profile):
         return redirect('profile', user_id=user_id)
 
     user_profile.follow(reader_to_follow)
