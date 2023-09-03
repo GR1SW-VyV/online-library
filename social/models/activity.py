@@ -32,7 +32,7 @@ class CollectionActivity(Activity):
 
 class UserActivity(Activity):
     responsible = models.ForeignKey('User', on_delete=models.CASCADE)
-    collection = models.ForeignKey('Collection', on_delete=models.CASCADE)
+    collection = models.ForeignKey('Collection', on_delete=models.CASCADE, null=True, blank=True)
 
     def __eq__(self, other):
         if isinstance(other, UserActivity):
