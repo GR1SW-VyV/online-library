@@ -16,7 +16,8 @@ def hello(request):
 def profile(request, user_id):
     user_profile = User.objects.get(id=user_id)
     is_own_profile = request.user.is_authenticated and request.user == user_profile
-    return render(request, 'social/profile.html', {'user_profile': user_profile, 'is_own_profile': is_own_profile})
+    already_following = request.user.is_authenticated and user_profile.is_followed_by(request.user)
+    return render(request, 'social/profile.html', {'user_profile': user_profile, 'is_own_profile': is_own_profile, 'already_following': already_following})
 
 
 @login_required
