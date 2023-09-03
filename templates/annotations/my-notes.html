@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        * {
+            box-sizing: border-box;
+
+        }
+
+        .nav-tabs .nav-item .nav-active {
+            background-color: rgb(235, 127, 39);
+        }
+
+        /* Estilo para el contenedor con scroll */
+        .scroll-container {
+            max-height: 400px; /* Ajusta la altura máxima */
+            overflow-y: auto; /* Habilita el scroll vertical */
+        }
+
+    </style>
+    <title>Document</title>
+</head>
+
+{% load static %}
+
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <h1 class="px-3 my-0">Nombre del libro</h1>
+    </div>
+    <div class="row pt-2">
+        <div class="col-7  px-3 ">
+            <embed src="{% static 'harry-potter.pdf' %}" type="application/pdf" width="100%" height="600px">
+        </div>
+        <div class="col-5" style="border: 1px black solid">
+            <div class="row">
+                <ul class="nav nav-tabs nav-justified px-0 ">
+                    <li class="nav-item">
+                        <a class="nav-link nav-active text-light fw-bold " aria-current="page" href="#">Mis
+                            anotaciones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark fw-bold" href="#">Otras anotaciones</a>
+                    </li>
+                </ul>
+            </div>
+
+
+            <div class="row">
+                <div class="mb-2 px-2 pt-2">
+                    <label for="exampleFormControlTextarea1" class="form-label">Nueva anotación</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end px-2">
+                    <button class="btn btn-warning" type="button">+</button>
+                </div>
+
+            </div>
+            <!--anotaciones-->
+            <div class="row scroll-container mt-2 px-2 pt-2" style="border-top: 1px black solid">
+                <div class="card border-dark mb-2 px-0">
+                    <div class="card-header p-2 d-md-flex justify-content-md-end">User <span>12/02/2023</span>
+                        <button type="button" class="btn btn-warning btn-sm py-0  ">Favorito</button>
+                    </div>
+                    <div class="card-body text-dark p-2">
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
+                            facilisis
+                            iaculis tortor ut facilisis. Fusce quis nisl mi. Nunc ac.</p>
+                    </div>
+                </div>
+                <div class="card border-dark mb-2 px-0">
+                    <div class="card-header p-2 d-md-flex justify-content-md-end">User <span>12/02/2023</span>
+                        <button type="button" class="btn btn-warning btn-sm py-0">Favorito</button>
+                    </div>
+                    <div class="card-body text-dark p-2">
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
+                            facilisis
+                            iaculis tortor ut facilisis. Fusce quis nisl mi. Nunc ac.</p>
+                    </div>
+                </div>
+                <div class="card border-dark mb-2 px-0">
+                    <div class="card-header p-2">User <span>12/02/2023</span></div>
+                    <div class="card-body text-dark p-2">
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
+                            facilisis
+                            iaculis tortor ut facilisis. Fusce quis nisl mi. Nunc ac.</p>
+                    </div>
+                </div>
+                <div class="card border-dark mb-2 px-0">
+                    <div class="card-header p-2">User <span>12/02/2023</span></div>
+                    <div class="card-body text-dark p-2">
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
+                            facilisis
+                            iaculis tortor ut facilisis. Fusce quis nisl mi. Nunc ac.</p>
+                    </div>
+                </div>
+                <div class="card border-dark mb-2 px-0">
+                    <div class="card-header p-2">User <span>12/02/2023</span></div>
+                    <div class="card-body text-dark p-2">
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
+                            facilisis
+                            iaculis tortor ut facilisis. Fusce quis nisl mi. Nunc ac.</p>
+                    </div>
+                </div>
+                <div class="card border-dark mb-2 px-0">
+                    <div class="card-header p-2">User <span>12/02/2023</span></div>
+                    <div class="card-body text-dark p-2">
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
+                            facilisis
+                            iaculis tortor ut facilisis. Fusce quis nisl mi. Nunc ac.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</html>
+
