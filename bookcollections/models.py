@@ -15,10 +15,12 @@ class MockUser(models.Model):
     Mocking model to handle dependencies with User model
     """
 
+
 class MockArticle(models.Model):
     """
     Mocking model to handle dependencies with Article model
     """
+
     name = models.TextField(null=True)
     collections = models.ManyToManyField("Collection", related_name="books")
     score = models.DecimalField(max_digits=4, decimal_places=2, default=0.0)
@@ -78,19 +80,22 @@ class CollectionDAO:
 
     @classmethod
     def add_book(
-            cls,
-            collection_ref: Collection | int,
-            book_ref: MockArticle | int
+            cls, collection_ref: Collection | int, book_ref: MockArticle | int
     ):
-        collection = (collection_ref if type(collection_ref) == Collection
-                      else cls.get_collection(collection_ref))
-        book = (book_ref if type(collection_ref) == MockArticle
-                else MockArticle.objects.get(id=book_ref))
+        collection = (
+            collection_ref
+            if type(collection_ref) == Collection
+            else cls.get_collection(collection_ref)
+        )
+        book = (
+            book_ref
+            if type(collection_ref) == MockArticle
+            else MockArticle.objects.get(id=book_ref)
+        )
         book.collections.add(collection)
         collection.score = cls.get_collection_score(collection.id)
         collection.save()
         book.save()
-
 
     @classmethod
     def search_by_name(cls, name):
@@ -149,14 +154,7 @@ class CollectionDAO:
         return Collection.objects.filter(category=category, user_id=user_id)
 
     @classmethod
-    def create(
-            cls,
-            name,
-            description,
-            is_public,
-            category,
-            user_ref: User | int
-    ):
+    def create(cls, name, description, is_public, category, user_ref: User | int):
         user = User.objects.get(id=user_ref) if type(user_ref) == int else user_ref
 
         collection = Collection.objects.create(
@@ -164,20 +162,20 @@ class CollectionDAO:
             description=description,
             is_public=is_public,
             category=category,
-            user=user
+            user=user,
         )
         collection.save()
         return collection
 
     @classmethod
     def create_with_book(
-            cls,
-            name,
-            description,
-            is_public,
-            category,
-            user_ref: User | int,
-            book_ref: MockArticle | int
+        cls,
+        name,
+        description,
+        is_public,
+        category,
+        user_ref: User | int,
+        book_ref: MockArticle | int,
     ):
         collection = cls.create(name, description, is_public, category, user_ref)
 
