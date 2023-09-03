@@ -1,3 +1,5 @@
+from social.views import *
+from django.urls import path, include
 """
 URL configuration for onlinelibrary project.
 
@@ -11,12 +13,13 @@ Class-based views
     1. Add an import:  from other_app.views import Home
     2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
 Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+    1. Import the include() function: from django.urls.py import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls.py'))
 """
 from django.contrib import admin
 from django.urls import path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('social/', include('social.urls')),
 ]
