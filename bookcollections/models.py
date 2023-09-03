@@ -21,7 +21,7 @@ class MockArticle(models.Model):
     """
     name = models.TextField(null=True)
     collections = models.ManyToManyField("Collection", related_name="books")
-    score = models.DecimalField(max_digits=4, decimal_places=2)
+    score = models.DecimalField(max_digits=4, decimal_places=2, default=0.0)
 
     class Category(models.IntegerChoices):
         UNKNOWN = 0, _("UNKNOWN")
