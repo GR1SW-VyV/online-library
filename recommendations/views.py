@@ -1,10 +1,12 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 
 
-# return collections.html
-def view_collections(request):
-    return render(request, './recommendations.html', context={'recommendations': recommendations})
+def view_recommendations(request):
+    return render(request, './recommendation/recommended.html', context={'recommendations': recommendations})
+
+
+def view_form_preferences(request):
+    return render(request, './recommendation/form_preferences.html', context={'recommendations': recommendations})
 
 
 # create collections data for test
