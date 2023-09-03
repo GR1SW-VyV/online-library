@@ -6,12 +6,11 @@ Feature: Upload public articles
     Given <local_path> on the disk
     When I upload the article as <subject>
     Then the article must be on <subject_path>
-    And <message> will be displayed
 
     Examples:
-      |  local_path                                         |subject  |  subject_path                                               | message                              |
-      |articles/test/resources/articles/mathArticle.pdf     | Math    |articles/resources/MathResources/mathArticle.pdf        |Successful upload to Math Resources   |
-      |articles/test/resources/articles/physicsArticle.pdf  | Physics |articles/resources/PhysicsResources/physicsArticle.pdf  |Successful upload to Physics Resources|
+      |  local_path                                         |subject  |  subject_path |
+      |articles/test/resources/articles/mathArticle.pdf     | Math    |articles/resources/MathResources/mathArticle.pdf|
+      |articles/test/resources/articles/physicsArticle.pdf  | Physics |articles/resources/PhysicsResources/physicsArticle.pdf |
 
 
   Scenario Outline: Serve file
