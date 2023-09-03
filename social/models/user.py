@@ -1,57 +1,16 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser, Permission, Group
-from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.models import AbstractUser
 from social.models.activity import UserActivity
 from social.models.collection import Collection
 from social.models.observable import Observable
 from social.models.observer import Observer
-from ..constants import *
-
-
-def create_user(user, group_names=(), permissions=()):
-    user = User.objects.create_user(
-        username=user.username,
-        password=user.password,
-        first_name=user.first_name,
-        last_name=user.last_name,
-        email=user.email,
-    )
-
-    if isinstance(group_names, str):
-        group_names = (group_names,)
-
-    for group_name in group_names:
-        group, created = Group.objects.get_or_create(name=group_name)
-        user.groups.add(group)
-
-    content_type = ContentType.objects.get_for_model(User)
-
-    for permission in permissions:
-        permission, _ = Permission.objects.get_or_create(
-            codename=permission,
-            content_type=content_type
-        )
-        user.user_permissions.add(permission)
-
-    return user
-
-
-def create_reader_user(user):
-    return create_user(user, READER_GROUP, [CAN_NOTE_PERMISSION,
-                                            CAN_READ_PERMISSION,
-                                            CAN_CREATE_COLLECTION_PERMISSION])
-
-
-def create_professor_user(user):
-    return create_user(user, PROFESSOR_GROUP, [CAN_NOTE_PERMISSION,
-                                               CAN_READ_PERMISSION,
-                                               CAN_CREATE_COLLECTION_PERMISSION,
-                                               CAN_PUBLISH_PERMISSION])
+from social.models.user_manager import UserManager
 
 
 class User(Observer, Observable, AbstractUser):
     feed = models.ManyToManyField('Activity')
     followers = models.ManyToManyField('User', symmetrical=False, blank=True, related_name='user_following')
+    objects = UserManager()
 
     def notify(self):
         for observer in self.followers.all():
