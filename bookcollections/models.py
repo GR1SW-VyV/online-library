@@ -40,6 +40,7 @@ class Collection(models.Model):
         choices=MockArticle.Category.choices,
         default=MockArticle.Category.UNKNOWN
     )
+    score = models.DecimalField(max_digits=4, decimal_places=2, default=0)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
@@ -86,7 +87,10 @@ class CollectionDAO:
         book = (book_ref if type(collection_ref) == MockArticle
                 else MockArticle.objects.get(id=book_ref))
         book.collections.add(collection)
+        collection.score = cls.get_collection_score(collection.id)
+        collection.save()
         book.save()
+
 
     @classmethod
     def search_by_name(cls, name):
@@ -175,8 +179,7 @@ class CollectionDAO:
             user_ref: User | int,
             book_ref: MockArticle | int
     ):
-        collection = cls.create(
-            name, description, is_public, category, user_ref)
+        collection = cls.create(name, description, is_public, category, user_ref)
 
         cls.add_book(collection.id, book_ref)
         return collection
@@ -188,22 +191,17 @@ class CollectionDAO:
         if book is not None:
             book.collections.add(collection)
             book.save()
+            collection.score = cls.calculate_collection_score(collection.id)
         collection.save()
 
     @classmethod
-    def get_collection_score(cls, collection_id):
-        collection = Collection.objects.get(id=collection_id)
+    def calculate_collection_score(cls, collection_ref: int | str):
+        if type(collection_ref) == str:
+            collection = Collection.objects.filter(name=collection_ref).first()
+        else:
+            collection = Collection.objects.get(id=collection_ref)
         books = collection.books.all()
         score = 0
         for book in books:
             score += book.score
         return score / len(books)
-
-    @classmethod
-    def get_collection_score(cls, collection_name):
-        collection = Collection.objects.filter(name=collection_name).first()
-        books = collection.books.all()
-        score = 0
-        for book in books:
-            score += book.score
-        return score/len(books)
