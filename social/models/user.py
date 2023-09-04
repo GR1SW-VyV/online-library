@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from social.models.activity import UserActivity
-from social.models.collection import Collection
 from social.models.observable import Observable
 from social.models.observer import Observer
 from social.models.user_manager import UserManager
@@ -58,6 +57,7 @@ class User(Observer, Observable, AbstractUser):
         return User.objects.filter(followers=self).count()
 
     def following_collections_count(self):
+        from bookcollections.models import Collection
         return Collection.objects.filter(followers=self).count()
 
     def is_reader(self):
