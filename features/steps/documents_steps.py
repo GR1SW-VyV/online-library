@@ -210,7 +210,7 @@ def no_colliding_file_is_shown(context):
     # raise NotImplementedError(u'STEP: And <warnings> colliding file is shown')
 
 
-@when("{} scores the document a {}")
+@step("{} scores the document a {}")
 def step_impl(context, arg0, arg1):
     """
     :type context: behave.runner.Context

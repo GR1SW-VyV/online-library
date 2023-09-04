@@ -58,7 +58,7 @@ class Document(models.Model):
         return f"/articles/resources/{self.category}/{self.filename}"
 
     def add_score(self, user_id, score):
-        old_score = Score.objects.filter(user=user_id).first()
+        old_score = Score.objects.filter(user=user_id,document=self).first()
         if old_score is None:
             Score(user=user_id,document=self,value=score).save()
             return
