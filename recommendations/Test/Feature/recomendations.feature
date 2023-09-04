@@ -13,7 +13,7 @@ Feature: : Reading recommendations
     And a set of <num_recomendations> most visited readings of <preference3> are recommended
 
     Examples:
-    |preference      |preference2   |preference3  |num_recomendations|
+    |preference1      |preference2   |preference3  |num_recomendations|
     |"programacion"  |"matematica"  |"lenguaje"   |4                 |
 
 
