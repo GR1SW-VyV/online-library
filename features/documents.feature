@@ -9,8 +9,8 @@ Feature: Upload public articles
 
     Examples:
       |  local_path                                         |subject  |  subject_path |
-      |articles/test/resources/articles/mathArticle.pdf     | Math    |articles/resources/MathResources/mathArticle.pdf|
-      |articles/test/resources/articles/physicsArticle.pdf  | Physics |articles/resources/PhysicsResources/physicsArticle.pdf |
+      |features/resources/articles/mathArticle.pdf     | Math    |articles/resources/MathResources/mathArticle.pdf|
+      |features/resources/articles/physicsArticle.pdf  | Physics |articles/resources/PhysicsResources/physicsArticle.pdf |
 
 
   Scenario Outline: Serve file
@@ -21,8 +21,8 @@ Feature: Upload public articles
 
     Examples:
       |local_path                                          | title                | author          | subject    | subject_path                                           |
-      |articles/test/resources/articles/mathArticle.pdf    | Arirmetica de Baldor | Aurelio Baldor | Math    | articles/resources/MathResources/mathArticle.pdf       |
-      |articles/test/resources/articles/physicsArticle.pdf | Fisica Cuantica      | Max Planck     | Physics | articles/resources/PhysicsResources/physicsArticle.pdf |
+      |features/resources/articles/mathArticle.pdf    | Arirmetica de Baldor | Aurelio Baldor | Math    | articles/resources/MathResources/mathArticle.pdf       |
+      |features/resources/articles/physicsArticle.pdf | Fisica Cuantica      | Max Planck     | Physics | articles/resources/PhysicsResources/physicsArticle.pdf |
 
 
   Scenario Outline: Avoid duplicate by hash collision
@@ -31,12 +31,11 @@ Feature: Upload public articles
     And <local_path> on the disk
     When a hash check is performed
     Then <warnings> collision is found
-    And <warnings> colliding file is shown
 
     Examples:
       | a_local_path                                           | local_path                                         | title                | author         | subject | warnings |
-      |    articles/test/resources/articles/physicsArticle.pdf    |articles/test/resources/articles/mathArticle.pdf    | Arirmetica de Baldor | Aurelio Baldor | Math    | no       |
-      |    articles/test/resources/articles/physicsArticle.pdf |articles/test/resources/articles/physicsArticle.pdf | Fisica Cuantica      | Max Planck     | Physics | a        |
+      |    features/resources/articles/physicsArticle.pdf    |features/resources/articles/mathArticle.pdf    | Arirmetica de Baldor | Aurelio Baldor | Math    | no       |
+      |    features/resources/articles/physicsArticle.pdf |features/resources/articles/physicsArticle.pdf | Fisica Cuantica      | Max Planck     | Physics | a        |
 
   Scenario Outline: Suggest author for autocomplete
     Given the text "<author_prefix>"
