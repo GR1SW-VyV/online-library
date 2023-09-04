@@ -1,5 +1,7 @@
 import hashlib
 import shutil
+
+from django.db.models import Avg
 from django.utils.translation import gettext_lazy as _
 
 from django.db import models
@@ -11,6 +13,8 @@ from . import services
 
 class Document: ...
 class Author:...
+class Score(models.Model):...
+
 
 
 class Author(models.Model):
@@ -61,6 +65,17 @@ class Document(models.Model):
     def url(self) -> str:
         return f"/articles/resources/{self.category}/{self.filename}"
 
+    def add_score(self, user_id, score):
+        old_score = Score.objects.filter(user=user_id).first()
+        if old_score is None:
+            Score(user=user_id,document=self,value=score).save()
+            return
+        old_score.value = score
+        old_score.save()
+
+    def score(self):
+        return Score.objects.filter(document=self).aggregate(Avg("value"))["value__avg"]
+
     def collections(self) -> list[models.Model]:
         return list()
 
@@ -76,5 +91,8 @@ class Document(models.Model):
         sha512 = hashlib.sha512(file.read()).hexdigest()
         return Document.objects.filter(sha512=sha512).first()
 
-
-
+class Score(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.IntegerField()
+    document = models.ForeignKey(Document, on_delete=models.DO_NOTHING)
+    value = models.FloatField()
