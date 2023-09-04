@@ -17,6 +17,9 @@ class MockUser(models.Model):
     preferences = models.JSONField(default=dict)  # {categoria: numeor}
     collections = models.ManyToManyField('MockCollections')  # colecciones de cada usuario
 
+    def has_collections(self):
+        return self.collections.exists()
+    
     def recollect_preferences(self):
         # Inicializar un diccionario para realizar un seguimiento de las categorías y su recuento.
         category_count = defaultdict(int)
