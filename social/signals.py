@@ -2,12 +2,13 @@ from django.db.models.signals import post_migrate
 from django.dispatch import receiver
 from social.models import User
 from social.models import Collection
-from social.models import Document
 from faker import Faker
 
 
 @receiver(post_migrate)
 def create_test_users(sender, **kwargs):
+    pass
+    '''
     if User.objects.count() == 0:
         fake = Faker()
         User.objects.create_reader_user(
@@ -60,3 +61,5 @@ def create_test_users(sender, **kwargs):
         Collection.objects.get(id=3).add_document(Document.objects.create(title=fake.sentence(nb_words=2)))
         Collection.objects.get(id=3).add_document(Document.objects.create(title=fake.sentence(nb_words=2)))
         Collection.objects.get(id=2).add_document(Document.objects.create(title=fake.sentence(nb_words=2)))
+        
+        '''

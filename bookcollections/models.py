@@ -1,7 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import User
-
+# from django.contrib.auth.models import User
+from social.models import Observable, CollectionActivity, User
 from django.utils.translation import gettext_lazy as _
+from articles.choices.category import Category
 
 
 # A collection has many books
@@ -10,41 +11,40 @@ from django.utils.translation import gettext_lazy as _
 # Many-to-Many relationship
 
 
-class MockUser(models.Model):
-    """
-    Mocking model to handle dependencies with User model
-    """
-
-
-class MockArticle(models.Model):
-    """
-    Mocking model to handle dependencies with Article model
-    """
-
-    name = models.TextField(null=True)
-    collections = models.ManyToManyField("Collection", related_name="books")
-    score = models.DecimalField(max_digits=4, decimal_places=2, default=0.0)
-
-    class Category(models.IntegerChoices):
-        UNKNOWN = 0, _("UNKNOWN")
-
-
-class Collection(models.Model):
+class Collection(models.Model, Observable):
     """
     Model representing a collection of books.
     """
-
     name = models.CharField(max_length=255, null=False)
     description = models.TextField()
     is_public = models.BooleanField(default=False, null=False)
     category = models.CharField(
         max_length=100,
-        choices=MockArticle.Category.choices,
-        default=MockArticle.Category.UNKNOWN
+        choices=Category.choices,
+        default=Category.UNKNOWN
     )
     score = models.DecimalField(max_digits=4, decimal_places=2, default=0)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    followers = models.ManyToManyField(User, symmetrical=False, blank=True, related_name='collection_following')
+
+    def add_follower(self, observer):
+        self.followers.add(observer)
+
+    def create_collection_activity(self, document):
+        activity = CollectionActivity()
+        activity.collection = self
+        activity.document = document
+        activity.detail = "add a new document"
+        activity.save()
+        self.add_activity(activity)
+
+    def notify(self):
+        for follower in self.followers.all():
+            follower.update(self.activities[-1])
+
+
+from articles.models import Document
 
 
 class CollectionDAO:
@@ -80,22 +80,28 @@ class CollectionDAO:
 
     @classmethod
     def add_book(
-            cls, collection_ref: Collection | int, book_ref: MockArticle | int
+            cls, collection_ref: Collection | int, book_ref: Document | int
     ):
         collection = (
             collection_ref
             if type(collection_ref) == Collection
             else cls.get_collection(collection_ref)
         )
+        '''
         book = (
             book_ref
-            if type(collection_ref) == MockArticle
-            else MockArticle.objects.get(id=book_ref)
+            #if type(collection_ref) == Document
+            #else Document.objects.get(uid=book_ref)
         )
+        '''
+        book = book_ref
+        if type(book) == int:
+            book = Document.objects.get(uid=book)
         book.collections.add(collection)
-        collection.score = cls.get_collection_score(collection.id)
+        #TODO collection.score = cls.get_collection_score(collection.id) Hagan bien
         collection.save()
         book.save()
+        collection.create_collection_activity(book)
 
     @classmethod
     def search_by_name(cls, name):
@@ -169,13 +175,13 @@ class CollectionDAO:
 
     @classmethod
     def create_with_book(
-        cls,
-        name,
-        description,
-        is_public,
-        category,
-        user_ref: User | int,
-        book_ref: MockArticle | int,
+            cls,
+            name,
+            description,
+            is_public,
+            category,
+            user_ref: User | int,
+            book_ref: Document | int,
     ):
         collection = cls.create(name, description, is_public, category, user_ref)
 
@@ -185,7 +191,7 @@ class CollectionDAO:
     @classmethod
     def add_book_with_name(cls, coll_name, book_name):
         collection = Collection.objects.filter(name=coll_name).first()
-        book = MockArticle.objects.filter(name=book_name).first()
+        book = Document.objects.filter(title=book_name).first()
         if book is not None:
             book.collections.add(collection)
             book.save()

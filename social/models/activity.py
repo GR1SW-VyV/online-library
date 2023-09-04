@@ -18,8 +18,8 @@ class Activity(PolymorphicModel):
 
 
 class CollectionActivity(Activity):
-    document = models.ForeignKey('Document', on_delete=models.CASCADE)
-    collection = models.ForeignKey('Collection', on_delete=models.CASCADE)
+    document = models.ForeignKey('articles.Document', on_delete=models.CASCADE)
+    collection = models.ForeignKey('bookcollections.Collection', on_delete=models.CASCADE)
 
     def __eq__(self, other):
         if isinstance(other, CollectionActivity):
@@ -31,8 +31,8 @@ class CollectionActivity(Activity):
 
 
 class UserActivity(Activity):
-    responsible = models.ForeignKey('User', on_delete=models.CASCADE)
-    collection = models.ForeignKey('Collection', on_delete=models.CASCADE, null=True, blank=True)
+    responsible = models.ForeignKey('social.User', on_delete=models.CASCADE)
+    collection = models.ForeignKey('bookcollections.Collection', on_delete=models.CASCADE, null=True, blank=True)
 
     def __eq__(self, other):
         if isinstance(other, UserActivity):

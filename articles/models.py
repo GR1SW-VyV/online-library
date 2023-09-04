@@ -1,8 +1,9 @@
-import hashlib
 import shutil
+import hashlib
 from django.utils.translation import gettext_lazy as _
-
+from bookcollections.models import Collection
 from django.db import models
+from .choices.category import Category
 
 from . import services
 
@@ -20,18 +21,8 @@ class Author(models.Model):
     def get_by_prefix(prefix:str):
         return Author.objects.filter(name__contains=prefix)
 
-class Document(models.Model):
-    class Category(models.TextChoices):
-        UNKNOWN = "UNKNOWN", _('UNKNOWN')
-        MATH = "MATH", _('MATH')
-        PHYSICS = "PHYSICS", _('PHYSICS')
-        CALCULUS = "CALCULUS", _('CALCULUS')
-        PROGRAMMING = "PROGRAMMING", _('PROGRAMMING')
-        LITERATURE = "LITERATURE", _('LITERATURE')
-        ECONOMY = "ECONOMY", _('ECONOMY')
-        GEOMETRY = "GEOMETRY", _('GEOMETRY')
-        CHEMISTRY = "CHEMISTRY", _('CHEMISTRY')
 
+class Document(models.Model):
     class Type(models.TextChoices):
         BOOK = "BOOK", _('BOOK')
         ARTICLE = "ARTICLE", _('ARTICLE')
@@ -53,6 +44,8 @@ class Document(models.Model):
     )
     author = models.ManyToManyField(Author)
     view_count = models.IntegerField(null=False, default=0)
+    collections = models.ManyToManyField(Collection, related_name='books')
+    score = models.DecimalField(max_digits=4, decimal_places=2, default=0.0)
 
     def increase_view_count(self, count=1):
         self.view_count += 1
@@ -61,20 +54,8 @@ class Document(models.Model):
     def url(self) -> str:
         return f"/articles/resources/{self.category}/{self.filename}"
 
-    def collections(self) -> list[models.Model]:
-        return list()
-
-    def reviews(self) -> list[models.Model]:
-        return list()
-
-    def notes(self) -> list[models.Model]:
-        return list()
-
     @staticmethod
     def find_colliding_document(local_path) -> Document:
         file = open(local_path, "rb")
         sha512 = hashlib.sha512(file.read()).hexdigest()
         return Document.objects.filter(sha512=sha512).first()
-
-
-

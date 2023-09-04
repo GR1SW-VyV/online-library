@@ -3,9 +3,10 @@ import hashlib
 import shutil
 
 from articles.models import Document
+from ..choices.category import Category
 
 
-def from_local_path(path:str, /, author="", title="", category=Document.Category.UNKNOWN, **kwargs) -> Document:
+def from_local_path(path:str, /, author="", title="", category=Category.UNKNOWN, **kwargs) -> Document:
     categoryStr = str(category).capitalize()
     os.makedirs(f'./articles/resources/{categoryStr}Resources', exist_ok=True)
     shutil.copy(path, f'./articles/resources/{categoryStr}Resources/')

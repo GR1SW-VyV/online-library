@@ -1,6 +1,7 @@
 from behave import *
-from django.contrib.auth.models import User
-from bookcollections.models import Collection, CollectionDAO, MockArticle
+from social.models import User
+from bookcollections.models import Collection, CollectionDAO
+from articles.models import Document
 
 use_step_matcher("re")
 
@@ -9,7 +10,7 @@ def fake_book_dependencies(book_name, book_score):
     if book_name == "null":
         return None
     else:
-        book = MockArticle.objects.create(name=book_name, score=book_score)
+        book = Document.objects.create(title=book_name, score=book_score)
         book.save()
         return book
 
@@ -80,7 +81,7 @@ def step_impl(context):
     :type context: behave.runner.Context
     """
     assert (
-        context.collection_object.books.filter(name=context.input_book_name).first()
+        context.collection_object.books.filter(title=context.input_book_name).first()
         == context.book
     )
 
