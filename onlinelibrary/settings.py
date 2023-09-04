@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'social',
     'behave_django',
     'polymorphic'
+    'articles',
+    'behave_django'
 ]
 
 MIDDLEWARE = [

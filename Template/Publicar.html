@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        /* Estilo para el contenedor principal */
+        .container-main {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* Estilo para el contenedor de la imagen */
+        .image-container {
+            flex: 0.1;
+            text-align: left;
+        }
+
+        /* Estilo para el contenedor de datos */
+        .data-container {
+            flex: 1;
+            padding: 20px;
+        }
+
+        /* Estilo para la imagen */
+        .book-image {
+            max-width: 300px; /* Cambia este valor para ajustar el tamaño */
+            height: auto;
+        }
+
+        /* Estilo para el botón "Guardar" y "Cancelar" */
+        .btn-save,
+        .btn-cancel {
+            margin-top: 20px;
+        }
+    </style>
+    <title>Subir libro / artículo</title>
+</head>
+
+<body>
+
+<div class="container-main">
+    <!-- Contenedor de la imagen -->
+    <div class="image-container">
+        <img class="book-image" src="https://img.asmedia.epimg.net/resizer/W4Zn7Im1XoDTqWKwYI-5lAwavro=/1472x828/cloudfront-eu-central-1.images.arcpublishing.com/diarioas/IJ5YVZSPXBDKRGSPTPXV3JA3S4.jpg" alt="Imagen del libro">
+    </div>
+
+    <!-- Contenedor de datos -->
+    <div class="data-container">
+        <h1>Nombre del libro</h1>
+        <input type="text" placeholder="Título">
+        </textarea><br><br>
+        <input type="text" placeholder="Materia/Temática">
+        </textarea><br><br>
+        <input type="text" placeholder="Tipo (Libro/Artículo)">
+        </textarea><br><br>
+
+        <!-- Contenedor de archivos -->
+        <div>
+            <h4>Files</h4>
+            <input type="file" id="fileInput">
+            <label for="fileInput" class="btn btn-secondary">Seleccionar archivo</label>
+        </div>
+
+        <!-- Botones de guardar y cancelar -->
+        <div>
+            <button class="btn btn-primary btn-save">Guardar</button>
+            <button class="btn btn-secondary btn-cancel">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
