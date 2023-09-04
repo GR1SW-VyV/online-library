@@ -114,7 +114,7 @@ def step_impl(context, book_1, book_2):
     context.input_book_2 = book_2
 
 
-@step("their respective points: (?P<book_score_1>.+), (?P<book_score_2>.+)")
+@step("their respectives points: (?P<book_score_1>.+), (?P<book_score_2>.+)")
 def step_impl(context, book_score_1, book_score_2):
     """
     :type context: behave.runner.Context
