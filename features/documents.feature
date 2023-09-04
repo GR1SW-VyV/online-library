@@ -48,7 +48,12 @@ Feature: Upload public articles
       | Ba            |["Baldor Aurelio", "Balaca Ricardo"]                  |
       | Be            |["Berro Adolfo"]                                      |
 
-    Scenario Outline: Scoring
+  Scenario: Scoring of an unrated document
+    Given  title, author, Math
+    And features/resources/articles/physicsArticle.pdf on the disk has been uploaded
+    Then the final score must be 0
+
+  Scenario Outline: Scoring
     Given  title, author, Math
     And features/resources/articles/physicsArticle.pdf on the disk has been uploaded
     When <user_a> scores the document a <score_a>

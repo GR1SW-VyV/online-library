@@ -49,7 +49,6 @@ class Document(models.Model):
     author = models.ManyToManyField(Author)
     view_count = models.IntegerField(null=False, default=0)
     collections = models.ManyToManyField(Collection, related_name='books')
-    score = models.DecimalField(max_digits=4, decimal_places=2, default=0.0)
 
     def increase_view_count(self, count=1):
         self.view_count += 1
@@ -67,16 +66,10 @@ class Document(models.Model):
         old_score.save()
 
     def score(self):
-        return Score.objects.filter(document=self).aggregate(Avg("value"))["value__avg"]
-
-    def collections(self) -> list[models.Model]:
-        return list()
-
-    def reviews(self) -> list[models.Model]:
-        return list()
-
-    def notes(self) -> list[models.Model]:
-        return list()
+        scores = Score.objects.filter(document=self)
+        if scores.first() is None:
+            return 0
+        return scores.aggregate(Avg("value"))["value__avg"]
 
     @staticmethod
     def find_colliding_document(local_path) -> Document:
