@@ -1,10 +1,11 @@
-import hashlib
 import shutil
 
 from django.db.models import Avg
+import hashlib
 from django.utils.translation import gettext_lazy as _
-
+from bookcollections.models import Collection
 from django.db import models
+from .choices.category import Category
 
 from . import services
 
@@ -13,7 +14,7 @@ from . import services
 
 class Document: ...
 class Author:...
-class Score(models.Model):...
+class Score:...
 
 
 
@@ -24,18 +25,8 @@ class Author(models.Model):
     def get_by_prefix(prefix:str):
         return Author.objects.filter(name__contains=prefix)
 
-class Document(models.Model):
-    class Category(models.TextChoices):
-        UNKNOWN = "UNKNOWN", _('UNKNOWN')
-        MATH = "MATH", _('MATH')
-        PHYSICS = "PHYSICS", _('PHYSICS')
-        CALCULUS = "CALCULUS", _('CALCULUS')
-        PROGRAMMING = "PROGRAMMING", _('PROGRAMMING')
-        LITERATURE = "LITERATURE", _('LITERATURE')
-        ECONOMY = "ECONOMY", _('ECONOMY')
-        GEOMETRY = "GEOMETRY", _('GEOMETRY')
-        CHEMISTRY = "CHEMISTRY", _('CHEMISTRY')
 
+class Document(models.Model):
     class Type(models.TextChoices):
         BOOK = "BOOK", _('BOOK')
         ARTICLE = "ARTICLE", _('ARTICLE')
@@ -57,6 +48,8 @@ class Document(models.Model):
     )
     author = models.ManyToManyField(Author)
     view_count = models.IntegerField(null=False, default=0)
+    collections = models.ManyToManyField(Collection, related_name='books')
+    score = models.DecimalField(max_digits=4, decimal_places=2, default=0.0)
 
     def increase_view_count(self, count=1):
         self.view_count += 1
