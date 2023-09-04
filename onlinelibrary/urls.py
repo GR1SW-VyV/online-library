@@ -21,6 +21,6 @@ import articles
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('test/', view_collections),
+    path('collections/', include("bookcollections.urls")),
     path('articles/', include("articles.urls")),
 ]
