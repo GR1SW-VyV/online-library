@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'social',
     'bookcollections',
     'behave_django',
-    'polymorphic'
+    'polymorphic',
+    'annotations'
 ]
 
 MIDDLEWARE = [
