@@ -14,99 +14,100 @@ class MockCollections(models.Model):
 
 
 class MockUser(models.Model):
-    preferences = models.JSONField(default=dict)  # {categoria: numeor}
-    collections = models.ManyToManyField('MockCollections')  # colecciones de cada usuario
+    preferences = models.JSONField(default=dict)  # {category: number}
+    collections = models.ManyToManyField('MockCollections')  # collections of each user
 
     def has_collections(self):
         return self.collections.exists()
 
     def recollect_preferences(self):
-        # Inicializar un diccionario para realizar un seguimiento de las categorías y su recuento.
+        # Initialize a dictionary to keep track of categories and their count.
         category_count = defaultdict(int)
 
-        # Recorrer todas las colecciones del usuario.
+        # Loop through all the user's collections.
         for collection in self.collections.all():
-            # Recorrer los documentos dentro de cada colección.
+            # Loop through the documents within each collection.
             for document in collection.files.all():
-                # Obtener la categoría del documento.
+                # Get the category of the document.
                 category = document.category
 
-                # Actualizar el recuento de la categoría.
+                # Update category count.
                 category_count[category] += 1
 
-        # Actualizar las preferencias del usuario según el recuento de categorías.
+        # Update user preferences based on category count.
         for category, count in category_count.items():
-            # Si la categoría ya existe en las preferencias, aumenta su valor.
+            # If the category already exists in the preferences, increase its value.
             if category in self.preferences:
                 self.preferences[category] += count
-            # Si la categoría es nueva, agrégala con un valor de 1.
+            # If the category is new, add it with a value of 1.
             else:
                 self.preferences[category] = 1
 
-        # Guardar las preferencias actualizadas en la base de datos.
+        # Save the updated preferences in the database.
         self.save()
 
     def recive_preferences(self, *preferences):
-        # Inicializar un diccionario para realizar un seguimiento de las categorías y su recuento.
+        # Initialize a dictionary to keep track of categories and their count.
         preferences_count = defaultdict(int)
 
         for x in preferences:
             self.preferences[x] += 1
 
-        #actualizar las preferencias del usuario segun las preferencias
+        # update user preferences according to preferences
         for category, count in preferences_count.items():
-            # Si la categoría ya existe en las preferencias, aumenta su valor.
+            # If the category already exists in the preferences, increase its value.
             if category in self.preferences:
                 self.preferences[category] += count
-            # Si la categoría es nueva, agrégala con un valor de 1.
+            # If the category is new, add it with a value of 1.
             else:
                 self.preferences[category] = 1
 
-        # Guardar las preferencias actualizadas en la base de datos.
+        # Save the updated preferences in the database.
         self.save()
 
     def get_top_categories(self):
-        # Generar las categorías por las colecciones
+        # Generate categories by collections
         self.recollect_preferences()
 
-        # Ordenar el diccionario preferences por sus valores en orden descendente.
+        # Sort the preferences dictionary by its values in descending order.
         sorted_preferences = sorted(self.preferences.items(), key=lambda item: item[1], reverse=True)
 
-        # Tomar las tres primeras claves con los valores más altos, si existen.
+        # Take the first three keys with the highest values, if they exist.
         top_categories = [item[0] for item in sorted_preferences[:3]]
 
-        # Rellenar con cadenas vacías hasta tener 3 elementos
+        # Fill with empty strings until you have 3 elements
         while len(top_categories) < 3:
             top_categories.append("")
 
         return top_categories
 
     def get_recomendations(self):
-        #seleccionamos las categorias mas altas
+        # Select the highest categories
         categories = self.get_top_categories()
 
-        # Inicializar un diccionario para almacenar los documentos principales por categoría.
+        # Initialize a dictionary to store the main documents by category.
         top_documents_by_category = defaultdict(list)
 
-        # Iterar a través de las categorías proporcionadas.
+        # Iterate through the provided categories.
         for category in categories:
-            # Filtrar los documentos por categoría y ordenar por vista en orden descendente.
+            # Filter documents by category and sort by view in descending order.
             top_documents = MockDocuments.objects.filter(category=category).order_by('-view_count')[:4]
 
-            # Agregar los documentos principales al diccionario.
+            # Add the main documents to the dictionary.
             top_documents_by_category[category] = top_documents
 
         return dict(top_documents_by_category)
 
     def recomendation_by_category(self):
+        # get recommendations and categories
         recomendations = self.get_recomendations()
         categories = list(recomendations.keys())
 
-        # Añadir tuplas ("", 0) para completar hasta 3 tuplas
+        # Add tuples ("", 0) to fill up to 3 tuples
         while len(categories) < 3:
             categories.append("")
 
-        # Iterar a través de las categorías y emitir las tuplas
+        # Iterate through the categories and emit the tuples
         for category in categories:
             yield category, len(recomendations.get(category, []))
 
