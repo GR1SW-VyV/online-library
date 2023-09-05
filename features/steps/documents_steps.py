@@ -208,3 +208,23 @@ def no_colliding_file_is_shown(context):
     :type warnings: str
     """
     # raise NotImplementedError(u'STEP: And <warnings> colliding file is shown')
+
+
+@step("{} scores the document a {}")
+def step_impl(context, arg0, arg1):
+    """
+    :type context: behave.runner.Context
+    """
+    user = int(arg0)
+    score = int(arg1)
+    context.document.add_score(user,score)
+
+
+@then("the final score must be {}")
+def step_impl(context, arg0):
+    """
+    :type context: behave.runner.Context
+    """
+    score = float(arg0)
+    print(context.document.score())
+    assert context.document.score() == score

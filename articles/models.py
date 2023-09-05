@@ -1,8 +1,11 @@
-import hashlib
 import shutil
-from django.utils.translation import gettext_lazy as _
 
+from django.db.models import Avg
+import hashlib
+from django.utils.translation import gettext_lazy as _
+from bookcollections.models import Collection
 from django.db import models
+from .choices.category import Category
 
 from . import services
 
@@ -11,6 +14,8 @@ from . import services
 
 class Document: ...
 class Author:...
+class Score:...
+
 
 
 class Author(models.Model):
@@ -20,18 +25,8 @@ class Author(models.Model):
     def get_by_prefix(prefix:str):
         return Author.objects.filter(name__contains=prefix)
 
-class Document(models.Model):
-    class Category(models.TextChoices):
-        UNKNOWN = "UNKNOWN", _('UNKNOWN')
-        MATH = "MATH", _('MATH')
-        PHYSICS = "PHYSICS", _('PHYSICS')
-        CALCULUS = "CALCULUS", _('CALCULUS')
-        PROGRAMMING = "PROGRAMMING", _('PROGRAMMING')
-        LITERATURE = "LITERATURE", _('LITERATURE')
-        ECONOMY = "ECONOMY", _('ECONOMY')
-        GEOMETRY = "GEOMETRY", _('GEOMETRY')
-        CHEMISTRY = "CHEMISTRY", _('CHEMISTRY')
 
+class Document(models.Model):
     class Type(models.TextChoices):
         BOOK = "BOOK", _('BOOK')
         ARTICLE = "ARTICLE", _('ARTICLE')
@@ -53,6 +48,7 @@ class Document(models.Model):
     )
     author = models.ManyToManyField(Author)
     view_count = models.IntegerField(null=False, default=0)
+    collections = models.ManyToManyField(Collection, related_name='books')
 
     def increase_view_count(self, count=1):
         self.view_count += 1
@@ -61,14 +57,19 @@ class Document(models.Model):
     def url(self) -> str:
         return f"/articles/resources/{self.category}/{self.filename}"
 
-    def collections(self) -> list[models.Model]:
-        return list()
+    def add_score(self, user_id, score):
+        old_score = Score.objects.filter(user=user_id,document=self).first()
+        if old_score is None:
+            Score(user=user_id,document=self,value=score).save()
+            return
+        old_score.value = score
+        old_score.save()
 
-    def reviews(self) -> list[models.Model]:
-        return list()
-
-    def notes(self) -> list[models.Model]:
-        return list()
+    def score(self):
+        scores = Score.objects.filter(document=self)
+        if scores.first() is None:
+            return 0
+        return scores.aggregate(Avg("value"))["value__avg"]
 
     @staticmethod
     def find_colliding_document(local_path) -> Document:
@@ -76,5 +77,8 @@ class Document(models.Model):
         sha512 = hashlib.sha512(file.read()).hexdigest()
         return Document.objects.filter(sha512=sha512).first()
 
-
-
+class Score(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.IntegerField()
+    document = models.ForeignKey(Document, on_delete=models.DO_NOTHING)
+    value = models.FloatField()

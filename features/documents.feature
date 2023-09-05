@@ -44,6 +44,38 @@ Feature: Upload public articles
     Then it must return <array> as potential authors
     Examples:
       | author_prefix | array                                                |
-      | B    |["Baldor Aurelio", "Balaca Ricardo", "Berro Adolfo"]  |
-      | Ba    |["Baldor Aurelio", "Balaca Ricardo"]                  |
-      | Be    |["Berro Adolfo"]                                      |
+      | B             |["Baldor Aurelio", "Balaca Ricardo", "Berro Adolfo"]  |
+      | Ba            |["Baldor Aurelio", "Balaca Ricardo"]                  |
+      | Be            |["Berro Adolfo"]                                      |
+
+  Scenario: Scoring of an unrated document
+    Given  title, author, Math
+    And features/resources/articles/physicsArticle.pdf on the disk has been uploaded
+    Then the final score must be 0
+
+  Scenario Outline: Scoring
+    Given  title, author, Math
+    And features/resources/articles/physicsArticle.pdf on the disk has been uploaded
+    When <user_a> scores the document a <score_a>
+    And <user_b> scores the document a <score_b>
+    Then the final score must be <final_score>
+    Examples:
+    | user_a  | score_a | user_b  | score_b | final_score|
+    |  1      |  2      |  3      |   4     | 3.0        |
+    |  1      |  1      |  3      |   3     | 2.0        |
+    |  1      |  2      |  1      |   4     | 4.0        |
+    |  2      |  2      |  1      |   -1    | 0.5        |
+
+  Scenario Outline: Individual scoring per book
+    Given  title, author, Math
+    And features/resources/articles/physicsArticle.pdf on the disk has been uploaded
+    And 1 scores the document a <score_a>
+    And features/resources/articles/physicsArticle.pdf on the disk has been uploaded
+    When 1 scores the document a <score_b>
+    Then  the final score must be <document_b_score3>
+    Examples:
+    | score_a | score_b | document_b_score3|
+    |  2      |   4     | 4        |
+    |  1      |   3     | 3        |
+    |  2      |   4     | 4        |
+    |  2      |   -1    | -1        |
