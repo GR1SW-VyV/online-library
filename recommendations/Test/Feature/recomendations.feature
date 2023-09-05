@@ -9,7 +9,7 @@ Feature: : Reading recommendations
     And send preferences <preference1> <preference2> <preference3>
     When the reader wants recommendations
     Then a set of <num_recomendations> most visited readings of <preference1> are recommended
-    And a set of <num_recomendations> most visitedreadings of <preference2> are recommended
+    And a set of <num_recomendations> most visited readings of <preference2> are recommended
     And a set of <num_recomendations> most visited readings of <preference3> are recommended
 
     Examples:
