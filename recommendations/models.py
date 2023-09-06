@@ -51,7 +51,7 @@ class MockUser(models.Model):
         preferences_count = defaultdict(int)
 
         for x in preferences:
-            self.preferences[x] += 1
+            preferences_count[x] += 1
 
         #actualizar las preferencias del usuario segun las preferencias
         for category, count in preferences_count.items():
@@ -98,16 +98,12 @@ class MockUser(models.Model):
 
         return dict(top_documents_by_category)
 
-    def recomendation_by_category(self):
-        recomendations = self.get_recomendations()
-        categories = list(recomendations.keys())
+    def recommendation_total(self):
+        recommendations = self.get_recomendations()
+        total = 0
+        for x in recommendations.values():
+            total += len(x)
+        return total
 
-        # Añadir tuplas ("", 0) para completar hasta 3 tuplas
-        while len(categories) < 3:
-            categories.append("")
-
-        # Iterar a través de las categorías y emitir las tuplas
-        for category in categories:
-            yield category, len(recomendations.get(category, []))
 
 
