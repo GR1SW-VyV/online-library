@@ -9,7 +9,7 @@ def view_form_preferences(request):
     return render(request, './recommendation/form_preferences.html', context={'recommendations': recommendations})
 
 
-# create collections data for test
+# create recommendation data for test
 recommendations = [
     {
         'category': 'Matemática',
@@ -17,11 +17,23 @@ recommendations = [
             {
                 'title': 'Libro 1',
                 'author': 'Autor 1',
+                'document_id': '1'
             },
             {
                 'title': 'Libro 2',
                 'author': 'Autor 2',
+                'document_id': '1'
             },
+{
+                'title': 'Libro 8',
+                'author': 'Autor 8',
+                'document_id': '1'
+            },
+{
+                'title': 'Libro 9',
+                'author': 'Autor 9',
+                'document_id': '12345'
+            }
         ]
     },
     {
@@ -35,6 +47,14 @@ recommendations = [
                 'title': 'Libro 4',
                 'author': 'Autor 4',
             },
+{
+                'title': 'Libro 10',
+                'author': 'Autor 10',
+            },
+{
+                'title': 'Libro 11',
+                'author': 'Autor 11',
+            },
         ]
     },
     {
@@ -47,6 +67,14 @@ recommendations = [
             {
                 'title': 'Libro 6',
                 'author': 'Autor 6',
+            },
+{
+                'title': 'Libro 12',
+                'author': 'Autor 12',
+            },
+{
+                'title': 'Libro 13',
+                'author': 'Autor 13',
             },
         ]
     }
