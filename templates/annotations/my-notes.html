@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/258d808132.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
@@ -17,12 +18,17 @@
 
         /* Estilo para el contenedor con scroll */
         .scroll-container {
-            max-height: 400px; /* Ajusta la altura máxima */
-            overflow-y: auto; /* Habilita el scroll vertical */
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        #pdfViewer {
+            max-height: 90vh;
+            overflow: auto;
         }
 
     </style>
-    <title>Document</title>
+    <title>Nombre del libro</title>
 </head>
 
 {% load static %}
@@ -32,89 +38,123 @@
     <div class="row">
         <h1 class="px-3 my-0">Nombre del libro</h1>
     </div>
+
     <div class="row pt-2">
         <div class="col-7  px-3 ">
-            <embed src="{% static 'harry-potter.pdf' %}" type="application/pdf" width="100%" height="600px">
+
+            <div class="d-flex justify-content-center align-items-center   bg-primary">
+                <!--Numero de pagina--><!-- Botones para cambiar de página -->
+                <button class="btn btn-primary mx-1 py-0" id="prevPage">
+                    <i class="fa-solid fa-arrow-right fa-rotate-180" style="color: #ffffff;"></i>
+                </button>
+                <span class="px-1 mx-1 text-light fw-bold" id="currentPage">-</span>
+                <span class="fw-bold px-1 text-light"> / </span>
+                <span class=" px-1 mx-1 text-light fw-bold" id="totalPages">-</span>
+                <button class="btn btn-primary mx-1 py-0 text-light" id="nextPage">
+                    <i class="fa-solid fa-arrow-right" style="color: #ffffff;"></i>
+                </button>
+            </div>
+
+            <div class="border border-2 border-primary d-flex justify-content-center align-items-center bg-light">
+                <div id="pdfViewer">
+                    <div id="hideButton">
+                        <button class="btn btn-primary mx-auto d-block fw-bold py-0 my-1" id="loadPDF">Cargar PDF
+                        </button>
+                    </div>
+                    <!-- Aquí va el PDF -->
+                </div>
+            </div>
+
         </div>
-        <div class="col-5" style="border: 1px black solid">
+        <div class="col-5">
+            <!--NAVEGACION-->
             <div class="row">
                 <ul class="nav nav-tabs nav-justified px-0 ">
                     <li class="nav-item">
-                        <a class="nav-link nav-active text-light fw-bold " aria-current="page" href="#">Mis
+                        <a class="nav-link nav-active text-light fw-bold bg-primary py-0" aria-current="page" href="#">Mis
                             anotaciones</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark fw-bold" href="#">Otras anotaciones</a>
+                        <a class="nav-link text-dark fw-bold py-0" href="#">Otras anotaciones</a>
                     </li>
                 </ul>
             </div>
 
-
-            <div class="row">
-                <div class="mb-2 px-2 pt-2">
-                    <label for="exampleFormControlTextarea1" class="form-label">Nueva anotación</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            <!--NUEVA ANOTACION-->
+            <div class="row border border-primary border-2 ">
+                <div class="mb-1 px-2 pt-2">
+                    <label for="anotation" class="form-label">Nueva anotación</label>
+                    <textarea class="form-control" id="anotation" rows="3"></textarea>
                 </div>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end px-2">
-                    <button class="btn btn-warning" type="button">+</button>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end py-2">
+                    <button class="btn btn-primary fw-bold py-0" type="button">Guardar</button>
                 </div>
-
             </div>
+
             <!--anotaciones-->
-            <div class="row scroll-container mt-2 px-2 pt-2" style="border-top: 1px black solid">
-                <div class="card border-dark mb-2 px-0">
-                    <div class="card-header p-2 d-md-flex justify-content-md-end">User <span>12/02/2023</span>
-                        <button type="button" class="btn btn-warning btn-sm py-0  ">Favorito</button>
+            <div class="row scroll-container  px-2 pt-2 border border-right-0 border-top-0 border-left-0 border-primary border-2 ">
+
+                <div class="card mb-2 px-0">
+                    <div class="card-header d-flex justify-content-between align-items-center px-2 py-0 ">
+                        <div>04/04/2023</div>
+                        <button type="button" class="btn btn-sm py-0">
+                            <i class="favorite fa-regular fa-heart" style="color: #000000;"></i>
+                        </button>
                     </div>
                     <div class="card-body text-dark p-2">
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-                            facilisis
-                            iaculis tortor ut facilisis. Fusce quis nisl mi. Nunc ac.</p>
+                        <p class="card-text">Lorem ipsum dolor sit amet,
+                            consectetur adipiscing elit. Etiam cursus
+                            interdum ligula, id consequat metus vestibulum at.
+                            Sed erat mauris.</p>
                     </div>
                 </div>
-                <div class="card border-dark mb-2 px-0">
-                    <div class="card-header p-2 d-md-flex justify-content-md-end">User <span>12/02/2023</span>
-                        <button type="button" class="btn btn-warning btn-sm py-0">Favorito</button>
+
+                <div class="card mb-2 px-0">
+                    <div class="card-header d-flex justify-content-between align-items-center px-2 py-0">
+                        <div>04/04/2023</div>
+                        <button type="button" class="btn btn-sm py-0">
+                            <i class="favorite fa-regular fa-heart" style="color: #000000;"></i>
+                        </button>
                     </div>
                     <div class="card-body text-dark p-2">
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-                            facilisis
-                            iaculis tortor ut facilisis. Fusce quis nisl mi. Nunc ac.</p>
-                    </div>
-                </div>
-                <div class="card border-dark mb-2 px-0">
-                    <div class="card-header p-2">User <span>12/02/2023</span></div>
-                    <div class="card-body text-dark p-2">
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-                            facilisis
-                            iaculis tortor ut facilisis. Fusce quis nisl mi. Nunc ac.</p>
+                        <p class="card-text">Lorem ipsum dolor sit amet,
+                            consectetur adipiscing elit. Etiam cursus
+                            interdum ligula, id consequat metus vestibulum at.
+                            Sed erat mauris.</p>
                     </div>
                 </div>
-                <div class="card border-dark mb-2 px-0">
-                    <div class="card-header p-2">User <span>12/02/2023</span></div>
+
+                <div class="card mb-2 px-0">
+                    <div class="card-header d-flex justify-content-between align-items-center px-2 py-0">
+                        <div>04/04/2023</div>
+                        <button type="button" class="btn btn-sm py-0">
+                            <i class="favorite fa-regular fa-heart" style="color: #000000;"></i>
+                        </button>
+                    </div>
                     <div class="card-body text-dark p-2">
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-                            facilisis
-                            iaculis tortor ut facilisis. Fusce quis nisl mi. Nunc ac.</p>
+                        <p class="card-text">Lorem ipsum dolor sit amet,
+                            consectetur adipiscing elit. Etiam cursus
+                            interdum ligula, id consequat metus vestibulum at.
+                            Sed erat mauris.</p>
                     </div>
                 </div>
-                <div class="card border-dark mb-2 px-0">
-                    <div class="card-header p-2">User <span>12/02/2023</span></div>
-                    <div class="card-body text-dark p-2">
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-                            facilisis
-                            iaculis tortor ut facilisis. Fusce quis nisl mi. Nunc ac.</p>
+
+                <div class="card mb-2 px-0">
+                    <div class="card-header d-flex justify-content-between align-items-center px-2 py-0">
+                        <div>04/04/2023</div>
+                        <button type="button" class="btn btn-sm py-0">
+                            <i class="favorite fa-regular fa-heart" style="color: #000000;"></i>
+                        </button>
                     </div>
-                </div>
-                <div class="card border-dark mb-2 px-0">
-                    <div class="card-header p-2">User <span>12/02/2023</span></div>
                     <div class="card-body text-dark p-2">
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-                            facilisis
-                            iaculis tortor ut facilisis. Fusce quis nisl mi. Nunc ac.</p>
+                        <p class="card-text">Lorem ipsum dolor sit amet,
+                            consectetur adipiscing elit. Etiam cursus
+                            interdum ligula, id consequat metus vestibulum at.
+                            Sed erat mauris.</p>
                     </div>
                 </div>
             </div>
+            <!--fin-anotaciones-->
 
         </div>
 
@@ -125,6 +165,38 @@
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.10.111/build/pdf.min.js"></script>
+<script src="../../static/app.js"></script>
+
+<script>
+    const ocultarBoton = document.getElementById("hideButton")
+    ocultarBoton.addEventListener("click", function () {
+        ocultarBoton.style.display = "none";
+    })
+
+    const botones = document.querySelectorAll(".favorite");
+
+    botones.forEach(function (boton) {
+        boton.addEventListener("click", function () {
+            // Verifica la clase actual del botón
+            if (boton.classList.contains("fa-regular")) {
+                // Si tiene la clase original, quítala y agrega la nueva clase
+                boton.classList.remove("fa-regular");
+                boton.style.color = "red"
+                boton.classList.add("fa-solid");
+
+            } else {
+                // Si tiene la nueva clase, quítala y agrega la clase original
+                boton.classList.remove("fa-solid");
+                boton.style.color = "black"
+                boton.classList.add("fa-regular");
+            }
+        });
+    });
+
+
+</script>
+
 
 </html>
 
