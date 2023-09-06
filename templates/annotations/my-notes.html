@@ -28,7 +28,8 @@
         }
 
     </style>
-    <title>Nombre del libro</title>
++
+    <title>{{ document.title }}</title>
 </head>
 
 {% load static %}
@@ -36,7 +37,7 @@
 <body>
 <div class="container-fluid">
     <div class="row">
-        <h1 class="px-3 my-0">Nombre del libro</h1>
+        <h1 class="px-3 my-0">{{ document.title }}</h1>
     </div>
 
     <div class="row pt-2">
@@ -58,7 +59,10 @@
             <div class="border border-2 border-primary d-flex justify-content-center align-items-center bg-light">
                 <div id="pdfViewer">
                     <div id="hideButton">
-                        <button class="btn btn-primary mx-auto d-block fw-bold py-0 my-1" id="loadPDF">Cargar PDF
+                        <button
+                                class="btn btn-primary mx-auto d-block fw-bold py-0 my-1"
+                                id="loadPDF"
+                                onclick="setPdfUrl('{{ document.url }}')">Obtener Pdf
                         </button>
                     </div>
                     <!-- Aquí va el PDF -->
@@ -166,7 +170,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.10.111/build/pdf.min.js"></script>
-<script src="../../static/app.js"></script>
+<script src="/static/app.js">
+
+</script>
 
 <script>
     const ocultarBoton = document.getElementById("hideButton")
@@ -196,7 +202,6 @@
 
 
 </script>
-
 
 </html>
 

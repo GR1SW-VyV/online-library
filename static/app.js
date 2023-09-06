@@ -1,3 +1,8 @@
+let pdfUrl = null;
+
+const setPdfUrl = (url) => {
+  pdfUrl = url;
+};
 document.addEventListener("DOMContentLoaded", function () {
     const loadPDFButton = document.getElementById("loadPDF");
     const pdfViewer = document.getElementById("pdfViewer");
@@ -5,13 +10,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const totalPagesSpan = document.getElementById("totalPages");
     let currentPage = 1; // Inicialmente en la página 1
     let totalPages = 1;
-    let pdfUrl; // Declara pdfUrl como variable global
-  
+
     loadPDFButton.addEventListener("click", function () {
 
-      pdfUrl = "../../static/harry-potter.pdf"; // Ruta al archivo PDF en la carpeta "pdfs"
-  
-   
       // Crea un nuevo visor de PDF
       pdfjsLib
         .getDocument(pdfUrl)

@@ -54,7 +54,8 @@ class Document(models.Model):
         self.save()
 
     def url(self) -> str:
-        return f"/articles/resources/{self.category}/{self.filename}"
+        category_str = str(self.category).capitalize()
+        return f"/static/articles/resources/{category_str}Resources/{self.filename}"
 
     def add_score(self, user_id, score):
         old_score = Score.objects.filter(user=user_id).first()
