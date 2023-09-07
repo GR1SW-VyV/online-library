@@ -5,14 +5,15 @@ Feature: Display notes
   To check my notes.
 
   Scenario Outline: General notes
-    Given I have the book <book_id>
+    Given I have the document <document_title> with the id <document_id>
     And I am logged in with my username <username>
-    When I am reading the details of the book
-    Then it should display my personal general notes <my_general_notes>
-    And the general notes <general_notes> from other users ordered by their number of followers.
+    And there are notes added by me and other users
+    When I want to compare my notes with those of other users
+    Then it should display my personal general notes <my_general_notes> ordered
+    And the general notes <general_notes> from other users ordered.
 
     Examples:
-    | book_id | username       | my_general_notes            | general_notes                                                            |
+    | document_id | username       | my_general_notes            | general_notes                                                            |
     | 1       | Alice Johnson  | This book changed my life   | Important concepts,Explained well,Not relevant                           |
     | 1       | David Smith    | Interesting examples        | Remember for future projects,Skipped,Interesting                         |
     | 2       | Alex Carter    | Practical examples          | Missing real-world scenarios,Too theoretical                             |
@@ -22,21 +23,22 @@ Feature: Display notes
     | 3       | Michael Wong   | In-depth exploration        | Real-world case studies missing,Well-structured,Requires prior knowledge |
     | 3       | Nicole Patel   | Well-organized content      | Comprehensive resource,Requires more examples,Good references            |
 
-   Scenario Outline: Page notes
-     Given I have the book <book_id>
-     And I am logged in with my username <username>
-     When I am reading the page <page_number>
-     Then it should display my personal notes <my_notes>
-     And the notes <notes> from other users ordered by their number of followers.
+  Scenario Outline: Page notes
+    Given I have the document <document_title> with the id <document_id>
+    And I am logged in with my username <username>
+    And there are notes added by me and other users in the page <page_number>
+    When I want to compare my notes with those of other users in the page <page_number>
+    Then it should display my personal notes <my_notes> ordered
+    And the notes <notes> from other users ordered.
 
-     Examples:
-     | book_id | username        | page_number | my_notes                      | notes                                                                |
-     | 1       | Alice Johnson   | 1           | Don't forget these concepts   | Important introduction,Explained well,Not relevant                   |
-     | 1       | David Smith     | 2           | Interesting examples here     | Remember for future projects,Skipped this part,Interesting           |
-     | 1       | Emily Brown     | 10          | Insightful example            | Important concept,Useful code snippet,Needs more context             |
-     | 2       | Alex Carter     | 3           | Practical exercise            | Missing explanation,Well-structured,Too simple                       |
-     | 2       | Sarah Miller    | 8           | Comprehensive explanation     | Unclear terminology,Great diagram,Advanced content                   |
-     | 2       | Robert Lee      | 12          | Step-by-step guide            | Repetitive content,Valuable insights,Not necessary                   |
-     | 3       | Julia Chen      | 2           | Clear and concise explanation | Lacks real-world examples,Good for beginners,Too shallow             |
-     | 3       | Michael Wong    | 7           | In-depth analysis             | Missing practical cases,Structured content,Requires prior knowledge  |
-     | 3       | Nicole Patel    | 10          | Well-structured content       | Comprehensive resource,Needs more practical insights,Good references |
+    Examples:
+    | document_id | username        | page_number | my_notes                      | notes                                                                |
+    | 1       | Alice Johnson   | 1           | Don't forget these concepts   | Important introduction,Explained well,Not relevant                   |
+    | 1       | David Smith     | 2           | Interesting examples here     | Remember for future projects,Skipped this part,Interesting           |
+    | 1       | Emily Brown     | 10          | Insightful example            | Important concept,Useful code snippet,Needs more context             |
+    | 2       | Alex Carter     | 3           | Practical exercise            | Missing explanation,Well-structured,Too simple                       |
+    | 2       | Sarah Miller    | 8           | Comprehensive explanation     | Unclear terminology,Great diagram,Advanced content                   |
+    | 2       | Robert Lee      | 12          | Step-by-step guide            | Repetitive content,Valuable insights,Not necessary                   |
+    | 3       | Julia Chen      | 2           | Clear and concise explanation | Lacks real-world examples,Good for beginners,Too shallow             |
+    | 3       | Michael Wong    | 7           | In-depth analysis             | Missing practical cases,Structured content,Requires prior knowledge  |
+    | 3       | Nicole Patel    | 10          | Well-structured content       | Comprehensive resource,Needs more practical insights,Good references |
