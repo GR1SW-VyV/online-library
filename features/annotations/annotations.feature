@@ -15,7 +15,6 @@ Feature: Write notes
 
 
   Scenario: Mark an annotation as favorite
-
     Given I am reading the book "Cien años de soledad"
     And I want to take an important note
     When I mark the note as favorite
