@@ -1,5 +1,7 @@
 from behave import *
 from expects import *
+from articles.models import Document
+from social.models import User
 
 
 use_step_matcher("re")
@@ -11,7 +13,9 @@ def step_impl(context, book_id):
     :type context: behave.runner.Context
     :type book_id: str
     """
-    context.book_id = book_id
+    context.document = Document.objects.create()
+    context.document.id = book_id
+    context.document.save()
 
 
 @step("I am logged in with my username (?P<username>.+)")
