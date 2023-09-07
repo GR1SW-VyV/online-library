@@ -17,11 +17,12 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-from recommendations.views import view_recommendations
-from recommendations.views import view_form_preferences
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('recommendations/', view_recommendations),
-    path('preferences/', view_form_preferences),
+    path('recommendations/', include("recommendations.urls")),
+    path('annotations/', include('annotations.urls')),
+    path('articles/', include("articles.urls")),
+    path('collections/', include("bookcollections.urls")),
+    path('social/', include('social.urls'))
 ]
