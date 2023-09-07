@@ -1,4 +1,5 @@
 from django.db import models
+
 # from django.contrib.auth.models import User
 from social.models import Observable, CollectionActivity, User
 from django.utils.translation import gettext_lazy as _
@@ -15,18 +16,19 @@ class Collection(models.Model, Observable):
     """
     Model representing a collection of books.
     """
+
     name = models.CharField(max_length=255, null=False)
     description = models.TextField()
     is_public = models.BooleanField(default=False, null=False)
     category = models.CharField(
-        max_length=100,
-        choices=Category.choices,
-        default=Category.UNKNOWN
+        max_length=100, choices=Category.choices, default=Category.UNKNOWN
     )
     score = models.DecimalField(max_digits=4, decimal_places=2, default=0)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    followers = models.ManyToManyField(User, symmetrical=False, blank=True, related_name='collection_following')
+    followers = models.ManyToManyField(
+        User, symmetrical=False, blank=True, related_name="collection_following"
+    )
 
     def add_follower(self, observer):
         self.followers.add(observer)
@@ -79,26 +81,24 @@ class CollectionDAO:
         return Collection.objects.get(id=collection_id)
 
     @classmethod
-    def add_book(
-            cls, collection_ref: Collection | int, book_ref: Document | int
-    ):
+    def add_book(cls, collection_ref: Collection | int, book_ref: Document | int):
         collection = (
             collection_ref
             if type(collection_ref) == Collection
             else cls.get_collection(collection_ref)
         )
-        '''
+        """
         book = (
             book_ref
             #if type(collection_ref) == Document
             #else Document.objects.get(uid=book_ref)
         )
-        '''
+        """
         book = book_ref
         if type(book) == int:
             book = Document.objects.get(uid=book)
         book.collections.add(collection)
-        #TODO collection.score = cls.get_collection_score(collection.id) Hagan bien
+        # TODO collection.score = cls.get_collection_score(collection.id) Hagan bien
         collection.save()
         book.save()
         collection.create_collection_activity(book)
@@ -176,13 +176,13 @@ class CollectionDAO:
 
     @classmethod
     def create_with_book(
-            cls,
-            name,
-            description,
-            is_public,
-            category,
-            user_ref: User | int,
-            book_ref: Document | int,
+        cls,
+        name,
+        description,
+        is_public,
+        category,
+        user_ref: User | int,
+        book_ref: Document | int,
     ):
         collection = cls.create(name, description, is_public, category, user_ref)
 
