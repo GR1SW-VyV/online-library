@@ -1,5 +1,7 @@
 from behave import *
 from expects import *
+from faker import Faker
+
 from articles.models import Document
 from social.models import User
 
@@ -24,7 +26,8 @@ def step_impl(context, username):
     :type context: behave.runner.Context
     :type username: str
     """
-    context.username = username
+    context.user = User.objects.create_reader_user(username=username, password=Faker().password())
+
 
 
 @when("I am reading the details of the book")
