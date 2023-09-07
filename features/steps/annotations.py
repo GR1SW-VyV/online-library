@@ -5,9 +5,9 @@ from annotations.testmodels.user import User as TestUser
 from annotations.testmodels.document import Document as TestDocument
 from annotations.testmodels.generalnote import GeneralNote as TestGneralNote
 
-from annotations.models import Note, NoteDAO
 from social.models import User
 from articles.models import Document
+from annotations.models import Note, NoteDAO
 
 use_step_matcher("re")
 

@@ -1,0 +1,95 @@
+<!-- show preferences form block-->
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="container mt-5">
+        <h1>Recomendaciones: </h1>
+        <h5>No tienes colecciones creadas aún, te daremos recomendaciones en base a tus preferencias </h5>
+        <form>
+            <div class="form-group">
+                <label>Selecciona 3 categorías de tu interes:</label>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="matematica" id="matematica"
+                                value="matematica">
+                            <label class="form-check-label" for="matematica">
+                                Matemática
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="fisica" id="fisica" value="fisica">
+                            <label class="form-check-label" for="fisica">
+                                Física
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="calculo" id="calculo" value="calculo">
+                            <label class="form-check-label" for="calculo">
+                                Cálculo
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="programacion" id="programacion"
+                                value="programacion">
+                            <label class="form-check-label" for="programacion">
+                                Programación
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="literatura" id="literatura"
+                                value="literatura">
+                            <label class="form-check-label" for="literatura">
+                                Literatura
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="geometria" id="geometria"
+                                value="geometria">
+                            <label class="form-check-label" for="geometria">
+                                Geometría
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="economia" id="economia"
+                                value="economia">
+                            <label class="form-check-label" for="economia">
+                                Economía
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="quimica" id="quimica" value="quimica">
+                            <label class="form-check-label" for="quimica">
+                                Química
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Enviar</button>
+        </form>
+    </div>
+
+    <!-- Agregar el enlace al archivo JavaScript -->
+    <script>
+        const checkboxes = document.querySelectorAll('.form-check-input');
+        const maxCheckboxes = 3; // Máximo de checkboxes que se pueden marcar
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                const checkedCheckboxes = document.querySelectorAll('.form-check-input:checked');
+                if (checkedCheckboxes.length > maxCheckboxes) {
+                    checkbox.checked = false; // Desmarca el checkbox si se supera el límite
+                }
+            });
+        });
+    </script>
+
+{% endblock %}
+```
+
+
+

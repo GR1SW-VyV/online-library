@@ -100,4 +100,5 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const prevPageButton = document.getElementById("prevPage");
     prevPageButton.addEventListener("click", prevPage);
+
 });

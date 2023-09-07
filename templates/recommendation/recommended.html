@@ -1,0 +1,31 @@
+<!-- show recommended block-->
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="container">
+        <h1>Recomendaciones:</h1>
+        <h5>Aquí tienes algunas recomendaciones basadas en tus gustos:</h5>
+    <!-- Recommendations for category-->
+    {% for recommendation in recommendations %}
+    <div class="row">
+        <h4>{{ recommendation.category }}</h4>
+        <!-- Books recommended for category-->
+        {% for book in recommendation.books %}
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title text-center">{{ book.title }}</h5>
+                    <p class="card-text">Autor: {{ book.author }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+    </div>
+
+{% endblock %}
+```
+
+
+

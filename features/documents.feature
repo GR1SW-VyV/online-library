@@ -9,8 +9,8 @@ Feature: Upload public articles
 
     Examples:
       |  local_path                                         |subject  |  subject_path |
-      |features/resources/articles/mathArticle.pdf     | Math    |articles/resources/MathResources/mathArticle.pdf|
-      |features/resources/articles/physicsArticle.pdf  | Physics |articles/resources/PhysicsResources/physicsArticle.pdf |
+      |features/resources/articles/mathArticle.pdf     | Math    |static/articles/resources/MathResources/mathArticle.pdf|
+      |features/resources/articles/physicsArticle.pdf  | Physics |static/articles/resources/PhysicsResources/physicsArticle.pdf |
 
 
   Scenario Outline: Serve file
@@ -21,8 +21,8 @@ Feature: Upload public articles
 
     Examples:
       |local_path                                          | title                | author          | subject    | subject_path                                           |
-      |features/resources/articles/mathArticle.pdf    | Arirmetica de Baldor | Aurelio Baldor | Math    | articles/resources/MathResources/mathArticle.pdf       |
-      |features/resources/articles/physicsArticle.pdf | Fisica Cuantica      | Max Planck     | Physics | articles/resources/PhysicsResources/physicsArticle.pdf |
+      |features/resources/articles/mathArticle.pdf    | Arirmetica de Baldor | Aurelio Baldor | Math    | static/articles/resources/MathResources/mathArticle.pdf       |
+      |features/resources/articles/physicsArticle.pdf | Fisica Cuantica      | Max Planck     | Physics | static/articles/resources/PhysicsResources/physicsArticle.pdf |
 
 
   Scenario Outline: Avoid duplicate by hash collision
