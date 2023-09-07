@@ -43,8 +43,8 @@ Feature: Upload public articles
 
     Examples:
     |filename|collisions_number|
-    |   A    |  one            |
-    |   B    |  zero           |
+    |   A.pdf|  one            |
+    |   B.pdf|  zero           |
 
   @fake_data
   Scenario: Scoring of an unrated document

@@ -225,8 +225,8 @@ def step_impl(context, arg0):
 
 @step("a pdf file {filename}")
 def given_a_pdf_file_on_disk(context, filename):
-    path = f"tmp/{filename}.pdf"
-    context.pdf_path = f"tmp/{filename}.pdf"
+    path = f"tmp/{filename}"
+    context.pdf_path = f"tmp/{filename}"
     print(path)
     if not os.path.isfile(path):
         os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -272,5 +272,5 @@ def given_a_document(context, document_alias):
 def step_impl(context, document_alias,pdf_file):
     document: Document = context.document[document_alias]
 
-    context.collision = document.find_colliding_document(f"tmp/{pdf_file}.pdf")
+    context.collision = document.find_colliding_document(f"tmp/{pdf_file}")
 
