@@ -1,4 +1,5 @@
 # Created by thoma at 23/8/2023
+@documents_setup
 Feature: Upload public articles
   As a teacher I want to be able to upload public articles to supplement reading on certain topics.
 
@@ -55,12 +56,12 @@ Feature: Upload public articles
     And features/resources/articles/physicsArticle.pdf on the disk has been uploaded
     Then the final score must be 0
 
+  @fake_data
   Scenario Outline: Average book score
-    Given  title, author, Math
-    And features/resources/articles/physicsArticle.pdf on the disk has been uploaded
-    And 1 scores the document a <score_a>
-    When 2 scores the document a <score_b>
-    Then  the final score must be <book_score>
+    Given a document A
+    And someone scores document A a <score_a>
+    When someone else scores document A a <score_b>
+    Then document A's final score must be <book_score>
     Examples:
     | score_a | score_b | book_score|
     |  2      |   4     | 3         |
@@ -68,16 +69,17 @@ Feature: Upload public articles
     |  2      |   4     | 3         |
     |  2      |   -1    | 0.5       |
 
+  @fake_data
   Scenario Outline: Individual scoring per book
-    Given  title, author, Math
-    And features/resources/articles/physicsArticle.pdf on the disk has been uploaded
-    And 1 scores the document a <score_a>
-    And features/resources/articles/physicsArticle.pdf on the disk has been uploaded
-    When 1 scores the document a <score_b>
-    Then  the final score must be <document_b_score3>
+    Given a document A
+    And a document B
+    And person scores document A a <a_score>
+    And person scores document B a <b_score>
+    Then document A's final score must be <final_a_score>
+    Then document B's final score must be <final_b_score>
     Examples:
-    | score_a | score_b | document_b_score3|
-    |  2      |   4     | 4        |
-    |  1      |   3     | 3        |
-    |  2      |   4     | 4        |
-    |  2      |   -1    | -1        |
+    | a_score | b_score | final_a_score | final_b_score |
+    |  2      |   4     |  2            |  4            |
+    |  1      |   3     |  1            |  3            |
+    |  2      |   4     |  2            |  4            |
+    |  2      |   -1    |  2            | -1            |
