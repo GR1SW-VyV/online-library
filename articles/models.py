@@ -79,6 +79,6 @@ class Document(models.Model):
 
 class Score(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.IntegerField()
+    user = models.BigIntegerField()
     document = models.ForeignKey(Document, on_delete=models.DO_NOTHING)
     value = models.FloatField()
