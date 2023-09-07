@@ -12,7 +12,7 @@
         <!-- Books recommended for category-->
         {% for book in recommendation.books %}
         <div class="col-md-3">
-            <a style="text-decoration: none; color: black" href="/annotations/book/{{ book.document_id }}">  <!-- Change url to open book content-->
+            <a style="text-decoration: none; color: black" href="/annotations/book/{{ book.uid }}">  <!-- Change url to open book content-->
                 <div class="card">
                 <div class="card-body">
                     <h5 class="card-title text-center">{{ book.title }}</h5>

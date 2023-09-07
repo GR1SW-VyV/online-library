@@ -12,14 +12,24 @@ from django.http import HttpResponse
 
 def init_recommedation_engine(request):
     # Test
-    user = authenticate(request, username="test8", password="123")
+    # user = User.objects.create_reader_user(username="test", password="123")
+
+    # collection_1 = models.CollectionDAO.create(
+    #    "Coleccion 1",
+    #    "Descripcion",
+    #    True,
+    #    Category.GEOMETRY,
+    #    user
+    # )
+
+    user = authenticate(request, username="test", password="123")
 
     # user = User.objects.get(id=request.user.id)
     if user is not None:
         login(request, user)
     recomender = RecommendationEngine(user)
     if recomender.has_collections():
-        recommendations = recomender.get_recomendations()
+        # recommendations = recomender.get_recomendations()
         return render(request, './recommendation/recommended.html', context={'recommendations': recommendations})
     else:
         return render(request, './recommendation/form_preferences.html', )
@@ -42,6 +52,48 @@ def send_preferences(request):
         print(tuple_selected_categories)
         # Call specific view
         recomender.recive_preferences(*tuple_selected_categories)
-        recommendations = recomender.get_recomendations()
+        #recommendations = recomender.get_recomendations()
         return render(request, './recommendation/recommended.html', context={'recommendations': recommendations})
 
+recommendations = [
+    {
+        'category': 'Matemática',
+        'books': [
+            {
+                'uid': '1',
+                'title': 'Libro 1',
+                'author': 'Autor 1',
+            },
+            {
+                'title': 'Libro 2',
+                'author': 'Autor 2',
+            },
+        ]
+    },
+    {
+        'category': 'Física',
+        'books': [
+            {
+                'title': 'Libro 3',
+                'author': 'Autor 3',
+            },
+            {
+                'title': 'Libro 4',
+                'author': 'Autor 4',
+            },
+        ]
+    },
+    {
+        'category': 'Programación',
+        'books': [
+            {
+                'title': 'Libro 5',
+                'author': 'Autor 5',
+            },
+            {
+                'title': 'Libro 6',
+                'author': 'Autor 6',
+            },
+        ]
+    }
+]

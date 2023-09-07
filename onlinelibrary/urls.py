@@ -17,8 +17,6 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-from recommendations.views import view_recommendations
-from recommendations.views import view_form_preferences
 
 urlpatterns = [
     path('admin/', admin.site.urls),
