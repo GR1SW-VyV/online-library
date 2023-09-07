@@ -19,7 +19,7 @@ class RecommendationEngine:
         return bookcollections.models.Collection.objects.filter(user=self.user).exists()
 
     def recollect_preferences(self):
-        # Initialize a dictionary to keep track of categories and their count.
+        # Inicialice un diccionario para realizar un seguimiento de las categorías y su recuento.
         category_count = defaultdict(int)
 
         # Recorrer todas las colecciones del usuario.
@@ -29,10 +29,10 @@ class RecommendationEngine:
                 # Obtener la categoría del documento.
                 category = document.category
 
-                # Update category count.
+                # Actualizar el recuento de categorías.
                 category_count[category] += 1
 
-        # Update user preferences based on category count.
+        # Actualice las preferencias del usuario según el recuento de categorías.
         for category, count in category_count.items():
             # Si la categoría ya existe en las preferencias, aumenta su valor.
             if category in self.user.preferences:
