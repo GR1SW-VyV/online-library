@@ -3,7 +3,7 @@
 Feature: Upload public articles
   As a teacher I want to be able to upload public articles to supplement reading on certain topics.
 
-    Scenario Outline: Suggest author for autocomplete
+  Scenario Outline: Suggest author for autocomplete
     Given the text "<author_prefix>"
     And a default repertoire of Authors
     When lookup for an author
@@ -15,46 +15,41 @@ Feature: Upload public articles
       | Be            |["Berro Adolfo"]                                      |
 
   Scenario Outline: Upload articles
-    Given <local_path> on the disk
+    Given a pdf file <pdf_name>
     When I upload the article as <subject>
     Then the article must be on <subject_path>
 
     Examples:
-      |  local_path                                         |subject  |  subject_path |
-      |features/resources/articles/mathArticle.pdf     | Math    |articles/resources/MathResources/mathArticle.pdf|
-      |features/resources/articles/physicsArticle.pdf  | Physics |articles/resources/PhysicsResources/physicsArticle.pdf |
-
+      |     pdf_name        |subject  |  subject_path                                          |
+      | mathArticle.pdf     | Math    | articles/resources/MathResources/mathArticle.pdf       |
+      | physicsArticle.pdf  | Physics | articles/resources/PhysicsResources/physicsArticle.pdf |
 
   Scenario Outline: Serve file
-    Given <local_path> on the disk
-    And  <title>, <author>, <subject>
-    When the article is uploaded
+    Given a pdf file <pdf_name>
+    When I upload the article as <subject>
     Then the file is available at <subject_path> through http/s
 
     Examples:
-      |local_path                                          | title                | author          | subject    | subject_path                                           |
-      |features/resources/articles/mathArticle.pdf    | Arirmetica de Baldor | Aurelio Baldor | Math    | articles/resources/MathResources/mathArticle.pdf       |
-      |features/resources/articles/physicsArticle.pdf | Fisica Cuantica      | Max Planck     | Physics | articles/resources/PhysicsResources/physicsArticle.pdf |
+      |pdf_name       |  subject | subject_path                                           |
+      |mathArticle    |  Math    | articles/resources/MathResources/mathArticle.pdf       |
+      |physicsArticle |  Physics | articles/resources/PhysicsResources/physicsArticle.pdf |
 
-
+  @fake_data
   Scenario Outline: Avoid duplicate by hash collision
-    Given  <title>, <author>, <subject>
-    And <a_local_path> on the disk has been uploaded
-    And <local_path> on the disk
-    When a hash check is performed
-    Then <warnings> collision is found
+    Given a document A
+    And a pdf file <filename>
+    When a A hash check is performed on <filename>
+    Then <collisions_number> collision/s were/was found
 
     Examples:
-      | a_local_path                                           | local_path                                         | title                | author         | subject | warnings |
-      |    features/resources/articles/physicsArticle.pdf    |features/resources/articles/mathArticle.pdf    | Arirmetica de Baldor | Aurelio Baldor | Math    | no       |
-      |    features/resources/articles/physicsArticle.pdf |features/resources/articles/physicsArticle.pdf | Fisica Cuantica      | Max Planck     | Physics | a        |
+    |filename|collisions_number|
+    |   A    |  one            |
+    |   B    |  zero           |
 
-
-
+  @fake_data
   Scenario: Scoring of an unrated document
-    Given  title, author, Math
-    And features/resources/articles/physicsArticle.pdf on the disk has been uploaded
-    Then the final score must be 0
+    Given a document A
+    Then document A's final score must be 0
 
   @fake_data
   Scenario Outline: Average book score

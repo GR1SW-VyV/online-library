@@ -34,7 +34,7 @@ def i_upload_the_article_subject(context, subject):
     :type context: behave.runner.Context
     :type subject: str
     """
-    context.document = documents_service.from_local_path(context.local_path, category=subject)
+    context.document = documents_service.from_local_path(context.pdf_path, category=subject)
 
 
 @then("the article must be on {subject_path}")
@@ -186,7 +186,7 @@ def a_collision_is_found(context):
     assert context.collision is not None
 
 
-@then("a colliding file is shown")
+@then("one collision/s were/was found")
 def a_colliding_file_is_shown(context):
     """
     :type context: behave.runner.Context
@@ -195,7 +195,7 @@ def a_colliding_file_is_shown(context):
     # raise NotImplementedError(u'STEP: And <warnings> colliding file is shown')
 
 
-@then("no colliding file is shown")
+@then("zero collision/s were/was found")
 def no_colliding_file_is_shown(context):
     """
     :type context: behave.runner.Context
@@ -223,7 +223,11 @@ def step_impl(context, arg0):
     assert context.document.score() == score
 
 
-def given_a_pdf_file_on_disk(context, path):
+@step("a pdf file {filename}")
+def given_a_pdf_file_on_disk(context, filename):
+    path = f"tmp/{filename}.pdf"
+    context.pdf_path = f"tmp/{filename}.pdf"
+    print(path)
     if not os.path.isfile(path):
         os.makedirs(os.path.dirname(path), exist_ok=True)
         import random
@@ -252,7 +256,7 @@ def x_scores_document_y_a_z(context, arg0, arg1, arg2):
 
 @given("a document {document_alias}")
 def given_a_document(context, document_alias):
-    given_a_pdf_file_on_disk(context, f"tmp/{document_alias}.pdf")
+    given_a_pdf_file_on_disk(context, document_alias)
     doc = documents_service.from_local_path(
         f"tmp/{document_alias}.pdf",
         title=context.fake.address(),
@@ -262,3 +266,11 @@ def given_a_document(context, document_alias):
     )
     doc.save()
     context.document[document_alias] = doc
+
+
+@when("a {document_alias} hash check is performed on {pdf_file}")
+def step_impl(context, document_alias,pdf_file):
+    document: Document = context.document[document_alias]
+
+    context.collision = document.find_colliding_document(f"tmp/{pdf_file}.pdf")
+
