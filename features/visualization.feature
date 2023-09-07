@@ -14,15 +14,15 @@ Feature: Display notes
     And the general notes <general_notes> from other users ordered.
 
     Examples:
-    | document_id | username       | my_general_notes            | general_notes                                                            |
-    | 1       | Alice Johnson  | This book changed my life   | Important concepts,Explained well,Not relevant                           |
-    | 1       | David Smith    | Interesting examples        | Remember for future projects,Skipped,Interesting                         |
-    | 2       | Alex Carter    | Practical examples          | Missing real-world scenarios,Too theoretical                             |
-    | 2       | Sarah Miller   | Comprehensive coverage      | Confusing terminology,Useful diagrams,Too verbose                        |
-    | 2       | Robert Lee     | Step-by-step guide          | Simplified explanations,Repetitive content,Too advanced                  |
-    | 3       | Julia Chen     | Clear and concise           | Lacks advanced topics,Great for beginners,Too shallow                    |
-    | 3       | Michael Wong   | In-depth exploration        | Real-world case studies missing,Well-structured,Requires prior knowledge |
-    | 3       | Nicole Patel   | Well-organized content      | Comprehensive resource,Requires more examples,Good references            |
+    | document_title | document_id | username       | my_general_notes                               | general_notes                                                            |
+    | Clean Code     | 1           | Alice Johnson  | This book changed my life,This part was useful | Important concepts,Explained well,Not relevant                           |
+    | Clean Code     | 1           | David Smith    | Interesting examples,Helpful for projects      | Remember for future projects,Skipped,Interesting                         |
+    | OOP Design     | 2           | Alex Carter    | Practical examples,Needs more context          | Missing real-world scenarios,Too theoretical                             |
+    | OOP Design     | 2           | Sarah Miller   | Comprehensive coverage,Clear explanation       | Confusing terminology,Useful diagrams,Too verbose                        |
+    | OOP Design     | 2           | Robert Lee     | Step-by-step guide,This part was very clear    | Simplified explanations,Repetitive content,Too advanced                  |
+    | ML Algorithms  | 3           | Julia Chen     | Clear and concise,Pretty repetitive            | Lacks advanced topics,Great for beginners,Too shallow                    |
+    | ML Algorithms  | 3           | Michael Wong   | In-depth exploration,Needs more examples       | Real-world case studies missing,Well-structured,Requires prior knowledge |
+    | ML Algorithms  | 3           | Nicole Patel   | Well-organized content,In-depth analysis       | Comprehensive resource,Requires more examples,Good references            |
 
   Scenario Outline: Page notes
     Given I have the document <document_title> with the id <document_id>
@@ -34,13 +34,13 @@ Feature: Display notes
     And the notes <notes> from other users ordered.
 
     Examples:
-    | document_id | username        | page_number | my_notes                      | notes                                                                |
-    | 1       | Alice Johnson   | 1           | Don't forget these concepts   | Important introduction,Explained well,Not relevant                   |
-    | 1       | David Smith     | 2           | Interesting examples here     | Remember for future projects,Skipped this part,Interesting           |
-    | 1       | Emily Brown     | 10          | Insightful example            | Important concept,Useful code snippet,Needs more context             |
-    | 2       | Alex Carter     | 3           | Practical exercise            | Missing explanation,Well-structured,Too simple                       |
-    | 2       | Sarah Miller    | 8           | Comprehensive explanation     | Unclear terminology,Great diagram,Advanced content                   |
-    | 2       | Robert Lee      | 12          | Step-by-step guide            | Repetitive content,Valuable insights,Not necessary                   |
-    | 3       | Julia Chen      | 2           | Clear and concise explanation | Lacks real-world examples,Good for beginners,Too shallow             |
-    | 3       | Michael Wong    | 7           | In-depth analysis             | Missing practical cases,Structured content,Requires prior knowledge  |
-    | 3       | Nicole Patel    | 10          | Well-structured content       | Comprehensive resource,Needs more practical insights,Good references |
+    | document_title | document_id | username        | page_number | my_notes                                           | notes                                                                |
+    | Clean Code     | 1           | Alice Johnson   | 1           | Don't forget these concepts,This part was useful   | Important introduction,Explained well,Not relevant                   |
+    | Clean Code     | 1           | David Smith     | 2           | Interesting examples here,Helpful for projects     | Remember for future projects,Skipped this part,Interesting           |
+    | Clean Code     | 1           | Emily Brown     | 10          | Insightful example,Needs more context              | Important concept,Useful code snippet,Needs more context             |
+    | OOP Design     | 2           | Alex Carter     | 3           | Practical exercise,Clear explanation               | Missing explanation,Well-structured,Too simple                       |
+    | OOP Design     | 2           | Sarah Miller    | 8           | Comprehensive explanation,This part was very clear | Unclear terminology,Great diagram,Advanced content                   |
+    | OOP Design     | 2           | Robert Lee      | 12          | Step-by-step guide,Pretty repetitive               | Repetitive content,Valuable insights,Not necessary                   |
+    | ML Algorithms  | 3           | Julia Chen      | 2           | Clear and concise explanation,Needs more examples  | Lacks real-world examples,Good for beginners,Too shallow             |
+    | ML Algorithms  | 3           | Michael Wong    | 7           | In-depth analysis,Practical examples               | Missing practical cases,Structured content,Requires prior knowledge  |
+    | ML Algorithms  | 3           | Nicole Patel    | 10          | Well-structured content,In-depth analysis          | Comprehensive resource,Needs more practical insights,Good references |
