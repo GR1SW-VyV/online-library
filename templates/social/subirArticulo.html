@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Agrega los estilos de Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <style>
+        /* Estilo para el contenedor principal */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* Estilo para el contenedor superior */
+        .top-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 80%;
+            max-width: 400px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+
+        /* Estilo para la imagen en el contenedor superior */
+        .image {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        /* Estilo para los campos de entrada en el contenedor superior */
+        .input-container {
+            width: 100%;
+        }
+
+        .input-field {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 5px;
+        }
+
+        /* Estilo para el contenedor inferior */
+        .bottom-container {
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        /* Estilo para el botón "Seleccionar archivo" */
+        .file-label {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .file-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 10px; /* Espacio agregado debajo del botón "Elegir archivo" */
+        }
+
+        /* Estilo para los botones de guardar y cancelar */
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .save-button,
+        .cancel-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .save-button {
+            background-color: #28a745;
+            color: #fff;
+            margin-right: 5px;
+        }
+
+        .cancel-button {
+            background-color: #dc3545;
+            color: #fff;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Contenedor superior -->
+    <div class="top-container">
+        <!-- Imagen -->
+        <img class="image img-fluid" src="https://th.bing.com/th/id/R.50ce2cd13ed2e7a732c57abe7ab19cf0?rik=7SUFzI9KU6IMOQ&riu=http%3a%2f%2f3.bp.blogspot.com%2f-ll15GKfuAfU%2fUD_QRuRT3SI%2fAAAAAAAAi-w%2f_VQ08qSDwAE%2fs1600%2fLibros-Viejos-Apilados_Imagenes-de-Libros.jpg&ehk=ITajz1yk%2bQeZz6zZHmcxf5Xbt89WsaenbI3pTQzlkcw%3d&risl=&pid=ImgRaw&r=0" alt="Imagen del libro">
+        <!-- Campos de entrada -->
+        <div class="input-container">
+            <input class="input-field form-control" type="text" placeholder="Título">
+
+            <!-- Campo de selección de materia/temática -->
+            <select class="input-field form-control" name="materia_tematica">
+                <option value="UNKNOWN">Seleccione la materia</option>
+                <option value="MATH">Matemáticas</option>
+                <option value="PHYSICS">Física</option>
+                <option value="CALCULUS">Cálculo</option>
+                <option value="PROGRAMMING">Programación</option>
+                <option value="LITERATURE">Literatura</option>
+                <option value="ECONOMY">Economía</option>
+                <option value="GEOMETRY">Geometría</option>
+                <option value="CHEMISTRY">Química</option>
+            </select>
+
+            <!-- Campo de selección de tipo (Libro/Artículo) -->
+            <select class="input-field form-control" name="tipo">
+                <option value="BOOK">Libro</option>
+                <option value="ARTICLE">Artículo</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Contenedor inferior -->
+    <div class="bottom-container">
+        <label class="file-label" for="fileInput">Files</label>
+        <input class="file-button" type="file" id="fileInput" accept=".pdf, .doc, .docx, .txt">
+        <!-- Botones de guardar y cancelar -->
+
+        <div class="button-container">
+
+            <button class="save-button">Guardar</button>
+            <button class="cancel-button">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Agrega los scripts de Bootstrap JavaScript al final del cuerpo del documento -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Script para manejar el almacenamiento local del archivo seleccionado -->
+<script>
+    document.getElementById('fileInput').addEventListener('change', function (event) {
+        const selectedFile = event.target.files[0];
+        if (selectedFile) {
+            // Almacena el archivo seleccionado en el almacenamiento local del navegador
+            localStorage.setItem('selectedFile', JSON.stringify(selectedFile));
+        }
+    });
+</script>
+</body>
+</html>
