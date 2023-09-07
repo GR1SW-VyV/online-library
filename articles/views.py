@@ -14,7 +14,7 @@ from articles.models import Document
 # Create your views here.
 
 def serve_document(request, file_path: str):
-    return FileResponse(open(f"articles{file_path}", 'rb'))
+    return FileResponse(open(f"{file_path}", 'rb'))
 
 @csrf_exempt
 def show_upload_document(request:HttpRequest):

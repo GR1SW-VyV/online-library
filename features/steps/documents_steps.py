@@ -43,7 +43,14 @@ def the_article_must_be_on_subject_path(context, subject_path):
     :type context: behave.runner.Context
     :type subject_path: str
     """
-    assert os.path.isfile(subject_path)
+    prefix, suffix = subject_path.split("*")
+    print(prefix,suffix)
+    for d in filter(lambda _d: os.path.isdir(f"{prefix}{_d}"), os.listdir(prefix)):
+        print(f"{d}{suffix}")
+        if os.path.isfile(f"{prefix}{d}{suffix}"):
+            assert True
+            return
+    assert False
 
 
 @then("{message} will be displayed")
@@ -272,3 +279,16 @@ def step_impl(context, document_alias,pdf_file):
 
     context.collision = document.find_colliding_document(f"tmp/{pdf_file}")
 
+
+@when("I request the article url")
+def step_impl(context):
+    context.url = context.document[''].url()
+
+
+@then("the file is available through http/s")
+def step_impl(context):
+    from django.test import RequestFactory
+    request_factory = RequestFactory()
+    my_request = request_factory.get(context.url)
+    response = views.serve_document(my_request,context.url[1:])
+    assert response.status_code == 200

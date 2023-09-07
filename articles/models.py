@@ -65,10 +65,10 @@ class Document(models.Model):
         self.save()
 
     def local_path(self) -> str:
-        return f"articles/resources/{self.category.capitalize()}Resources/{self.filename}"
+        return f"articles/resources/{self.category.capitalize()}Resources/{self.sha512}/{self.filename}"
 
     def url(self) -> str:
-        return f"/articles/resources/{self.category}/{self.filename}"
+        return f"/articles/resources/{self.category}Resources/{self.sha512}/{self.filename}"
 
     def add_score(self, user_id, score):
         old_score = Score.objects.filter(user=user_id,document=self).first()
@@ -97,12 +97,12 @@ class Document(models.Model):
     @staticmethod
     def from_local_path(path: str, /, author=None, category=Category.UNKNOWN, **kwargs) -> Document:
         category_str = str(category).capitalize()
-        os.makedirs(f'./articles/resources/{category_str}Resources', exist_ok=True)
-        shutil.copy(path, f'./articles/resources/{category_str}Resources/')
-
-
         file = open(path, "rb")
         sha512 = hashlib.sha512(file.read()).hexdigest()
+
+        os.makedirs(f'./articles/resources/{category_str}Resources/{sha512}', exist_ok=True)
+        shutil.copy(path, f'./articles/resources/{category_str}Resources/{sha512}')
+
         filename = path.split("/")[-1]
 
         document = Document(
