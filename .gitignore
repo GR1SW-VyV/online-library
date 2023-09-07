@@ -12,27 +12,6 @@ media
 # If you are using PyCharm # 
 # User-specific stuff
 .idea/
-.idea/misc.xml
-.idea/onlinelibrary.iml
-
-# AWS User-specific
-.idea/**/aws.xml
-
-# Generated files
-.idea/**/contentModel.xml
-
-# Sensitive or high-churn files
-.idea/**/dataSources/
-.idea/**/dataSources.ids
-.idea/**/dataSources.local.xml
-.idea/**/sqlDataSources.xml
-.idea/**/dynamic.xml
-.idea/**/uiDesigner.xml
-.idea/**/dbnavigator.xml
-
-# Gradle
-.idea/**/gradle.xml
-.idea/**/libraries
 
 # File-based project format
 *.iws
@@ -133,3 +112,13 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+
+pyvenv.cfg
+lib64
+bin
+.idea
+.idea/**
+include
+Scripts
+pyvenv.cfg
+*/migrations
