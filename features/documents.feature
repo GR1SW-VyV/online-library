@@ -2,6 +2,17 @@
 Feature: Upload public articles
   As a teacher I want to be able to upload public articles to supplement reading on certain topics.
 
+    Scenario Outline: Suggest author for autocomplete
+    Given the text "<author_prefix>"
+    And a default repertoire of Authors
+    When lookup for an author
+    Then it must return <array> as potential authors
+    Examples:
+      | author_prefix | array                                                |
+      | B             |["Baldor Aurelio", "Balaca Ricardo", "Berro Adolfo"]  |
+      | Ba            |["Baldor Aurelio", "Balaca Ricardo"]                  |
+      | Be            |["Berro Adolfo"]                                      |
+
   Scenario Outline: Upload articles
     Given <local_path> on the disk
     When I upload the article as <subject>
@@ -37,34 +48,25 @@ Feature: Upload public articles
       |    features/resources/articles/physicsArticle.pdf    |features/resources/articles/mathArticle.pdf    | Arirmetica de Baldor | Aurelio Baldor | Math    | no       |
       |    features/resources/articles/physicsArticle.pdf |features/resources/articles/physicsArticle.pdf | Fisica Cuantica      | Max Planck     | Physics | a        |
 
-  Scenario Outline: Suggest author for autocomplete
-    Given the text "<author_prefix>"
-    And a default repertoire of Authors
-    When lookup for an author
-    Then it must return <array> as potential authors
-    Examples:
-      | author_prefix | array                                                |
-      | B             |["Baldor Aurelio", "Balaca Ricardo", "Berro Adolfo"]  |
-      | Ba            |["Baldor Aurelio", "Balaca Ricardo"]                  |
-      | Be            |["Berro Adolfo"]                                      |
+
 
   Scenario: Scoring of an unrated document
     Given  title, author, Math
     And features/resources/articles/physicsArticle.pdf on the disk has been uploaded
     Then the final score must be 0
 
-  Scenario Outline: Scoring
+  Scenario Outline: Average book score
     Given  title, author, Math
     And features/resources/articles/physicsArticle.pdf on the disk has been uploaded
-    When <user_a> scores the document a <score_a>
-    And <user_b> scores the document a <score_b>
-    Then the final score must be <final_score>
+    And 1 scores the document a <score_a>
+    When 2 scores the document a <score_b>
+    Then  the final score must be <book_score>
     Examples:
-    | user_a  | score_a | user_b  | score_b | final_score|
-    |  1      |  2      |  3      |   4     | 3.0        |
-    |  1      |  1      |  3      |   3     | 2.0        |
-    |  1      |  2      |  1      |   4     | 4.0        |
-    |  2      |  2      |  1      |   -1    | 0.5        |
+    | score_a | score_b | book_score|
+    |  2      |   4     | 3         |
+    |  1      |   3     | 2         |
+    |  2      |   4     | 3         |
+    |  2      |   -1    | 0.5       |
 
   Scenario Outline: Individual scoring per book
     Given  title, author, Math
