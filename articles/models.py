@@ -1,3 +1,4 @@
+import os
 import shutil
 
 from django.db.models import Avg
@@ -76,6 +77,19 @@ class Document(models.Model):
         file = open(local_path, "rb")
         sha512 = hashlib.sha512(file.read()).hexdigest()
         return Document.objects.filter(sha512=sha512).first()
+
+    @staticmethod
+    def from_local_path(path: str, /, author="", title="", category=Category.UNKNOWN, **kwargs) -> Document:
+        category_str = str(category).capitalize()
+        os.makedirs(f'./articles/resources/{category_str}Resources', exist_ok=True)
+        shutil.copy(path, f'./articles/resources/{category_str}Resources/')
+
+        file = open(path, "rb")
+        sha512 = hashlib.sha512(file.read()).hexdigest()
+        filename = path.split("/")[-1]
+
+        return Document(filename=filename, sha512=sha512, **kwargs)
+
 
 class Score(models.Model):
     id = models.AutoField(primary_key=True)
