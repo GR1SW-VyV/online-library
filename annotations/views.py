@@ -14,5 +14,12 @@ def mynotes(request):
 def book_user_notes(request, document_id):
     # user_profile = User.objects.get(id=request.user.id)
     document = Document.objects.get(uid=document_id)
+    # TODO: Implementar el siguiente metodo de forma dinamica
+    note = NoteDAO.get_notes_by_page(1, 1, 2);
     # notes = NoteDAO.get_all_notes_of_document(user_profile.id, document_id)
-    return render(request, '../templates/annotations/my-notes.html', {'document': document})
+    return render(request, '../templates/annotations/my-notes.html',
+                  {
+                      'document': document,
+                      'notes': note
+                  }
+                  )
