@@ -25,8 +25,7 @@ class User(Observer, Observable, AbstractUser):
         activity.save()
         self.add_activity(activity)
 
-    def create_collection(self, collection):
-        # TODO: create collection
+    def log_collection_creation(self, collection):
         activity = self.create_user_activity("created a new collection", collection)
         activity.save()
         self.add_activity(activity)
