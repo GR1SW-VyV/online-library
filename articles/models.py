@@ -47,14 +47,15 @@ class Document(models.Model):
     )
     author = models.ManyToManyField(Author)
     view_count = models.IntegerField(null=False, default=0)
-    collections = models.ManyToManyField("bookcollections.Collection", related_name='books')
+    collections = models.ManyToManyField('bookcollections.Collection', related_name='books')
 
     def increase_view_count(self, count=1):
         self.view_count += 1
         self.save()
 
     def url(self) -> str:
-        return f"/articles/resources/{self.category}/{self.filename}"
+        category_str = str(self.category).capitalize()
+        return f"/static/articles/resources/{category_str}Resources/{self.filename}"
 
     def add_score(self, user_id, score):
         old_score = Score.objects.filter(user=user_id).first()
