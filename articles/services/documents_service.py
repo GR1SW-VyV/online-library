@@ -16,8 +16,8 @@ def from_local_path(path:str, /, author="", title="", category=Category.UNKNOWN,
 
     print(kwargs)
 
-    filename = path.split("\\")[-1]
+    filename = path.split("\\")[-1].split("/")[-1]
     document = Document(filename=filename, sha512=sha512, **kwargs, title=title, category=category)
     document.save()
-    document.author.add(author)
+    #document.author.add(author)
     return document

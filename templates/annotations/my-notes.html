@@ -37,6 +37,7 @@
 <div class="container-fluid">
     <div class="row">
         <h1 class="px-3 my-0">{{ document.title }}</h1>
+        <h2>{{ user.username }}</h2>
     </div>
 
     <div class="row pt-2">
@@ -82,7 +83,7 @@
             <div class="row border border-primary border-2 ">
                 <div class="mb-1 px-2 pt-2">
                     <label for="anotation" class="form-label">Nueva anotación</label>
-                    <form method="post" >
+                    <form method="post" id="note_form">
                         {% csrf_token %}
                         <textarea class="form-control" id="anotation" rows="3"></textarea>
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end py-2">
@@ -94,7 +95,7 @@
             </div>
 
             <!--anotaciones-->
-            <div class="row scroll-container  px-2 pt-2 border border-right-0 border-top-0 border-left-0 border-primary border-2">
+            <div id="notes_container" class="row scroll-container  px-2 pt-2 border border-right-0 border-top-0 border-left-0 border-primary border-2">
 
                 <div class="card mb-2 px-0 ">
                     {% for note in notes %}

@@ -108,7 +108,7 @@ def the_file_is_available_at_subject_path_through_http_s(context, subject_path: 
     from django.test import RequestFactory
     request_factory = RequestFactory()
     my_request = request_factory.get(subject_path)
-    response = views.serve_document(my_request, subject_path.lstrip("articles"))
+    response = views.serve_document(my_request, subject_path)
     assert response.status_code == 200
 
 
