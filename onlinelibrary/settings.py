@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'behave_django',
     'polymorphic',
     'articles',
-    'bookcollections'
+    'bookcollections',
+    'visualization'
 ]
 
 MIDDLEWARE = [
