@@ -1,9 +1,9 @@
 from behave import *
 from faker import Faker
-from annotations.testmodels.note import Note
-from annotations.testmodels.user import User
-from annotations.testmodels.document import Document
-from annotations.testmodels.generalnote import GeneralNote
+from annotations.testmodels.note import Note as TestNote
+from annotations.testmodels.user import User as TestUser
+from annotations.testmodels.document import Document as TestDocument
+from annotations.testmodels.generalnote import GeneralNote as TestGneralNote
 
 from annotations.models import Note, NoteDAO
 from social.models import User
@@ -14,13 +14,13 @@ use_step_matcher("re")
 
 @given('I am reading a document about "Lean Software Development"')
 def step_impl(context):
-    context.document = Document("Lean Software Development", 3)
-    context.user = User(3)
+    context.document = TestDocument("Lean Software Development", 3)
+    context.user = TestUser(3)
 
 
 @when('I add a note with the text "Tomar en cuenta estos principios" in the page 10')
 def step_impl(context):
-    context.note = Note(1, "Tomar en cuenta estos principios", 10, 3, 3)
+    context.note = TestNote(1, "Tomar en cuenta estos principios", 10, 3, 3)
     context.document.add_notePage(context.note)
 
 
@@ -31,13 +31,13 @@ def step_impl(context):
 
 @given('I am seeing the document information about "Ensayo sobre la ceguera"')
 def step_impl(context):
-    context.document = Document("Ensayo sobre la ceguera", 2)
-    context.user = User(2)
+    context.document = TestDocument("Ensayo sobre la ceguera", 2)
+    context.user = TestUser(2)
 
 
 @when('I add an note with the text "Que interesante libro"')
 def step_impl(context):
-    context.generalNote = GeneralNote("Que interesante libro", 2, 2)
+    context.generalNote = TestGneralNote("Que interesante libro", 2, 2)
     context.document.add_generalNote(context.generalNote)
 
 
