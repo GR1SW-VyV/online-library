@@ -34,7 +34,7 @@ def i_upload_the_article_subject(context, subject):
     :type context: behave.runner.Context
     :type subject: str
     """
-    context.document = documents_service.from_local_path(context.pdf_path, category=subject)
+    context.document[""] = documents_service.from_local_path(context.pdf_path, category=subject)
 
 
 @then("the article must be on {subject_path}")
@@ -43,7 +43,6 @@ def the_article_must_be_on_subject_path(context, subject_path):
     :type context: behave.runner.Context
     :type subject_path: str
     """
-    print(os.path.realpath(subject_path))
     assert os.path.isfile(subject_path)
 
 
@@ -227,7 +226,6 @@ def step_impl(context, arg0):
 def given_a_pdf_file_on_disk(context, filename):
     path = f"tmp/{filename}"
     context.pdf_path = f"tmp/{filename}"
-    print(path)
     if not os.path.isfile(path):
         os.makedirs(os.path.dirname(path), exist_ok=True)
         import random
@@ -256,11 +254,11 @@ def x_scores_document_y_a_z(context, arg0, arg1, arg2):
 
 @given("a document {document_alias}")
 def given_a_document(context, document_alias):
-    given_a_pdf_file_on_disk(context, document_alias)
-    doc = documents_service.from_local_path(
+    given_a_pdf_file_on_disk(context, f"{document_alias}.pdf")
+    doc = Document.from_local_path(
         f"tmp/{document_alias}.pdf",
         title=context.fake.address(),
-        author=context.fake.name(),
+        author="test_"+context.fake.name(),
         category=context.fake.category(),
         type=context.fake.document_type()
     )

@@ -1,5 +1,6 @@
 # Created by thoma at 23/8/2023
 @documents_setup
+#@documents_purge
 Feature: Upload public articles
   As a teacher I want to be able to upload public articles to supplement reading on certain topics.
 
@@ -30,9 +31,9 @@ Feature: Upload public articles
     Then the file is available at <subject_path> through http/s
 
     Examples:
-      |pdf_name       |  subject | subject_path                                           |
-      |mathArticle    |  Math    | articles/resources/MathResources/mathArticle.pdf       |
-      |physicsArticle |  Physics | articles/resources/PhysicsResources/physicsArticle.pdf |
+      |pdf_name           |  subject | subject_path                                           |
+      |mathArticle.pdf    |  Math    | articles/resources/MathResources/mathArticle.pdf       |
+      |physicsArticle.pdf |  Physics | articles/resources/PhysicsResources/physicsArticle.pdf |
 
   @fake_data
   Scenario Outline: Avoid duplicate by hash collision
