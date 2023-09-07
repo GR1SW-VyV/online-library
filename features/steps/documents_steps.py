@@ -44,9 +44,7 @@ def the_article_must_be_on_subject_path(context, subject_path):
     :type subject_path: str
     """
     prefix, suffix = subject_path.split("*")
-    print(prefix,suffix)
     for d in filter(lambda _d: os.path.isdir(f"{prefix}{_d}"), os.listdir(prefix)):
-        print(f"{d}{suffix}")
         if os.path.isfile(f"{prefix}{d}{suffix}"):
             assert True
             return
