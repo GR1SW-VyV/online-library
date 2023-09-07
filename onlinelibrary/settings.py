@@ -39,9 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'social',
     'behave_django',
-    'polymorphic',
-    'articles',
-    'bookcollections'
+    'polymorphic'
 ]
 
 MIDDLEWARE = [
