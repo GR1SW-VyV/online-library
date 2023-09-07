@@ -171,6 +171,7 @@ class CollectionDAO:
             user=user,
         )
         collection.save()
+        user.log_collection_creation(collection)
         return collection
 
     @classmethod
