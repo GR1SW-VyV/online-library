@@ -7,7 +7,8 @@ Feature: Display notes
   Scenario Outline: General notes
     Given I have the document <document_title> with the id <document_id>
     And I am logged in with my username <username>
-    And there are notes added by me and other users
+    And there are my personal general notes <my_general_notes> added by me
+    And there are general notes <general_notes> added by other users
     When I want to compare my notes with those of other users
     Then it should display my personal general notes <my_general_notes> ordered
     And the general notes <general_notes> from other users ordered.
@@ -26,7 +27,8 @@ Feature: Display notes
   Scenario Outline: Page notes
     Given I have the document <document_title> with the id <document_id>
     And I am logged in with my username <username>
-    And there are notes added by me and other users in the page <page_number>
+    And there are notes <my_notes> added by me in the page <page_number>
+    And there are notes <notes> added by other users in the page <page_number>
     When I want to compare my notes with those of other users in the page <page_number>
     Then it should display my personal notes <my_notes> ordered
     And the notes <notes> from other users ordered.
