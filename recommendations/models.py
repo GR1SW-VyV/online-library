@@ -1,33 +1,31 @@
 from django.db import models
 from collections import defaultdict
 
-
+import articles.models
+import bookcollections.models
+from articles import models
+from bookcollections import models
+from social.models import User
 # Create your models here.
-class MockDocuments(models.Model):
-    name = models.CharField(max_length=250)
-    category = models.CharField(max_length=250)
-    view_count = models.IntegerField(null=False, default=0)
 
 
-class MockCollections(models.Model):
-    files = models.ManyToManyField('MockDocuments')
 
+class RecommendationEngine:
 
-class MockUser(models.Model):
-    preferences = models.JSONField(default=dict)  # {categoria: numeor}
-    collections = models.ManyToManyField('MockCollections')  # colecciones de cada usuario
+    def __init__(self, user):
+        self.user = user
 
     def has_collections(self):
-        return self.collections.exists()
+        return bookcollections.models.Collection.objects.filter(user=self.user).exists()
 
     def recollect_preferences(self):
         # Inicializar un diccionario para realizar un seguimiento de las categorías y su recuento.
         category_count = defaultdict(int)
 
         # Recorrer todas las colecciones del usuario.
-        for collection in self.collections.all():
+        for collection in bookcollections.models.CollectionDAO.get_all_by_user(self.user.id).all():
             # Recorrer los documentos dentro de cada colección.
-            for document in collection.files.all():
+            for document in articles.models.Document.objects.filter(collections=collection):
                 # Obtener la categoría del documento.
                 category = document.category
 
@@ -37,14 +35,14 @@ class MockUser(models.Model):
         # Actualizar las preferencias del usuario según el recuento de categorías.
         for category, count in category_count.items():
             # Si la categoría ya existe en las preferencias, aumenta su valor.
-            if category in self.preferences:
-                self.preferences[category] += count
+            if category in self.user.preferences:
+                self.user.preferences[category] += count
             # Si la categoría es nueva, agrégala con un valor de 1.
             else:
-                self.preferences[category] = 1
+                self.user.preferences[category] = 1
 
         # Guardar las preferencias actualizadas en la base de datos.
-        self.save()
+        self.user.save()
 
     def recive_preferences(self, *preferences):
         # Inicializar un diccionario para realizar un seguimiento de las categorías y su recuento.
@@ -56,21 +54,21 @@ class MockUser(models.Model):
         #actualizar las preferencias del usuario segun las preferencias
         for category, count in preferences_count.items():
             # Si la categoría ya existe en las preferencias, aumenta su valor.
-            if category in self.preferences:
-                self.preferences[category] += count
+            if category in self.user.preferences:
+                self.user.preferences[category] += count
             # Si la categoría es nueva, agrégala con un valor de 1.
             else:
-                self.preferences[category] = 1
+                self.user.preferences[category] = 1
 
         # Guardar las preferencias actualizadas en la base de datos.
-        self.save()
+        self.user.save()
 
     def get_top_categories(self):
         # Generar las categorías por las colecciones
         self.recollect_preferences()
 
         # Ordenar el diccionario preferences por sus valores en orden descendente.
-        sorted_preferences = sorted(self.preferences.items(), key=lambda item: item[1], reverse=True)
+        sorted_preferences = sorted(self.user.preferences.items(), key=lambda item: item[1], reverse=True)
 
         # Tomar las tres primeras claves con los valores más altos, si existen.
         top_categories = [item[0] for item in sorted_preferences[:3]]
@@ -91,7 +89,7 @@ class MockUser(models.Model):
         # Iterar a través de las categorías proporcionadas.
         for category in categories:
             # Filtrar los documentos por categoría y ordenar por vista en orden descendente.
-            top_documents = MockDocuments.objects.filter(category=category).order_by('-view_count')[:4]
+            top_documents = articles.models.Document.objects.filter(category=category).order_by('-view_count')[:4]
 
             # Agregar los documentos principales al diccionario.
             top_documents_by_category[category] = top_documents

@@ -7,6 +7,7 @@ from social.models.user_manager import UserManager
 
 
 class User(Observer, Observable, AbstractUser):
+    preferences = models.JSONField(default=dict)
     feed = models.ManyToManyField('Activity')
     followers = models.ManyToManyField('User', symmetrical=False, blank=True, related_name='user_following')
     objects = UserManager()

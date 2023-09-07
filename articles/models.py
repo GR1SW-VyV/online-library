@@ -3,7 +3,6 @@ import shutil
 from django.db.models import Avg
 import hashlib
 from django.utils.translation import gettext_lazy as _
-from bookcollections.models import Collection
 from django.db import models
 from .choices.category import Category
 
@@ -48,7 +47,7 @@ class Document(models.Model):
     )
     author = models.ManyToManyField(Author)
     view_count = models.IntegerField(null=False, default=0)
-    collections = models.ManyToManyField(Collection, related_name='books')
+    collections = models.ManyToManyField("bookcollections.Collection", related_name='books')
 
     def increase_view_count(self, count=1):
         self.view_count += 1
