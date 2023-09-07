@@ -288,5 +288,5 @@ def step_impl(context):
     from django.test import RequestFactory
     request_factory = RequestFactory()
     my_request = request_factory.get(context.url)
-    response = views.serve_document(my_request,context.url[1:])
+    response = views.serve_document(my_request,context.url.lstrip("/articles/resources/"))
     assert response.status_code == 200
