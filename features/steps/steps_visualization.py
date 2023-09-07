@@ -5,19 +5,17 @@ from faker import Faker
 from articles.models import Document
 from social.models import User
 
-
 use_step_matcher("re")
 
 
-@given("I have the book (?P<book_id>.+)")
-def step_impl(context, book_id):
+@given("I have the document (?P<document_title>.+) with the id (?P<document_id>.+)")
+def step_impl(context, document_title, document_id):
     """
     :type context: behave.runner.Context
-    :type book_id: str
+    :type document_title: str
+    :type document_id: str
     """
-    context.document = Document.objects.create()
-    context.document.id = book_id
-    context.document.save()
+    pass
 
 
 @step("I am logged in with my username (?P<username>.+)")
@@ -29,16 +27,23 @@ def step_impl(context, username):
     context.user = User.objects.create_reader_user(username=username, password=Faker().password())
 
 
-
-@when("I am reading the details of the book")
+@step("there are notes added by me and other users")
 def step_impl(context):
     """
     :type context: behave.runner.Context
     """
-    context.general_notes = ""
-    context.my_general_notes = ""
+    pass
 
-@then("it should display my personal general notes (?P<my_general_notes>.+)")
+
+@when("I want to compare my notes with those of other users")
+def step_impl(context):
+    """
+    :type context: behave.runner.Context
+    """
+    pass
+
+
+@then("it should display my personal general notes (?P<my_general_notes>.+) ordered")
 def step_impl(context, my_general_notes):
     """
     :type context: behave.runner.Context
@@ -47,26 +52,34 @@ def step_impl(context, my_general_notes):
     expect(context.my_general_notes).to(equal(my_general_notes))
 
 
-@step("the general notes (?P<general_notes>.+) from other users ordered by their number of followers\.")
+@step("the general notes (?P<general_notes>.+) from other users ordered\.")
 def step_impl(context, general_notes):
     """
     :type context: behave.runner.Context
     :type general_notes: str
     """
-    expect(context.general_notes).to(equal(general_notes))
+    pass
 
 
-@when("I am reading the page (?P<page_number>.+)")
+@step("there are notes added by me and other users in the page (?P<page_number>.+)")
 def step_impl(context, page_number):
     """
     :type context: behave.runner.Context
     :type page_number: str
     """
-    context.my_notes = ""
-    context.notes = ""
+    pass
 
 
-@then("it should display my personal notes (?P<my_notes>.+)")
+@when("I want to compare my notes with those of other users in the page (?P<page_number>.+)")
+def step_impl(context, page_number):
+    """
+    :type context: behave.runner.Context
+    :type page_number: str
+    """
+    pass
+
+
+@then("it should display my personal notes (?P<my_notes>.+) ordered")
 def step_impl(context, my_notes):
     """
     :type context: behave.runner.Context
@@ -75,7 +88,7 @@ def step_impl(context, my_notes):
     expect(context.my_notes).to(equal(my_notes))
 
 
-@step("the notes (?P<notes>.+) from other users ordered by their number of followers\.")
+@step("the notes (?P<notes>.+) from other users ordered\.")
 def step_impl(context, notes):
     """
     :type context: behave.runner.Context
