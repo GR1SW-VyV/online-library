@@ -3,9 +3,10 @@ import datetime
 import faker
 from behave import *
 from social.models import User
+from bookcollections.models import Collection
 from articles.models import Document
 from social.models import CollectionActivity, UserActivity
-from bookcollections.models import CollectionDAO, Collection
+from bookcollections.models import CollectionDAO
 from faker import Faker
 
 use_step_matcher("re")
