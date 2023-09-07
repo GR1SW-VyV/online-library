@@ -122,3 +122,5 @@ include
 Scripts
 pyvenv.cfg
 */migrations
+articles/resources
+tmp
