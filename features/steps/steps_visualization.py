@@ -93,16 +93,6 @@ def step_impl(context, general_notes):
     expect(context.general_notes).to(equal(general_notes))
 
 
-@step("there are notes (?P<notes>.+) added by other users in the page (?P<page_number>.+)")
-def step_impl(context, notes, page_number):
-    """
-    :type context: behave.runner.Context
-    :type notes: str
-    :type page_number: str
-    """
-    raise NotImplementedError(u'STEP: And there are notes <notes> added by other users in the page <page_number>')
-
-
 @step("there are notes (?P<my_notes>.+) added by me in the page (?P<page_number>.+)")
 def step_impl(context, my_notes, page_number):
     """
@@ -110,7 +100,35 @@ def step_impl(context, my_notes, page_number):
     :type my_notes: str
     :type page_number: str
     """
-    raise NotImplementedError(u'STEP: And there are notes <my_notes> added by me in the page <page_number>')
+    for note in my_notes.split(","):
+        context.my_note = PageNote.objects.create()
+        context.my_note.content = note
+        context.my_note.date = datetime.now().date
+        context.my_note.user = context.user
+        context.my_note.page = page_number
+        context.my_note.document = context.document
+        context.my_note.save()
+
+
+@step("there are notes (?P<notes>.+) added by other users in the page (?P<page_number>.+)")
+def step_impl(context, notes, page_number):
+    """
+    :type context: behave.runner.Context
+    :type notes: str
+    :type page_number: str
+    """
+    context.user_random = User.objects.create_reader_user(username=Faker().name(), password=Faker().password())
+    context.user_random.follow(context.user)
+    context.user.add_follower(context.user_random)
+
+    for note in notes.split(","):
+        context.note = PageNote.objects.create()
+        context.note.content = note
+        context.note.date = datetime.now().date
+        context.note.user = context.user_random
+        context.note.page = page_number
+        context.note.document = context.document
+        context.note.save()
 
 
 @when("I want to compare my notes with those of other users in the page (?P<page_number>.+)")
@@ -119,7 +137,8 @@ def step_impl(context, page_number):
     :type context: behave.runner.Context
     :type page_number: str
     """
-    pass
+    context.my_notes = PageNoteDAO.get_personal_page_notes(context.user.username, context.document.id, page_number)
+    context.notes = PageNoteDAO.get_page_notes(context.user.username, context.document.id, page_number)
 
 
 @then("it should display my personal notes (?P<my_notes>.+) ordered")
