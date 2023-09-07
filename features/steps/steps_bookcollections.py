@@ -18,12 +18,15 @@ def fake_book_dependencies(book_name, book_score):
         return book
 
 
-@given("the collection's name: (?P<name>.+), a description and type of privacy: (?P<is_private>.+)")
+@given(
+    "the collection's name: (?P<name>.+), "
+    "a description and type of privacy: (?P<is_private>.+)"
+)
 def step_impl(context, name, is_private):
     """
-        :type context: behave.runner.Context
-        :type name: str
-        :type is_private: bool
+    :type context: behave.runner.Context
+    :type name: str
+    :type is_private: bool
     """
     user = User.objects.create_user(username="user1")
     user.save()
@@ -79,8 +82,8 @@ def step_impl(context):
     :type context: behave.runner.Context
     """
     assert (
-            context.collection_object.books.filter(title=context.input_book_name).first()
-            == context.book
+        context.collection_object.books.filter(title=context.input_book_name).first()
+        == context.book
     )
 
 
@@ -97,7 +100,7 @@ def step_impl(context, collection_score):
 @given("the collection with two books")
 def step_impl(context):
     """
-        :type context: behave.runner.Context
+    :type context: behave.runner.Context
     """
     user = User.objects.create_user(username="user2")
     user.save()
@@ -111,7 +114,8 @@ def step_impl(context):
     context.input_book_1 = fake.catch_phrase()
     context.input_book_2 = fake.catch_phrase()
 
-@step("their respectives points: (?P<book_score_1>.+), (?P<book_score_2>.+)")
+
+@step("their respective points: (?P<book_score_1>.+), (?P<book_score_2>.+)")
 def step_impl(context, book_score_1, book_score_2):
     """
     :type context: behave.runner.Context
@@ -122,34 +126,32 @@ def step_impl(context, book_score_1, book_score_2):
     context.input_score_2 = float(book_score_2)
 
     context.book_1 = fake_book_dependencies(
-        context.input_book_1,
-        context.input_score_1)
+        context.input_book_1, context.input_score_1)
     context.book_2 = fake_book_dependencies(
-        context.input_book_2,
-        context.input_score_2)
+        context.input_book_2, context.input_score_2)
 
-    CollectionDAO.add_book_with_name(context.collection_name, context.input_book_1)
-    CollectionDAO.add_book_with_name(context.collection_name, context.input_book_2)
+    CollectionDAO.add_book_with_name(
+        context.collection_name, context.input_book_1)
+    CollectionDAO.add_book_with_name(
+        context.collection_name, context.input_book_2)
 
 
 @step("the user want to add a new book with (?P<book_score_3>.+) points")
 def step_impl(context, book_score_3):
     """
-        :type context: behave.runner.Context
-        :type book_score_3: str
-        """
+    :type context: behave.runner.Context
+    :type book_score_3: str
+    """
     context.input_book_3 = fake.catch_phrase()
     context.input_score_3 = float(book_score_3)
     context.book_3 = fake_book_dependencies(
-        context.input_book_3,
-        context.input_score_3
-    )
+        context.input_book_3, context.input_score_3)
 
 
 @when("the user adds the book")
 def step_impl(context):
     """
-        :type context: behave.runner.Context
+    :type context: behave.runner.Context
     """
     CollectionDAO.add_book_with_name(context.collection_name, context.input_book_3)
 
