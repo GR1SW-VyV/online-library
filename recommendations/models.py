@@ -80,23 +80,24 @@ class RecommendationEngine:
         return top_categories
 
     def get_recomendations(self):
-        # Select the highest categories
+        # Selecciona las categorías más altas
         categories = self.get_top_categories()
 
-        # Initialize a dictionary to store the main documents by category.
+        # Inicialice un diccionario para almacenar los documentos principales por categoría.
         top_documents_by_category = defaultdict(list)
 
-        # Iterate through the provided categories.
+        # Iterar a través de las categorías proporcionadas.
         for category in categories:
             # Filtrar los documentos por categoría y ordenar por vista en orden descendente.
             top_documents = articles.models.Document.objects.filter(category=category).order_by('-view_count')[:4]
 
-            # Add the main documents to the dictionary.
+            # Añade los documentos principales al diccionario.
             top_documents_by_category[category] = top_documents
 
         return dict(top_documents_by_category)
 
     def recommendation_total(self):
+        # Obtención del total de recomendaciones
         recommendations = self.get_recomendations()
         total = 0
         for x in recommendations.values():
