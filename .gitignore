@@ -122,7 +122,7 @@ include
 Scripts
 pyvenv.cfg
 */migrations
-articles/resources
+static/articles/resources
 tmp
 fullmigration.sh
 fullmigration.bat
