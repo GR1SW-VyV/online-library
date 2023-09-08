@@ -21,20 +21,19 @@ Feature: Upload public articles
     Then the article must be on <subject_path>
 
     Examples:
-      |     pdf_name        |subject  |  subject_path                                        |
-      | mathArticle.pdf     | Math    | articles/resources/MathResources/*/mathArticle.pdf       |
-      | physicsArticle.pdf  | Physics | articles/resources/PhysicsResources/*/physicsArticle.pdf |
+      |     pdf_name        |subject  |  subject_path                                          |
+      | mathArticle.pdf     | Math    | static/articles/resources/MathResources/mathArticle.pdf       |
+      | physicsArticle.pdf  | Physics | static/articles/resources/PhysicsResources/physicsArticle.pdf |
 
   Scenario Outline: Serve file
     Given a pdf file <pdf_name>
     When I upload the article as <subject>
-    When I request the article url
-    Then the file is available through http/s
+    Then the file is available at <subject_path> through http/s
 
     Examples:
-      |pdf_name           |  subject |
-      |mathArticle.pdf    |  Math    |
-      |physicsArticle.pdf |  Physics |
+      |pdf_name           |  subject | subject_path                                           |
+      |mathArticle.pdf    |  Math    | static/articles/resources/MathResources/mathArticle.pdf       |
+      |physicsArticle.pdf |  Physics | static/articles/resources/PhysicsResources/physicsArticle.pdf |
 
   @fake_data
   Scenario Outline: Avoid duplicate by hash collision

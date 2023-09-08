@@ -4,7 +4,6 @@ import shutil
 from django.db.models import Avg
 import hashlib
 from django.utils.translation import gettext_lazy as _
-from bookcollections.models import Collection
 from django.db import models
 from .choices.category import Category
 
@@ -58,17 +57,18 @@ class Document(models.Model):
     )
     author = models.OneToOneField(Author,on_delete=models.DO_NOTHING,null=True)
     view_count = models.IntegerField(null=False, default=0)
-    collections = models.ManyToManyField(Collection, related_name='books')
+    collections = models.ManyToManyField('bookcollections.Collection', related_name='books')
 
     def increase_view_count(self, count=1):
         self.view_count += 1
         self.save()
 
     def local_path(self) -> str:
-        return f"articles/resources/{self.category.capitalize()}Resources/{self.sha512}/{self.filename}"
+        return f"articles/resources/{self.category.capitalize()}Resources/{self.filename}"
 
     def url(self) -> str:
-        return f"/articles/resources/{self.category.capitalize()}Resources/{self.sha512}/{self.filename}"
+        category_str = str(self.category).capitalize()
+        return f"/static/articles/resources/{category_str}Resources/{self.filename}"
 
     def add_score(self, user_id, score):
         old_score = Score.objects.filter(user=user_id,document=self).first()
@@ -97,13 +97,13 @@ class Document(models.Model):
     @staticmethod
     def from_local_path(path: str, /, author=None, category=Category.UNKNOWN, **kwargs) -> Document:
         category_str = str(category).capitalize()
+        os.makedirs(f'/static/articles/resources/{category_str}Resources', exist_ok=True)
+        shutil.copy(path, f'/static/articles/resources/{category_str}Resources/')
+
+
         file = open(path, "rb")
         sha512 = hashlib.sha512(file.read()).hexdigest()
-
-        os.makedirs(f'./articles/resources/{category_str}Resources/{sha512}', exist_ok=True)
-        shutil.copy(path, f'./articles/resources/{category_str}Resources/{sha512}')
-
-        filename = path.split("/")[-1]
+        filename = path.split("/")[-1].split('\\')[-1]
 
         document = Document(
             filename=filename,

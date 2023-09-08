@@ -2,10 +2,9 @@ import hashlib
 import os
 import random
 import time
-from urllib.parse import unquote
 
 from django.http import HttpResponse, FileResponse,HttpRequest
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.template.backends import django
 from django.views.decorators.csrf import csrf_exempt
 
@@ -14,10 +13,8 @@ from articles.models import Document
 
 # Create your views here.
 
-SERVE_CONTEXT = "articles/resources/"
 def serve_document(request, file_path: str):
-    print(unquote(file_path))
-    return FileResponse(open(f"{SERVE_CONTEXT}{unquote(file_path)}", 'rb'))
+    return FileResponse(open(f"{file_path}", 'rb'))
 
 @csrf_exempt
 def show_upload_document(request:HttpRequest):
@@ -37,11 +34,13 @@ def show_upload_document(request:HttpRequest):
         for c in request.FILES["file"].chunks():
             f.write(c)
 
-    d:Document = Document.from_local_path(
+    Document.from_local_path(
         tmp_path,
         title = title,
         category = category,
         type = type
     )
 
-    return redirect(d.url())
+    print(request.FILES["file"])
+
+    return HttpResponse("<h1>Yes</h1>")

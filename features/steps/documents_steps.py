@@ -43,12 +43,7 @@ def the_article_must_be_on_subject_path(context, subject_path):
     :type context: behave.runner.Context
     :type subject_path: str
     """
-    prefix, suffix = subject_path.split("*")
-    for d in filter(lambda _d: os.path.isdir(f"{prefix}{_d}"), os.listdir(prefix)):
-        if os.path.isfile(f"{prefix}{d}{suffix}"):
-            assert True
-            return
-    assert False
+    assert os.path.isfile(subject_path)
 
 
 @then("{message} will be displayed")
@@ -114,7 +109,7 @@ def the_file_is_available_at_subject_path_through_http_s(context, subject_path: 
     from django.test import RequestFactory
     request_factory = RequestFactory()
     my_request = request_factory.get(subject_path)
-    response = views.serve_document(my_request, subject_path.lstrip("articles"))
+    response = views.serve_document(my_request, subject_path.lstrip())
     assert response.status_code == 200
 
 
@@ -276,17 +271,3 @@ def step_impl(context, document_alias,pdf_file):
     document: Document = context.document[document_alias]
 
     context.collision = document.find_colliding_document(f"tmp/{pdf_file}")
-
-
-@when("I request the article url")
-def step_impl(context):
-    context.url = context.document[''].url()
-
-
-@then("the file is available through http/s")
-def step_impl(context):
-    from django.test import RequestFactory
-    request_factory = RequestFactory()
-    my_request = request_factory.get(context.url)
-    response = views.serve_document(my_request,context.url.lstrip("/articles/resources/"))
-    assert response.status_code == 200

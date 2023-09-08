@@ -1,0 +1,70 @@
+<!-- show recommended block-->
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="container mt-4">
+        <h2>RECOMENDACIONES</h2>
+        <p>Aquí tienes algunas recomendaciones basadas en tus gustos:</p>
+    <!-- Recommendations for category-->
+    {% for recommendation in recommendations %}
+    <div class="row mt-3 mb-3">
+        {% if recommendation.category %}
+        <h4>{{ recommendation.category }}:</h4>
+        <!-- Books recommended for category-->
+        {% for book in recommendation.books %}
+        <div class="col-md-3">
+            <a style="text-decoration: none; color: black" href="/annotations/book/{{ book.uid }}">  <!-- Change url to open book content-->
+                <div class="card">
+                    <img src="" alt="coverImage" id="coverImage" data-path="{{ book.path }}" />
+                <div class="card-body">
+                    <h5 class="card-title text-center">{{ book.title }}</h5>
+                    <p class="card-text">Autor: {{ book.author }}</p>
+                </div>
+            </div>
+            </a>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+    {% endfor %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.10.111/build/pdf.min.js"></script>
+
+   <script>
+        const coverImage = document.getElementById('coverImage');
+        const pdfPath = coverImage.getAttribute('data-path');
+
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+
+        // Cargar el PDF y renderizar la primera página en el canvas
+        pdfjsLib.getDocument(pdfPath).promise
+        .then(pdfDoc => pdfDoc.getPage(1))
+        .then(page => {
+            const viewport = page.getViewport({ scale: 1.0 }); // Ajusta la escala según sea necesario
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            const renderContext = {
+                canvasContext: context,
+                viewport: viewport,
+            };
+            return page.render(renderContext).promise;
+        })
+        .then(() => {
+            // Convertir el canvas en una imagen base64
+            const imageDataURL = canvas.toDataURL('image/png');
+
+            // Establecer la imagen base64 como fuente de la imagen en tu HTML
+            coverImage.src = imageDataURL;
+        })
+        .catch(error => {
+            console.error('Error al cargar y renderizar el PDF:', error);
+        });
+    </script>
+
+{% endblock %}
+```
+
+
+
