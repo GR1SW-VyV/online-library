@@ -207,5 +207,5 @@ class CollectionDAO:
         books = collection.books.all()
         score = 0
         for book in books:
-            score += book.score()
+            score += book.score
         return score / len(books)
