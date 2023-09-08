@@ -45,13 +45,13 @@ class RecommendationEngine:
         self.user.save()
 
     def recive_preferences(self, *preferences):
-        # Initialize a dictionary to keep track of categories and their count.
+        # Inicialice un diccionario para realizar un seguimiento de las categorías y su recuento.
         preferences_count = defaultdict(int)
 
         for x in preferences:
             preferences_count[x] += 1
 
-        # update user preferences according to preferences
+        # actualizar las preferencias del usuario según las preferencias
         for category, count in preferences_count.items():
             # Si la categoría ya existe en las preferencias, aumenta su valor.
             if category in self.user.preferences:
@@ -64,16 +64,16 @@ class RecommendationEngine:
         self.user.save()
 
     def get_top_categories(self):
-        # Generate categories by collections
+        # Generar categorías por colecciones
         self.recollect_preferences()
 
         # Ordenar el diccionario preferences por sus valores en orden descendente.
         sorted_preferences = sorted(self.user.preferences.items(), key=lambda item: item[1], reverse=True)
 
-        # Take the first three keys with the highest values, if they exist.
+        # Tome las tres primeras claves con los valores más altos, si existen.
         top_categories = [item[0] for item in sorted_preferences[:3]]
 
-        # Fill with empty strings until you have 3 elements
+        # Rellena con cadenas vacías hasta tener 3 elementos.
         while len(top_categories) < 3:
             top_categories.append("")
 
