@@ -16,6 +16,7 @@ class RecommendationEngine:
         self.user = user
 
     def has_collections(self):
+        # check if collections exist
         return bookcollections.models.Collection.objects.filter(user=self.user).exists()
 
     def recollect_preferences(self):
@@ -64,42 +65,43 @@ class RecommendationEngine:
         self.user.save()
 
     def get_top_categories(self):
-        # Generar categorías por colecciones
+        # Generate categories by collections
         self.recollect_preferences()
 
-        # Ordenar el diccionario preferences por sus valores en orden descendente.
+        # Sort the preferences dictionary by its values in descending order.
         sorted_preferences = sorted(self.user.preferences.items(), key=lambda item: item[1], reverse=True)
 
-        # Tome las tres primeras claves con los valores más altos, si existen.
+        # Take the first three keys with the highest values, if they exist.
         top_categories = [item[0] for item in sorted_preferences[:3]]
 
-        # Rellena con cadenas vacías hasta tener 3 elementos.
+        # Fill with empty strings until you have 3 elements.
         while len(top_categories) < 3:
             top_categories.append("")
 
         return top_categories
 
     def get_recomendations(self):
-        # Selecciona las categorías más altas
+        # Select the highest categories
         categories = self.get_top_categories()
 
-        # Inicialice un diccionario para almacenar los documentos principales por categoría.
+        # Initialize a dictionary to store the main documents by category.
         top_documents_by_category = defaultdict(list)
 
-        # Iterar a través de las categorías proporcionadas.
+        # Iterate through the provided categories.
         for category in categories:
-            # Filtrar los documentos por categoría y ordenar por vista en orden descendente.
+            # Filter documents by category and sort by view in descending order.
             top_documents = articles.models.Document.objects.filter(category=category).order_by('-view_count')[:4]
 
-            # Añade los documentos principales al diccionario.
+            # Add the main documents to the dictionary.
             top_documents_by_category[category] = top_documents
 
         return dict(top_documents_by_category)
 
     def recommendation_total(self):
-        # Obtención del total de recomendaciones
+        # Getting Recommendations
         recommendations = self.get_recomendations()
         total = 0
+        # iterate to calculate total recommendations
         for x in recommendations.values():
             total += len(x)
         return total
