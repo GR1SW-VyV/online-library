@@ -6,12 +6,13 @@ import bookcollections.models
 from articles import models
 from bookcollections import models
 from social.models import User
+
+import json
 # Create your models here.
 
 
 
 class RecommendationEngine:
-
     def __init__(self, user):
         self.user = user
 
@@ -26,10 +27,15 @@ class RecommendationEngine:
         # Loop through all the user's collections.
         for collection in bookcollections.models.CollectionDAO.get_all_by_user(self.user.id).all():
             # Loop through the documents within each collection.
+
+            # recolect by collection's category
+            # category = collection.category
+            # category_count[category] += 1
+
+            # recolect by documents into collection
             for document in articles.models.Document.objects.filter(collections=collection):
                 # Get the category of the document.
                 category = document.category
-
                 # Update category count.
                 category_count[category] += 1
 
@@ -61,6 +67,8 @@ class RecommendationEngine:
             else:
                 self.user.preferences[category] = 1
 
+        print(self.user.preferences)
+
         # Save the updated preferences in the database.
         self.user.save()
 
@@ -84,18 +92,35 @@ class RecommendationEngine:
         # Select the highest categories
         categories = self.get_top_categories()
 
-        # Initialize a dictionary to store the main documents by category.
-        top_documents_by_category = defaultdict(list)
+        # Initialize a dictionary to store the recommendations.
+        recommendations = []
 
         # Iterate through the provided categories.
         for category in categories:
             # Filter documents by category and sort by view in descending order.
             top_documents = articles.models.Document.objects.filter(category=category).order_by('-view_count')[:4]
 
-            # Add the main documents to the dictionary.
-            top_documents_by_category[category] = top_documents
+            # Create a dictionary for the current category and its documents.
+            category_recommendation = {
+                'category': category,
+                'books': []
+            }
 
-        return dict(top_documents_by_category)
+            # Iterate through the top documents for the current category.
+            for document in top_documents:
+                # Create a dictionary for each document.
+                book_info = {
+                    'uid': document.uid,
+                    'title': document.title,
+                    'author': document.author,
+                    'path': document.url(),
+                }
+                # Add the document dictionary to the current category's 'books' list.
+                category_recommendation['books'].append(book_info)
+
+            # Add the category recommendation to the main recommendations list.
+            recommendations.append(category_recommendation)
+        return recommendations
 
     def recommendation_total(self):
         # Getting Recommendations
