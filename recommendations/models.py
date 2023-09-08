@@ -19,48 +19,48 @@ class RecommendationEngine:
         return bookcollections.models.Collection.objects.filter(user=self.user).exists()
 
     def recollect_preferences(self):
-        # Inicialice un diccionario para realizar un seguimiento de las categorías y su recuento.
+        # Initialize a dictionary to keep track of categories and their count.
         category_count = defaultdict(int)
 
-        # Recorrer todas las colecciones del usuario.
+        # Loop through all the user's collections.
         for collection in bookcollections.models.CollectionDAO.get_all_by_user(self.user.id).all():
-            # Recorrer los documentos dentro de cada colección.
+            # Loop through the documents within each collection.
             for document in articles.models.Document.objects.filter(collections=collection):
-                # Obtener la categoría del documento.
+                # Get the category of the document.
                 category = document.category
 
-                # Actualizar el recuento de categorías.
+                # Update category count.
                 category_count[category] += 1
 
-        # Actualice las preferencias del usuario según el recuento de categorías.
+        # Update user preferences based on category count.
         for category, count in category_count.items():
-            # Si la categoría ya existe en las preferencias, aumenta su valor.
+            # If the category already exists in the preferences, increase its value.
             if category in self.user.preferences:
                 self.user.preferences[category] += count
-            # Si la categoría es nueva, agrégala con un valor de 1.
+            # If the category is new, add it with a value of 1.
             else:
                 self.user.preferences[category] = 1
 
-        # Guardar las preferencias actualizadas en la base de datos.
+        # Save the updated preferences in the database.
         self.user.save()
 
     def recive_preferences(self, *preferences):
-        # Inicialice un diccionario para realizar un seguimiento de las categorías y su recuento.
+        # Initialize a dictionary to keep track of categories and their count.
         preferences_count = defaultdict(int)
 
         for x in preferences:
             preferences_count[x] += 1
 
-        # actualizar las preferencias del usuario según las preferencias
+        # update user preferences based on preferences
         for category, count in preferences_count.items():
-            # Si la categoría ya existe en las preferencias, aumenta su valor.
+            # If the category already exists in the preferences, increase its value.
             if category in self.user.preferences:
                 self.user.preferences[category] += count
-            # Si la categoría es nueva, agrégala con un valor de 1.
+            # If the category is new, add it with a value of 1.
             else:
                 self.user.preferences[category] = 1
 
-        # Guardar las preferencias actualizadas en la base de datos.
+        # Save the updated preferences in the database.
         self.user.save()
 
     def get_top_categories(self):
