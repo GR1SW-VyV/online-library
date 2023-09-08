@@ -3,7 +3,7 @@ import datetime
 import faker
 from behave import *
 from social.models import User
-from social.models import Collection
+from bookcollections.models import Collection
 from social.models import Document
 from social.models import CollectionActivity, UserActivity
 from faker import Faker
