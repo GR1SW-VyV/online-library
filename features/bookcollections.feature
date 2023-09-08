@@ -8,7 +8,7 @@ Feature: Generate a Book Collection
       When the user creates the collection
       Then the collection will be created with the given name, description and type of privacy
       And will contain the given book
-      And will have <collection_score> points
+      And will have <book_score> points
 
       Examples:
       |name              |is_private|book_name                       |book_score|
@@ -19,7 +19,7 @@ Feature: Generate a Book Collection
   Scenario: Calculating the value of a collection
     Scenario Outline:
       Given the collection with two books
-      And their respectives points: <book_score_1>, <book_score_2>
+      And their respective points: <book_score_1>, <book_score_2>
       And the user want to add a new book with <book_score_3> points
       When the user adds the book
       Then the collection score will be <collection_points> representing average points of all books

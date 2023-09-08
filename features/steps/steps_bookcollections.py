@@ -87,13 +87,13 @@ def step_impl(context):
     )
 
 
-@step("will have (?P<collection_score>.+) points")
-def step_impl(context, collection_score):
+@step("will have (?P<book_score>.+) points")
+def step_impl(context, book_score):
     """
     :type context: behave.runner.Context
-    :type collection_score: str
+    :type book_score: str
     """
-    assert context.collection_object.score == float(context.input_book_score)
+    assert context.collection_object.score == float(book_score)
 
 
 # Second Scenario
@@ -166,6 +166,6 @@ def step_impl(context, collection_points):
     :type collection_points: str
     """
     context.input_expected_score = float(collection_points)
-    object = CollectionDAO.search_by_name(context.collection_name).first()
-    print(type(context.input_expected_score), type(object.score))
-    assert float(object.score) == context.input_expected_score
+    collection = CollectionDAO.search_by_name(context.collection_name).first()
+    print(type(context.input_expected_score), type(collection.score))
+    assert float(collection.score) == context.input_expected_score
