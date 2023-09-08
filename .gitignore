@@ -133,3 +133,17 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+
+pyvenv.cfg
+lib64
+bin
+.idea
+.idea/**
+include
+Scripts
+pyvenv.cfg
+*/migrations
+articles/resources
+tmp
+fullmigration.sh
+fullmigration.bat
