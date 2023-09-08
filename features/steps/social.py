@@ -4,9 +4,8 @@ import faker
 from behave import *
 from social.models import User
 from social.models import Collection
-from articles.models import Document
+from social.models import Document
 from social.models import CollectionActivity, UserActivity
-from bookcollections.models import CollectionDAO
 from faker import Faker
 
 use_step_matcher("re")
@@ -21,7 +20,7 @@ def step_impl(context):
     context.user.name = Faker().name()
     context.user.save()
 
-    context.collection = Collection(user=User.objects.create_professor_user(username=Faker().name(), password=Faker().password()))
+    context.collection = Collection()
     context.collection.name = Faker().color_name()
     context.collection.save()
 
@@ -33,10 +32,10 @@ def step_impl(context):
     """
     :type context: behave.runner.Context
     """
-    context.document = Document.objects.create()
+    context.document = Document()
     context.document.title = Faker().catch_phrase()
     context.document.save()
-    CollectionDAO.add_book(context.collection, context.document)
+    context.collection.add_document(context.document)
 
     context.activity = CollectionActivity()
     context.activity.document = context.document
@@ -150,10 +149,6 @@ def step_impl(context):
     :type context: behave.runner.Context
     """
     context.collection = Collection()
-    context.collection.user = User.objects.create_reader_user(
-        username=Faker().user_name(),
-        password=Faker().password(),
-    )
     context.collection.name = Faker().color_name()
     context.collection.save()
 

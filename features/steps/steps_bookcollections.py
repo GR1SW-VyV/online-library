@@ -10,7 +10,8 @@ def fake_book_dependencies(book_name, book_score):
     if book_name == "null":
         return None
     else:
-        book = Document.objects.create(title=book_name, score=book_score)
+        book = Document.objects.create(title=book_name)
+        book.add_score(1, book_score)
         book.save()
         return book
 

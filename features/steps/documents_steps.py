@@ -1,6 +1,8 @@
+import hashlib
 import json
 import os
 
+import faker
 from behave import *
 
 import articles
@@ -10,6 +12,8 @@ from articles.services import documents_service
 
 use_step_matcher("parse")
 
+def hash_int(x:str,/):
+    return int.from_bytes(hashlib.md5(x.encode('utf8')).digest()) % (2 ** 32)
 
 @given("{local_path} on the disk")
 def local_path_on_the_disk(context, local_path):
@@ -30,7 +34,7 @@ def i_upload_the_article_subject(context, subject):
     :type context: behave.runner.Context
     :type subject: str
     """
-    context.document = documents_service.from_local_path(context.local_path, category=subject)
+    context.document[""] = documents_service.from_local_path(context.pdf_path, category=subject)
 
 
 @then("the article must be on {subject_path}")
@@ -39,7 +43,6 @@ def the_article_must_be_on_subject_path(context, subject_path):
     :type context: behave.runner.Context
     :type subject_path: str
     """
-    print(os.path.realpath(subject_path))
     assert os.path.isfile(subject_path)
 
 
@@ -78,7 +81,6 @@ def the_article_is_uploaded(context):
         category=context.subject
     )
     context.document.save()
-    print(f"url: {context.document.url()}")
     context.document.increase_view_count()
 
 
@@ -99,7 +101,6 @@ def the_unique_id_index_with_the_subject_path(context, unique_id, subject_path):
     :type subject_path: str
     """
     assert os.path.isfile(subject_path)
-    print(f"{context.documents.uid}, {unique_id}")
     assert context.documents.uid == unique_id
 
 
@@ -137,8 +138,6 @@ def lookup_for_an_author(context):
     """
     :type context: behave.runner.Context
     """
-    print("author_prefix:",context.author_prefix)
-    print("author_objects:",list(a.name for a in Author.objects.filter()))
     context.suggested_authors = Author.get_by_prefix(context.author_prefix)
 
 
@@ -149,7 +148,6 @@ def it_must_return_array_as_potential_authors(context, array):
     :type array: str
     """
     authors_json = json.dumps(list(a.name for a in context.suggested_authors))
-    print('suggested_authors:',authors_json)
     assert array == authors_json
 
 
@@ -174,9 +172,7 @@ def no_collision_is_found(context):
     :type context: behave.runner.Context
     :type warnings: str
     """
-    for f in Document.objects.filter():
-        print("No collision", f.sha512)
-    print("Assert none", context.collision)
+    assert context.collision is None
     assert context.collision is None
 
 
@@ -186,13 +182,10 @@ def a_collision_is_found(context):
     :type context: behave.runner.Context
     :type warnings: str
     """
-    for f in Document.objects.filter():
-        print("Collision", f.sha512)
-    print("Assert not none", context.collision)
     assert context.collision is not None
 
 
-@then("a colliding file is shown")
+@then("one collision/s were/was found")
 def a_colliding_file_is_shown(context):
     """
     :type context: behave.runner.Context
@@ -201,7 +194,7 @@ def a_colliding_file_is_shown(context):
     # raise NotImplementedError(u'STEP: And <warnings> colliding file is shown')
 
 
-@then("no colliding file is shown")
+@then("zero collision/s were/was found")
 def no_colliding_file_is_shown(context):
     """
     :type context: behave.runner.Context
@@ -210,14 +203,14 @@ def no_colliding_file_is_shown(context):
     # raise NotImplementedError(u'STEP: And <warnings> colliding file is shown')
 
 
-@when("{} scores the document a {}")
+@step("{} scores the document a {}")
 def step_impl(context, arg0, arg1):
     """
     :type context: behave.runner.Context
     """
     user = int(arg0)
     score = int(arg1)
-    context.document.add_score(user,score)
+    context.document.add_score(user, score)
 
 
 @then("the final score must be {}")
@@ -226,5 +219,56 @@ def step_impl(context, arg0):
     :type context: behave.runner.Context
     """
     score = float(arg0)
-    print(context.document.score())
     assert context.document.score() == score
+
+
+@step("a pdf file {filename}")
+def given_a_pdf_file_on_disk(context, filename):
+    path = f"tmp/{filename}"
+    context.pdf_path = f"tmp/{filename}"
+    if not os.path.isfile(path):
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        import random
+        with open(path, 'wb') as f:
+            f.write(random.randbytes(1024))
+
+@then("document {}'s final score must be {}")
+def step_impl(context, arg0, arg1):
+    """
+    :type context: behave.runner.Context
+    """
+    document: Document = context.document[arg0]
+    final_score = float(arg1)
+    assert document.score() == final_score
+
+@step("{} scores document {} a {}")
+def x_scores_document_y_a_z(context, arg0, arg1, arg2):
+    """
+    :type context: behave.runner.Context
+    """
+    user = hash_int(arg0)
+    document: Document = context.document[arg1]
+    score = int(arg2)
+
+    document.add_score(user, score)
+
+@given("a document {document_alias}")
+def given_a_document(context, document_alias):
+    given_a_pdf_file_on_disk(context, f"{document_alias}.pdf")
+    doc = Document.from_local_path(
+        f"tmp/{document_alias}.pdf",
+        title=context.fake.address(),
+        author="test_"+context.fake.name(),
+        category=context.fake.category(),
+        type=context.fake.document_type()
+    )
+    doc.save()
+    context.document[document_alias] = doc
+
+
+@when("a {document_alias} hash check is performed on {pdf_file}")
+def step_impl(context, document_alias,pdf_file):
+    document: Document = context.document[document_alias]
+
+    context.collision = document.find_colliding_document(f"tmp/{pdf_file}")
+
