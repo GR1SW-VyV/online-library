@@ -16,9 +16,8 @@ class User(Observer, Observable, AbstractUser):
             observer.update(self.activities[-1])
 
     def update(self, activity):
-        print("-----------------" * 2)
         self.feed.add(activity)
-        print(self.feed.all().count())
+
 
     def do_activity(self):
         activity = self.create_user_activity("does a new activity")
