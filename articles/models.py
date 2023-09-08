@@ -64,7 +64,7 @@ class Document(models.Model):
         self.save()
 
     def local_path(self) -> str:
-        return f"articles/resources/{self.category.capitalize()}Resources/{self.filename}"
+        return f"static/articles/resources/{self.category.capitalize()}Resources/{self.filename}"
 
     def url(self) -> str:
         category_str = str(self.category).capitalize()
@@ -97,8 +97,8 @@ class Document(models.Model):
     @staticmethod
     def from_local_path(path: str, /, author=None, category=Category.UNKNOWN, **kwargs) -> Document:
         category_str = str(category).capitalize()
-        os.makedirs(f'/static/articles/resources/{category_str}Resources', exist_ok=True)
-        shutil.copy(path, f'/static/articles/resources/{category_str}Resources/')
+        os.makedirs(f'static/articles/resources/{category_str}Resources', exist_ok=True)
+        shutil.copy(path, f'static/articles/resources/{category_str}Resources/')
 
 
         file = open(path, "rb")
