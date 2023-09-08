@@ -97,13 +97,13 @@ class Document(models.Model):
     @staticmethod
     def from_local_path(path: str, /, author=None, category=Category.UNKNOWN, **kwargs) -> Document:
         category_str = str(category).capitalize()
-        os.makedirs(f'./articles/resources/{category_str}Resources', exist_ok=True)
-        shutil.copy(path, f'./articles/resources/{category_str}Resources/')
+        os.makedirs(f'/static/articles/resources/{category_str}Resources', exist_ok=True)
+        shutil.copy(path, f'/static/articles/resources/{category_str}Resources/')
 
 
         file = open(path, "rb")
         sha512 = hashlib.sha512(file.read()).hexdigest()
-        filename = path.split("/")[-1]
+        filename = path.split("/")[-1].split('\\')[-1]
 
         document = Document(
             filename=filename,

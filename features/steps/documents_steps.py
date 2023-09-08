@@ -109,7 +109,7 @@ def the_file_is_available_at_subject_path_through_http_s(context, subject_path: 
     from django.test import RequestFactory
     request_factory = RequestFactory()
     my_request = request_factory.get(subject_path)
-    response = views.serve_document(my_request, subject_path)
+    response = views.serve_document(my_request, subject_path.lstrip())
     assert response.status_code == 200
 
 
@@ -271,4 +271,3 @@ def step_impl(context, document_alias,pdf_file):
     document: Document = context.document[document_alias]
 
     context.collision = document.find_colliding_document(f"tmp/{pdf_file}")
-
