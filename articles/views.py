@@ -4,7 +4,7 @@ import random
 import time
 
 from django.http import HttpResponse, FileResponse,HttpRequest
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.template.backends import django
 from django.views.decorators.csrf import csrf_exempt
 
@@ -34,7 +34,7 @@ def show_upload_document(request:HttpRequest):
         for c in request.FILES["file"].chunks():
             f.write(c)
 
-    Document.from_local_path(
+    doc:Document = Document.from_local_path(
         tmp_path,
         title = title,
         category = category,
@@ -43,4 +43,4 @@ def show_upload_document(request:HttpRequest):
 
     print(request.FILES["file"])
 
-    return HttpResponse("<h1>Yes</h1>")
+    return redirect(doc.url())
