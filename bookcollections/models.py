@@ -45,6 +45,14 @@ class Collection(models.Model, Observable):
         for follower in self.followers.all():
             follower.update(self.activities[-1])
 
+    def calc_score(self):
+        score = 0.0
+        for book in self.books.all():
+            score += book.score()
+        if len(self.books.all()) > 0:
+            score = score / len(self.books.all())
+        return score
+
 
 from articles.models import Document
 
