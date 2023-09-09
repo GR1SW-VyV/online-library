@@ -1,7 +1,11 @@
+# Standard module imports
 from behave import *
+
+# Third party module imports
 from expects import *
 from faker import Faker
 
+# Local module imports
 from articles.models import Document
 from social.models import User
 from visualization.models import GeneralNote, GeneralNoteDAO, PageNote, PageNoteDAO
@@ -28,14 +32,14 @@ def step_impl(context, username):
     context.user = User.objects.create_reader_user(username=username, password=Faker().password())
 
 
-@step("there are notes (?P<my_general_notes>.+) added by me on (?P<date>.+) date")
-def step_impl(context, my_general_notes, date):
+@step("there are notes (?P<my_general_notes>.+) added by me on (?P<dates>.+) date")
+def step_impl(context, my_general_notes, dates):
     """
     :type context: behave.runner.Context
     :type my_general_notes: str
-    :type date: str
+    :type dates: str
     """
-    for note, date in zip(my_general_notes.split(","), date.split(",")):
+    for note, date in zip(my_general_notes.split(","), dates.split(",")):
         context.my_general_note = GeneralNote.objects.create(
             content=note,
             date=date,
@@ -62,16 +66,17 @@ def step_impl(context, my_ordered_general_notes):
 
 
 @step(
-    "there are notes (?P<my_page_notes>.+) added by me in the page (?P<page_number>.+) on (?P<date>.+) date marked as (?P<is_favorite>.+) favorite")
-def step_impl(context, my_page_notes, page_number, date, is_favorite):
+    "there are notes (?P<my_page_notes>.+) added by me in the page (?P<page_number>.+) on (?P<dates>.+) date marked as "
+    "(?P<favorites>.+) favorite")
+def step_impl(context, my_page_notes, page_number, dates, favorites):
     """
     :type context: behave.runner.Context
     :type my_page_notes: str
     :type page_number: str
-    :type date: str
-    :type is_favorite: str
+    :type dates: str
+    :type favorites: str
     """
-    for note, date, favorite in zip(my_page_notes.split(","), date.split(","), is_favorite.split(",")):
+    for note, date, favorite in zip(my_page_notes.split(","), dates.split(","), favorites.split(",")):
         context.my_page_note = PageNote.objects.create(
             content=note,
             date=date,
@@ -88,7 +93,8 @@ def step_impl(context, page_number):
     :type context: behave.runner.Context
     :type page_number: str
     """
-    context.my_page_notes = PageNoteDAO.get_personal_page_notes(context.user.username, context.document.uid, page_number)
+    context.my_page_notes = PageNoteDAO.get_personal_page_notes(context.user.username, context.document.uid,
+                                                                page_number)
 
 
 @then("it should display my personal notes (?P<my_ordered_page_notes>.+) ordered by date and favorite")
@@ -101,13 +107,24 @@ def step_impl(context, my_ordered_page_notes):
 
 
 @step(
-    "there are general notes (?P<general_notes>.+) added by other users who are (?P<user_type>.+) with (?P<followers>.+) followers on (?P<date>.+) date")
-def step_impl(context, general_notes, user_type, followers, date):
-    for note, date, user_type, followers in zip(general_notes.split(","), date.split(","), user_type.split(","), followers.split(",")):
+    "there are general notes (?P<general_notes>.+) added by other users who are (?P<user_types>.+) with ("
+    "?P<followers>.+) followers on (?P<dates>.+) date")
+def step_impl(context, general_notes, user_types, followers, dates):
+    """
+    :type context: behave.runner.Context
+    :type general_notes: str
+    :type user_types: str
+    :type followers: str
+    :type dates: str
+    """
+    for note, date, user_type, followers in zip(general_notes.split(","), dates.split(","), user_types.split(","),
+                                                followers.split(",")):
         context.general_note = GeneralNote.objects.create(
             content=note,
             date=date,
-            user=User.objects.create_reader_user(username=Faker().name(), password=Faker().password()) if user_type == "reader" else User.objects.create_professor_user(username=Faker().name(), password=Faker().password()),
+            user=User.objects.create_reader_user(username=Faker().name(),
+                                                 password=Faker().password()) if user_type == "reader" else User.objects
+            .create_professor_user(username=Faker().name(), password=Faker().password()),
             document=context.document
         )
         for i in range(int(followers)):
@@ -133,25 +150,29 @@ def step_impl(context, ordered_general_notes):
 
 
 @step(
-    "there are notes (?P<page_notes>.+) added by other users who are (?P<user_type>.+) with (?P<followers>.+) followers in the page (?P<page_number>.+) on (?P<date>.+) date marked as (?P<is_favorite>.+) favorite")
-def step_impl(context, page_notes, user_type, followers, page_number, date, is_favorite):
+    "there are notes (?P<page_notes>.+) added by other users who are (?P<user_types>.+) with (?P<followers>.+) "
+    "followers in the page (?P<page_number>.+) on (?P<dates>.+) date marked as (?P<favorites>.+) favorite")
+def step_impl(context, page_notes, user_types, followers, page_number, dates, favorites):
     """
     :type context: behave.runner.Context
     :type page_notes: str
-    :type user_type: str
+    :type user_types: str
     :type followers: str
     :type page_number: str
-    :type date: str
-    :type is_favorite: str
+    :type dates: str
+    :type favorites: str
     """
-    for note, date, favorite, user_type, followers in zip(page_notes.split(","), date.split(","),
-                                          is_favorite.split(","), user_type.split(","), followers.split(",")):
+    for note, date, favorite, user_type, followers in zip(page_notes.split(","), dates.split(","),
+                                                          favorites.split(","), user_types.split(","),
+                                                          followers.split(",")):
         context.page_note = PageNote.objects.create(
             content=note,
             date=date,
             is_favorite=favorite,
             page=page_number,
-            user=User.objects.create_reader_user(username=Faker().name(), password=Faker().password()) if user_type == "reader" else User.objects.create_professor_user(username=Faker().name(), password=Faker().password()),
+            user=User.objects.create_reader_user(username=Faker().name(),
+                                                 password=Faker().password()) if user_type == "reader" else User.objects
+            .create_professor_user(username=Faker().name(), password=Faker().password()),
             document=context.document
         )
         for i in range(int(followers)):
@@ -175,5 +196,3 @@ def step_impl(context, ordered_page_notes):
     :type ordered_page_notes: str
     """
     expect(PageNoteDAO.get_str_page_notes(context.page_notes)).to(equal(ordered_page_notes))
-
-
