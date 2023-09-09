@@ -81,6 +81,16 @@ def step_impl(context, my_ordered_notes):
         u'STEP: Then it should display my personal notes <my_ordered_notes> ordered by date and favorite')
 
 
+@step("I am a (?P<user_type>.+) logged in with my username (?P<username>.+)")
+def step_impl(context, user_type, username):
+    """
+    :type context: behave.runner.Context
+    :type user_type: str
+    :type username: str
+    """
+    raise NotImplementedError(u'STEP: * I am a <user_type> logged in with my username <username>')
+
+
 @step("I have (?P<followers>.+) followers")
 def step_impl(context, followers):
     """
@@ -88,15 +98,6 @@ def step_impl(context, followers):
     :type followers: str
     """
     raise NotImplementedError(u'STEP: * I have <followers> followers')
-
-
-@step("I am (?P<user_type>.+) user")
-def step_impl(context, user_type):
-    """
-    :type context: behave.runner.Context
-    :type user_type: str
-    """
-    raise NotImplementedError(u'STEP: * I am <user_type> user')
 
 
 @step(

@@ -42,9 +42,8 @@ Feature: Display notes
 
   Scenario Outline: General notes
     Given I have the document <document_title> with the id <document_id>
-    * I am logged in with my username <username>
+    * I am a <user_type> logged in with my username <username>
     * I have <followers> followers
-    * I am <user_type> user
     * there are general notes <general_notes> added by other users on <date> date marked as <is_favorite> favorite
     When I want to read the general notes
     Then it should display the general notes <ordered_general_notes> ordered by date and favorite
@@ -63,8 +62,7 @@ Feature: Display notes
 
   Scenario Outline: Page notes
     Given I have the document <document_title> with the id <document_id>
-    * I am logged in with my username <username>
-    * I am <user_type> user
+    * I am a <user_type> logged in with my username <username>
     * I have <followers> followers
     * there are notes <notes> added by other users in the page <page_number> on <date> date marked as <is_favorite> favorite
     When I want to read the notes in the page <page_number>
