@@ -144,16 +144,19 @@ def step_impl(context, page_notes, user_type, followers, page_number, date, is_f
     :type date: str
     :type is_favorite: str
     """
-    for note, page, date, favorite in zip(page_notes.split(","), page_number.split(","), date.split(","),
-                                          is_favorite.split(",")):
+    for note, date, favorite, user_type, followers in zip(page_notes.split(","), date.split(","),
+                                          is_favorite.split(","), user_type.split(","), followers.split(",")):
         context.page_note = PageNote.objects.create(
             content=note,
             date=date,
             is_favorite=favorite,
-            page=page,
-            user=User.objects.create_reader_user(username=Faker().name(), password=Faker().password()),
+            page=page_number,
+            user=User.objects.create_reader_user(username=Faker().name(), password=Faker().password()) if user_type == "reader" else User.objects.create_professor_user(username=Faker().name(), password=Faker().password()),
             document=context.document
         )
+        for i in range(int(followers)):
+            context.follower = User.objects.create_reader_user(username=Faker().name(), password=Faker().password())
+            context.follower.follow(context.page_note.user)
 
 
 @when("I want to read the notes in the page (?P<page_number>.+)")
