@@ -7,6 +7,7 @@ from social.models.user_manager import UserManager
 
 
 class User(Observer, Observable, AbstractUser):
+    preferences = models.JSONField(default=dict)
     feed = models.ManyToManyField('Activity')
     followers = models.ManyToManyField('User', symmetrical=False, blank=True, related_name='user_following')
     objects = UserManager()
@@ -25,8 +26,7 @@ class User(Observer, Observable, AbstractUser):
         activity.save()
         self.add_activity(activity)
 
-    def create_collection(self, collection):
-        # TODO: create collection
+    def log_collection_creation(self, collection):
         activity = self.create_user_activity("created a new collection", collection)
         activity.save()
         self.add_activity(activity)

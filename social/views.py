@@ -1,10 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import User, Activity
-from bookcollections.models import Collection
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
-
+from bookcollections.models import Collection
 
 def hello(request):
     # TODO implement login
