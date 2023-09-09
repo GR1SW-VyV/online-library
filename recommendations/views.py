@@ -12,7 +12,7 @@ from django.http import HttpResponse
 
 def init_recommedation_engine(request):
     # Test
-    user = User.objects.create_reader_user(username="test28", password="123")
+    #user = User.objects.create_reader_user(username="test28", password="123")
 
     # collection_1 = models.CollectionDAO.create(
     #    "Coleccion 1",
@@ -24,7 +24,8 @@ def init_recommedation_engine(request):
 
     # user = authenticate(request, username="test8", password="123")
 
-    # user = User.objects.get(id=request.user.id)
+    user = User.objects.get(id=request.user.id)
+    # user = request.user
     if user is not None:
         login(request, user)
     recomender = RecommendationEngine(user)
