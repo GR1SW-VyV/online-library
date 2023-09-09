@@ -1,25 +1,14 @@
 from django.db import models
 
-
-# Mocks to test scenarios
-class MockUser(models.Model):
-    """
-    Mocking model to handle dependencies with User model
-    """
-    username = models.TextField()
-
-
-class MockDocument(models.Model):
-    """
-    Mocking model to handle dependencies with Document model
-    """
+from articles.models import Document
+from social.models import User
 
 
 class GeneralNote(models.Model):
     content = models.TextField()
     date = models.DateField()
-    user = models.ForeignKey(MockUser, on_delete=models.CASCADE)
-    document = models.ForeignKey(MockDocument, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    document = models.ForeignKey(Document, on_delete=models.CASCADE)
 
 
 class PageNote(models.Model):
@@ -27,8 +16,8 @@ class PageNote(models.Model):
     date = models.DateField()
     is_favorite = models.BooleanField(default=False)
     page = models.IntegerField()
-    user = models.ForeignKey(MockUser, on_delete=models.CASCADE)
-    document = models.ForeignKey(MockDocument, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    document = models.ForeignKey(Document, on_delete=models.CASCADE)
 
 
 class PageNoteDAO:
