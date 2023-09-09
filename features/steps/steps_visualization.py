@@ -103,13 +103,16 @@ def step_impl(context, my_ordered_page_notes):
 @step(
     "there are general notes (?P<general_notes>.+) added by other users who are (?P<user_type>.+) with (?P<followers>.+) followers on (?P<date>.+) date")
 def step_impl(context, general_notes, user_type, followers, date):
-    for note, date, user_type in zip(general_notes.split(","), date.split(","), user_type.split(",")):
+    for note, date, user_type, followers in zip(general_notes.split(","), date.split(","), user_type.split(","), followers.split(",")):
         context.general_note = GeneralNote.objects.create(
             content=note,
             date=date,
-            user= User.objects.create_reader_user(username=Faker().name(), password=Faker().password()) if user_type == "reader" else User.objects.create_professor_user(username=Faker().name(), password=Faker().password()),
+            user=User.objects.create_reader_user(username=Faker().name(), password=Faker().password()) if user_type == "reader" else User.objects.create_professor_user(username=Faker().name(), password=Faker().password()),
             document=context.document
         )
+        for i in range(int(followers)):
+            context.follower = User.objects.create_reader_user(username=Faker().name(), password=Faker().password())
+            context.follower.follow(context.general_note.user)
 
 
 @when("I want to read the general notes")
