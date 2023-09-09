@@ -88,8 +88,7 @@ def step_impl(context, page_number):
     :type context: behave.runner.Context
     :type page_number: str
     """
-    context.my_page_notes = PageNoteDAO.get_personal_page_notes(context.user.username, context.document.uid,
-                                                                page_number)
+    context.my_page_notes = PageNoteDAO.get_personal_page_notes(context.user.username, context.document.uid, page_number)
 
 
 @then("it should display my personal notes (?P<my_ordered_page_notes>.+) ordered by date and favorite")
@@ -101,45 +100,14 @@ def step_impl(context, my_ordered_page_notes):
     expect(PageNoteDAO.get_str_page_notes(context.my_page_notes)).to(equal(my_ordered_page_notes))
 
 
-@step("I am a (?P<user_type>.+) logged in with my username (?P<username>.+)")
-def step_impl(context, user_type, username):
-    """
-    :type context: behave.runner.Context
-    :type user_type: str
-    :type username: str
-    """
-    if user_type == "reader":
-        context.user = User.objects.create_reader_user(username=username, password=Faker().password())
-    else:
-        context.user = User.objects.create_professor_user(username=username, password=Faker().password())
-
-
-@step("I have (?P<followers>.+) followers")
-def step_impl(context, followers):
-    """
-    :type context: behave.runner.Context
-    :type followers: str
-    """
-    for i in range(int(followers)):
-        context.follower = User.objects.create_reader_user(username=Faker().name(), password=Faker().password())
-        context.follower.follow(context.user)
-
-
 @step(
-    "there are general notes (?P<general_notes>.+) added by other users who are (?P<user_type>.+) with (?P<date>.+) followers on (?P<date>.+) date")
-def step_impl(context, general_notes, user_type, date, followers):
-    """
-    :type context: behave.runner.Context
-    :type general_notes: str
-    :type user_type: str
-    :type date: str
-    :type followers: str
-    """
-    for note, date in zip(general_notes.split(","), date.split(",")):
+    "there are general notes (?P<general_notes>.+) added by other users who are (?P<user_type>.+) with (?P<followers>.+) followers on (?P<date>.+) date")
+def step_impl(context, general_notes, user_type, followers, date):
+    for note, date, user_type in zip(general_notes.split(","), date.split(","), user_type.split(",")):
         context.general_note = GeneralNote.objects.create(
             content=note,
             date=date,
-            user=User.objects.create_reader_user(username=Faker().name(), password=Faker().password()),
+            user= User.objects.create_reader_user(username=Faker().name(), password=Faker().password()) if user_type == "reader" else User.objects.create_professor_user(username=Faker().name(), password=Faker().password()),
             document=context.document
         )
 
@@ -201,3 +169,5 @@ def step_impl(context, ordered_page_notes):
     :type ordered_page_notes: str
     """
     expect(PageNoteDAO.get_str_page_notes(context.page_notes)).to(equal(ordered_page_notes))
+
+
