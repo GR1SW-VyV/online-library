@@ -28,7 +28,9 @@
 
                     <div class="col-2 dropdown-list-image mr-3 d-flex align-items-center  justify-content-center">
                         {% if activity|is_collection_activity %}
-                            <img class="rounded-circle w-50" src="https://api.dicebear.com/7.x/shapes/svg?seed={{ activity.collection.name }}" alt=""/>
+                            <img class="rounded-circle w-50"
+                                 src="https://api.dicebear.com/7.x/shapes/svg?seed={{ activity.collection.name }}"
+                                 alt=""/>
 
                         {% elif activity|is_user_activity %}
                             <img class="rounded-circle w-50"

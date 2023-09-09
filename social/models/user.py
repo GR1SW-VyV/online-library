@@ -18,7 +18,6 @@ class User(Observer, Observable, AbstractUser):
     def update(self, activity):
         self.feed.add(activity)
 
-
     def do_activity(self):
         activity = self.create_user_activity("does a new activity")
         activity.save()
