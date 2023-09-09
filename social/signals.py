@@ -1,7 +1,7 @@
 from django.db.models.signals import post_migrate
 from django.dispatch import receiver
 from social.models import User
-from social.models import Collection
+from bookcollections.models import Collection
 from faker import Faker
 
 
