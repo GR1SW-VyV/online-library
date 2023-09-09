@@ -37,13 +37,15 @@
             display: flex;
             justify-content: center;
         }
-        .download-button{
-            padding: 10px 20px;
-            font-size: 16px;
+        .download-button {
+            padding: 5px 10px; /* Reduzco el padding para hacerlo más pequeño */
+            font-size: 14px; /* Reduzco el tamaño de fuente */
             border: none;
             cursor: pointer;
-            flex: 0.5;
-        }
+            flex: 0.01;
+            margin-top: 10px; /* Agrego margen superior para moverlo hacia arriba */
+            border-radius: 10px; /* Agrego bordes redondeados */
+    }
 
 
     </style>
@@ -60,15 +62,12 @@
         <h1 id="author">Autor: {{ document.author.name }}</h1>
         <p><strong>Materia/Temática: {{ document.category.capitalize }}</strong> <span id="bookSubject"></span></p>
         <p><strong>Tipo:</strong> {{ document.type.capitalize }} <span id="bookType"></span></p>
+
+        <button onclick="window.open('{{ document.url }}', '_blank');" class="download-button" >Descargar documento</button>
+
     </div>
 </div>
 
-<!-- Botones de guardar y cancelar -->
-
-        <div class="button-container">
-
-            <button onclick="window.open('{{ document.url }}', '_blank');" class="download-button" >Descargar</button>
-        </div>
 
 <!-- Agrega los scripts de Bootstrap JavaScript al final del cuerpo del documento -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
