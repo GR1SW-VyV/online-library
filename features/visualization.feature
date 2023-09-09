@@ -14,8 +14,8 @@ Feature: Display notes
     Examples:
     | document_title | document_id | username       | my_general_notes                               | date                  | my_ordered_general_notes                       |
     | Clean Code     | 1           | Alice Johnson  | This book changed my life,This part was useful | 2023-01-01,2023-01-02 | This part was useful,This book changed my life |
-    | Clean Code     | 1           | David Smith    | Interesting examples,Helpful for projects      | 2023-01-01,2023-01-02 | Interesting examples,Helpful for projects      |
-    | OOP Design     | 2           | Alex Carter    | Practical examples,Needs more context          | 2023-01-01,2023-01-02 | Practical examples,Needs more context          |
+    | Clean Code     | 1           | David Smith    | Interesting examples,Helpful for projects      | 2023-01-01,2023-01-02 | Helpful for projects,Interesting examples      |
+    | OOP Design     | 2           | Alex Carter    | Practical examples,Needs more context          | 2023-01-01,2023-01-02 | Needs more context,Practical examples          |
     | OOP Design     | 2           | Sarah Miller   | Comprehensive coverage,Clear explanation       | 2023-01-01,2023-01-02 | Clear explanation,Comprehensive coverage       |
     | OOP Design     | 2           | Robert Lee     | Step-by-step guide,This part was very clear    | 2023-01-01,2023-01-02 | This part was very clear,Step-by-step guide    |
     | ML Algorithms  | 3           | Julia Chen     | Clear and concise,Pretty repetitive            | 2023-01-01,2023-01-02 | Pretty repetitive,Clear and concise            |
