@@ -1,9 +1,7 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.db.models import Value, Case, When, BooleanField
-from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from django.views.decorators.csrf import csrf_exempt
 
 from annotations.models import Note, NoteDAO
 from social.models import User
@@ -18,12 +16,16 @@ def book_user_notes(request, document_id):
     document = Document.objects.get(uid=document_id)
     page_counter = int(request.GET.get('page', 1))
 
-    # Partial note update
+    # Partial note update/delete
     if request.GET.get('action'):
         note_id = request.GET.get('action').split("_")[1]
-        temp_note = Note.objects.get(id=note_id)
-        temp_note.is_favorite = not temp_note.is_favorite
-        temp_note.save()
+        action = request.GET.get('action').split('_')[0]
+
+        if action == 'favorite':
+            handle_favorite(note_id)
+        elif action == 'delete':
+            handle_delete(note_id)
+
         return redirect(f'/annotations/book/{document_id}/?page={page_counter}')
 
     # Create a note
@@ -56,3 +58,14 @@ def book_user_notes(request, document_id):
                    'notes': notes,
                    'page': page_counter
                    })
+
+
+def handle_delete(note_id):
+    temp_note = Note.objects.get(id=note_id)
+    temp_note.delete()
+
+
+def handle_favorite(note_id):
+    temp_note = Note.objects.get(id=note_id)
+    temp_note.is_favorite = not temp_note.is_favorite
+    temp_note.save()
