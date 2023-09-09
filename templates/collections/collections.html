@@ -1,0 +1,96 @@
+<!--#show collections block-->
+{% extends 'base.html' %}
+
+{% block pre-script %}
+    <style>
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .img-container {
+            width: 220px;
+            height: 180px;
+            display: flex;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    </style>
+{% endblock %}
+
+{% block page %}colecciones{% endblock %}
+{% block content %}
+    <div class="container">
+        <h1>Mis colecciones</h1>
+
+    <form action="" class="mb-3">
+            <div class="row">
+                <div class="col-8">
+                    <label>Búsqueda</label>
+                    <div class="input-group">
+                        <input type="text" name="search" class="form-control" placeholder="Ingresa el texto de búsqueda">
+                        <button class="btn btn-primary">
+                            Buscar
+                        </button>
+                    </div>
+
+                </div>
+                <div class="col-3">
+                    <label>Tipo de búsqueda</label>
+                    <select name="tipo" class="form-select">
+                        <option value="name">Nombre</option>
+                        <option value="category">Categoría</option>
+                    </select>
+                </div>
+
+            </div>
+        </form>
+
+    {% if collections|length <= 0 %}
+        {% if search %}
+            <p class="text-secondary" style="font-size: 22px">Resultados para '{{ search }}'</p>
+        {% else %}
+            <p class="text-secondary" style="font-size: 22px">Aún no tienes colecciones</p>
+        {% endif %}
+
+    {% elif search%}
+        <p class="text-secondary" style="font-size: 22px">Resultados para '{{ search }}'</p>
+    {% endif %}
+
+    <div class="grid gap-3">
+
+        {% for collection in collections %}
+            <div class="d-flex flex-column align-items-center rounded-5 border border-1 border-secondary-subtle p-3 rounded">
+                <div class="img-container rounded-2 mb-3 bg-secondary">
+                    <img src="/static/img/library.jpg" alt="">
+                </div>
+                <span class="badge bg-secondary">{{ collection.calc_score }}</span>
+                <h2 class="text-center">{{ collection.name }} </h2>
+                <a href="/collections/{{ collection.id }}">
+                    <button class="btn btn-primary text-white">
+                        Ver colección
+                        <i class="fa-solid fa-arrow-right-long"></i>
+                    </button>
+                </a>
+            </div>
+        {% endfor %}
+
+    </div>
+    
+
+
+
+    
+    
+    
+    </div>
+
+{% endblock %}
+```
+

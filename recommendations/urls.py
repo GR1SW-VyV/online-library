@@ -2,7 +2,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.recommendations, name='hello'),
-    path('profile/<int:user_id>', views.form_preferences, name='profile'),
+    path('', views.init_recommedation_engine),
+    path('preferences/', views.view_form_preferences),
+    path('send_preferences/', views.send_preferences),
 ]
 

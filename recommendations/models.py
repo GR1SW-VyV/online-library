@@ -1,113 +1,135 @@
 from django.db import models
 from collections import defaultdict
 
+import articles.models
+import bookcollections.models
+from articles import models
+from bookcollections import models
+from social.models import User
 
+import json
 # Create your models here.
-class MockDocuments(models.Model):
-    name = models.CharField(max_length=250)
-    category = models.CharField(max_length=250)
-    view_count = models.IntegerField(null=False, default=0)
 
 
-class MockCollections(models.Model):
-    files = models.ManyToManyField('MockDocuments')
 
-
-class MockUser(models.Model):
-    preferences = models.JSONField(default=dict)  # {categoria: numeor}
-    collections = models.ManyToManyField('MockCollections')  # colecciones de cada usuario
+class RecommendationEngine:
+    def __init__(self, user):
+        self.user = user
 
     def has_collections(self):
-        return self.collections.exists()
+        # check if collections exist
+        return bookcollections.models.Collection.objects.filter(user=self.user).exists()
 
     def recollect_preferences(self):
-        # Inicializar un diccionario para realizar un seguimiento de las categorías y su recuento.
+        # Initialize a dictionary to keep track of categories and their count.
         category_count = defaultdict(int)
 
-        # Recorrer todas las colecciones del usuario.
-        for collection in self.collections.all():
-            # Recorrer los documentos dentro de cada colección.
-            for document in collection.files.all():
-                # Obtener la categoría del documento.
-                category = document.category
+        # Loop through all the user's collections.
+        for collection in bookcollections.models.CollectionDAO.get_all_by_user(self.user.id).all():
+            # Loop through the documents within each collection.
 
-                # Actualizar el recuento de la categoría.
+            # recolect by collection's category
+            # category = collection.category
+            # category_count[category] += 1
+
+            # recolect by documents into collection
+            for document in articles.models.Document.objects.filter(collections=collection):
+                # Get the category of the document.
+                category = document.category
+                # Update category count.
                 category_count[category] += 1
 
-        # Actualizar las preferencias del usuario según el recuento de categorías.
+        # Update user preferences based on category count.
         for category, count in category_count.items():
-            # Si la categoría ya existe en las preferencias, aumenta su valor.
-            if category in self.preferences:
-                self.preferences[category] += count
-            # Si la categoría es nueva, agrégala con un valor de 1.
+            # If the category already exists in the preferences, increase its value.
+            if category in self.user.preferences:
+                self.user.preferences[category] += count
+            # If the category is new, add it with a value of 1.
             else:
-                self.preferences[category] = 1
+                self.user.preferences[category] = 1
 
-        # Guardar las preferencias actualizadas en la base de datos.
-        self.save()
+        # Save the updated preferences in the database.
+        self.user.save()
 
     def recive_preferences(self, *preferences):
-        # Inicializar un diccionario para realizar un seguimiento de las categorías y su recuento.
+        # Initialize a dictionary to keep track of categories and their count.
         preferences_count = defaultdict(int)
 
         for x in preferences:
-            self.preferences[x] += 1
+            preferences_count[x] += 1
 
-        #actualizar las preferencias del usuario segun las preferencias
+        # update user preferences based on preferences
         for category, count in preferences_count.items():
-            # Si la categoría ya existe en las preferencias, aumenta su valor.
-            if category in self.preferences:
-                self.preferences[category] += count
-            # Si la categoría es nueva, agrégala con un valor de 1.
+            # If the category already exists in the preferences, increase its value.
+            if category in self.user.preferences:
+                self.user.preferences[category] += count
+            # If the category is new, add it with a value of 1.
             else:
-                self.preferences[category] = 1
+                self.user.preferences[category] = 1
 
-        # Guardar las preferencias actualizadas en la base de datos.
-        self.save()
+        print(self.user.preferences)
+
+        # Save the updated preferences in the database.
+        self.user.save()
 
     def get_top_categories(self):
-        # Generar las categorías por las colecciones
+        # Generate categories by collections
         self.recollect_preferences()
 
-        # Ordenar el diccionario preferences por sus valores en orden descendente.
-        sorted_preferences = sorted(self.preferences.items(), key=lambda item: item[1], reverse=True)
+        # Sort the preferences dictionary by its values in descending order.
+        sorted_preferences = sorted(self.user.preferences.items(), key=lambda item: item[1], reverse=True)
 
-        # Tomar las tres primeras claves con los valores más altos, si existen.
+        # Take the first three keys with the highest values, if they exist.
         top_categories = [item[0] for item in sorted_preferences[:3]]
 
-        # Rellenar con cadenas vacías hasta tener 3 elementos
+        # Fill with empty strings until you have 3 elements.
         while len(top_categories) < 3:
             top_categories.append("")
 
         return top_categories
 
     def get_recomendations(self):
-        #seleccionamos las categorias mas altas
+        # Select the highest categories
         categories = self.get_top_categories()
 
-        # Inicializar un diccionario para almacenar los documentos principales por categoría.
-        top_documents_by_category = defaultdict(list)
+        # Initialize a dictionary to store the recommendations.
+        recommendations = []
 
-        # Iterar a través de las categorías proporcionadas.
+        # Iterate through the provided categories.
         for category in categories:
-            # Filtrar los documentos por categoría y ordenar por vista en orden descendente.
-            top_documents = MockDocuments.objects.filter(category=category).order_by('-view_count')[:4]
+            # Filter documents by category and sort by view in descending order.
+            top_documents = articles.models.Document.objects.filter(category=category).order_by('-view_count')[:4]
 
-            # Agregar los documentos principales al diccionario.
-            top_documents_by_category[category] = top_documents
+            # Create a dictionary for the current category and its documents.
+            category_recommendation = {
+                'category': category,
+                'books': []
+            }
 
-        return dict(top_documents_by_category)
+            # Iterate through the top documents for the current category.
+            for document in top_documents:
+                # Create a dictionary for each document.
+                book_info = {
+                    'uid': document.uid,
+                    'title': document.title,
+                    'author': document.author,
+                    'path': document.url(),
+                }
+                # Add the document dictionary to the current category's 'books' list.
+                category_recommendation['books'].append(book_info)
 
-    def recomendation_by_category(self):
-        recomendations = self.get_recomendations()
-        categories = list(recomendations.keys())
+            # Add the category recommendation to the main recommendations list.
+            recommendations.append(category_recommendation)
+        return recommendations
 
-        # Añadir tuplas ("", 0) para completar hasta 3 tuplas
-        while len(categories) < 3:
-            categories.append("")
+    def recommendation_total(self):
+        # Getting Recommendations
+        recommendations = self.get_recomendations()
+        total = 0
+        # iterate to calculate total recommendations
+        for x in recommendations.values():
+            total += len(x)
+        return total
 
-        # Iterar a través de las categorías y emitir las tuplas
-        for category in categories:
-            yield category, len(recomendations.get(category, []))
 
 
