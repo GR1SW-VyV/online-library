@@ -70,11 +70,12 @@ def step_impl(context, my_page_notes, page_number, date, is_favorite):
     :type date: str
     :type is_favorite: str
     """
-    for note, page, date in zip(my_page_notes.split(","), page_number.split(","), date.split(",")):
+    for note, date, favorite in zip(my_page_notes.split(","), date.split(","), is_favorite.split(",")):
         context.my_page_note = PageNote.objects.create(
             content=note,
             date=date,
-            page=page,
+            is_favorite=favorite,
+            page=page_number,
             user=context.user,
             document=context.document
         )
@@ -165,12 +166,12 @@ def step_impl(context, page_notes, page_number, date, is_favorite):
     :type date: str
     :type is_favorite: str
     """
-    for note, page, date, is_favorite in zip(page_notes.split(","), page_number.split(","), date.split(","),
+    for note, page, date, favorite in zip(page_notes.split(","), page_number.split(","), date.split(","),
                                              is_favorite.split(",")):
         context.page_note = PageNote.objects.create(
             content=note,
             date=date,
-            is_favorite=is_favorite,
+            is_favorite=favorite,
             page=page,
             user=User.objects.create_reader_user(username=Faker().name(), password=Faker().password()),
             document=context.document
