@@ -22,16 +22,16 @@ class PageNote(models.Model):
 
 class PageNoteDAO:
     @classmethod
-    def get_personal_page_notes(cls, username, book_id, page):
-        notes = PageNote.objects.all().filter(user__username=username, document__uid=book_id, page=page)
+    def get_personal_page_notes(cls, username, document_id, page):
+        notes = PageNote.objects.all().filter(user__username=username, document__uid=document_id, page=page)
         ordered_notes = list(notes)
         ordered_notes.sort(key=lambda note: note.date, reverse=True)
         ordered_notes.sort(key=lambda note: -note.is_favorite)
         return list(ordered_notes)
 
     @classmethod
-    def get_page_notes(cls, username, book_id, page):
-        notes = PageNote.objects.all().exclude(user__username=username).filter(document__uid=book_id, page=page)
+    def get_page_notes(cls, username, document_id, page):
+        notes = PageNote.objects.all().exclude(user__username=username).filter(document__uid=document_id, page=page)
         ordered_notes = list(notes)
         ordered_notes.sort(key=lambda note: note.date, reverse=True)
         ordered_notes.sort(
@@ -48,15 +48,15 @@ class PageNoteDAO:
 
 class GeneralNoteDAO:
     @classmethod
-    def get_personal_general_notes(cls, username, book_id):
-        notes = GeneralNote.objects.all().filter(user__username=username, document__uid=book_id)
+    def get_personal_general_notes(cls, username, document_id):
+        notes = GeneralNote.objects.all().filter(user__username=username, document__uid=document_id)
         ordered_notes = list(notes)
         ordered_notes.sort(key=lambda note: note.date, reverse=True)
         return list(ordered_notes)
 
     @classmethod
-    def get_general_notes(cls, username, book_id):
-        notes = GeneralNote.objects.all().exclude(user__username=username).filter(document__uid=book_id)
+    def get_general_notes(cls, username, document_id):
+        notes = GeneralNote.objects.all().exclude(user__username=username).filter(document__uid=document_id)
         ordered_notes = list(notes)
         ordered_notes.sort(key=lambda note: note.date, reverse=True)
         ordered_notes.sort(key=lambda note: (-note.user.is_professor(), -note.user.followers_count()))
