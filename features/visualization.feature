@@ -9,7 +9,7 @@ Feature: Display notes
     * I am logged in with my username <username>
     * there are notes <my_general_notes> added by me on <date> date
     When I want to read my notes
-    Then it should display my personal notes <my_ordered_general_notes> ordered by date and favorite
+    Then it should display my personal notes <my_ordered_general_notes> ordered by date
 
     Examples:
     | document_title | document_id | username       | my_general_notes                               | date                  | my_ordered_general_notes                       |
@@ -29,15 +29,15 @@ Feature: Display notes
     Then it should display my personal notes <my_ordered_page_notes> ordered by date and favorite
 
     Examples:
-    | document_title | document_id | username        | page_number | my_page_notes                                      | is_favorite | date                   | my_ordered_page_notes                              |
-    | Clean Code     | 1           | Alice Johnson   | 1           | Don't forget these concepts,This part was useful   | 1,0         | 2023-01-01, 2023-01-02 | This part was useful,Don't forget these concepts   |
-    | Clean Code     | 1           | David Smith     | 2           | Interesting examples here,Helpful for projects     | 0,1         | 2023-01-01, 2023-01-02 | Interesting examples here,Helpful for projects     |
-    | Clean Code     | 1           | Emily Brown     | 10          | Insightful example,Needs more context              | 1,0         | 2023-01-01, 2023-01-02 | Insightful example,Needs more context              |
-    | OOP Design     | 2           | Alex Carter     | 3           | Practical exercise,Clear explanation               | 1,0         | 2023-01-01, 2023-01-02 | Clear explanation,Practical exercise               |
-    | OOP Design     | 2           | Sarah Miller    | 8           | Comprehensive explanation,This part was very clear | 0,1         | 2023-01-01, 2023-01-02 | Comprehensive explanation,This part was very clear |
-    | OOP Design     | 2           | Robert Lee      | 12          | Step-by-step guide,Pretty repetitive               | 1,0         | 2023-01-01, 2023-01-02 | Pretty repetitive,Step-by-step guide               |
-    | ML Algorithms  | 3           | Julia Chen      | 2           | Clear and concise explanation,Needs more examples  | 0,1         | 2023-01-01, 2023-01-02 | Clear and concise explanation,Needs more examples  |
-    | ML Algorithms  | 3           | Michael Wong    | 7           | In-depth analysis,Practical examples               | 0,1         | 2023-01-01, 2023-01-02 | In-depth analysis,Practical examples               |
+    | document_title | document_id | username        | page_number | my_page_notes                                      | is_favorite | date                  | my_ordered_page_notes                              |
+    | Clean Code     | 1           | Alice Johnson   | 1           | Don't forget these concepts,This part was useful   | 1,0         | 2023-01-01,2023-01-02 | This part was useful,Don't forget these concepts   |
+    | Clean Code     | 1           | David Smith     | 2           | Interesting examples here,Helpful for projects     | 0,1         | 2023-01-01,2023-01-02 | Interesting examples here,Helpful for projects     |
+    | Clean Code     | 1           | Emily Brown     | 10          | Insightful example,Needs more context              | 1,0         | 2023-01-01,2023-01-02 | Insightful example,Needs more context              |
+    | OOP Design     | 2           | Alex Carter     | 3           | Practical exercise,Clear explanation               | 1,0         | 2023-01-01,2023-01-02 | Clear explanation,Practical exercise               |
+    | OOP Design     | 2           | Sarah Miller    | 8           | Comprehensive explanation,This part was very clear | 0,1         | 2023-01-01,2023-01-02 | Comprehensive explanation,This part was very clear |
+    | OOP Design     | 2           | Robert Lee      | 12          | Step-by-step guide,Pretty repetitive               | 1,0         | 2023-01-01,2023-01-02 | Pretty repetitive,Step-by-step guide               |
+    | ML Algorithms  | 3           | Julia Chen      | 2           | Clear and concise explanation,Needs more examples  | 0,1         | 2023-01-01,2023-01-02 | Clear and concise explanation,Needs more examples  |
+    | ML Algorithms  | 3           | Michael Wong    | 7           | In-depth analysis,Practical examples               | 0,1         | 2023-01-01,2023-01-02 | In-depth analysis,Practical examples               |
 
 
   Scenario Outline: General notes
@@ -46,18 +46,18 @@ Feature: Display notes
     * I have <followers> followers
     * there are general notes <general_notes> added by other users on <date> date
     When I want to read the general notes
-    Then it should display the general notes <ordered_general_notes> ordered by date and favorite
+    Then it should display the general notes <ordered_general_notes> ordered by date
 
     Examples:
-    | document_title | document_id | username      | user_type    | followers | general_notes                                                            | date                   | ordered_general_notes                             |
-    | Clean Code     | 1           | alice.johnson | reader       | 1         | Important concepts,Explained well,Not relevant                           | 2023-01-01, 2023-01-02 | Important concepts,Explained well,Not relevant    |
-    | Clean Code     | 1           | david.smith   | professor    | 2         | Remember for future projects,Skipped,Interesting                         | 2023-01-01, 2023-01-02 | Skipped,Remember for future projects,Interesting  |
-    | OOP Design     | 2           | alex.carter   | professor    | 3         | Missing real-world scenarios,Too theoretical                             | 2023-01-01, 2023-01-02 | Missing real-world scenarios,Too theoretical      |
-    | OOP Design     | 2           | sarah.miller  | reader       | 4         | Confusing terminology,Useful diagrams,Too verbose                        | 2023-01-01, 2023-01-02 | Useful diagrams,Confusing terminology,Too verbose |
-    | OOP Design     | 2           | robert.lee    | professor    | 5         | Simplified explanations,Repetitive content,Too advanced                  | 2023-01-01, 2023-01-02 | Simplified explanations,Repetitive content        |
-    | ML Algorithms  | 3           | julia.chen    | reader       | 6         | Lacks advanced topics,Great for beginners,Too shallow                    | 2023-01-01, 2023-01-02 | Great for beginners,Lacks advanced topics         |
-    | ML Algorithms  | 3           | michael.wong  | reader       | 7         | Real-world case studies missing,Well-structured,Requires prior knowledge | 2023-01-01, 2023-01-02 | Real-world case studies missing,Well-structured   |
-    | ML Algorithms  | 3           | nicole.patel  | reader       | 8         | Comprehensive resource,Requires more examples,Good references            | 2023-01-01, 2023-01-02 | Requires more examples,Comprehensive resource     |
+    | document_title | document_id | username      | user_type    | followers | general_notes                                                            | date                  | ordered_general_notes                             |
+    | Clean Code     | 1           | alice.johnson | reader       | 1         | Important concepts,Explained well,Not relevant                           | 2023-01-01,2023-01-02 | Important concepts,Explained well,Not relevant    |
+    | Clean Code     | 1           | david.smith   | professor    | 2         | Remember for future projects,Skipped,Interesting                         | 2023-01-01,2023-01-02 | Skipped,Remember for future projects,Interesting  |
+    | OOP Design     | 2           | alex.carter   | professor    | 3         | Missing real-world scenarios,Too theoretical                             | 2023-01-01,2023-01-02 | Missing real-world scenarios,Too theoretical      |
+    | OOP Design     | 2           | sarah.miller  | reader       | 4         | Confusing terminology,Useful diagrams,Too verbose                        | 2023-01-01,2023-01-02 | Useful diagrams,Confusing terminology,Too verbose |
+    | OOP Design     | 2           | robert.lee    | professor    | 5         | Simplified explanations,Repetitive content,Too advanced                  | 2023-01-01,2023-01-02 | Simplified explanations,Repetitive content        |
+    | ML Algorithms  | 3           | julia.chen    | reader       | 6         | Lacks advanced topics,Great for beginners,Too shallow                    | 2023-01-01,2023-01-02 | Great for beginners,Lacks advanced topics         |
+    | ML Algorithms  | 3           | michael.wong  | reader       | 7         | Real-world case studies missing,Well-structured,Requires prior knowledge | 2023-01-01,2023-01-02 | Real-world case studies missing,Well-structured   |
+    | ML Algorithms  | 3           | nicole.patel  | reader       | 8         | Comprehensive resource,Requires more examples,Good references            | 2023-01-01,2023-01-02 | Requires more examples,Comprehensive resource     |
 
 
   Scenario Outline: Page notes

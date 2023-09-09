@@ -132,11 +132,10 @@ def step_impl(context, general_notes, date):
     :type general_notes: str
     :type date: str
     """
-    for note, date, is_favorite in zip(general_notes.split(","), date.split(","), is_favorite.split(",")):
+    for note, date in zip(general_notes.split(","), date.split(",")):
         context.general_note = GeneralNote.objects.create(
             content=note,
             date=date,
-            is_favorite=is_favorite,
             user=User.objects.create_reader_user(username=Faker().name(), password=Faker().password()),
             document=context.document
         )
@@ -150,7 +149,7 @@ def step_impl(context):
     context.general_notes = GeneralNoteDAO.get_general_notes(context.user.username, context.document.id)
 
 
-@then("it should display the general notes (?P<ordered_general_notes>.+) ordered by date and favorite")
+@then("it should display the general notes (?P<ordered_general_notes>.+) ordered by date")
 def step_impl(context, ordered_general_notes):
     """
     :type context: behave.runner.Context
