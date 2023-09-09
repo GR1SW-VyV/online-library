@@ -1,0 +1,14 @@
+{% extends 'visualization/document_info.html' %}
+{% block general_notes %}
+	<div class="row">
+        {% for note in document_notes %}
+            <div class="row border rounded bg-body-secondary">
+                <div class="col-3">{{ note.user }}</div>
+                <div class="col-3">{{ note.date }}</div>
+            </div>
+            <div class="row border rounded">
+                <p>{{ note.content }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

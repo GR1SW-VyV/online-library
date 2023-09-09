@@ -1,0 +1,38 @@
+{% extends 'visualization/.html' %}
+{% block my_notes %}
+	<div class="row">
+        {% for note in page_note %}
+            <div class="row border rounded bg-body-secondary">
+                <div class="col-3">{{ note.user }}</div>
+                <div class="col-3">{{ note.date }}</div>
+                <div class="col text-end">
+                    {% if note.is_favorite %}
+                        <i class="fa-solid fa-star"></i>
+                        {% else %}
+                        <i class="fa-regular fa-star"></i>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row border rounded">
+                <p>{{ note.content }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block other_notes %}
+    <div class="row">
+        {% for note in page_note %}
+            <div class="row border rounded bg-body-secondary">
+                <div class="col-3">{{ note.user }}</div>
+                <div class="col-3">{{ note.date }}</div>
+                <div class="col text-end">
+                    <i class="fa-regular fa-star"></i>
+                </div>
+            </div>
+            <div class="row border rounded">
+                <p>{{ note.content }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
