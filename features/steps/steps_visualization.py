@@ -93,13 +93,13 @@ def step_impl(context, page_number):
     context.my_page_notes = PageNoteDAO.get_personal_page_notes(context.user.username, context.document.id, page_number)
 
 
-@then("it should display my personal notes (?P<my_ordered_notes>.+) ordered by date and favorite")
-def step_impl(context, my_ordered_notes):
+@then("it should display my personal notes (?P<my_ordered_page_notes>.+) ordered by date and favorite")
+def step_impl(context, my_ordered_page_notes):
     """
     :type context: behave.runner.Context
-    :type my_ordered_notes: str
+    :type my_ordered_page_notes: str
     """
-    expect(context.my_page_notes).to(equal(my_ordered_notes))
+    expect(context.my_page_notes).to(equal(my_ordered_page_notes))
 
 
 @step("I am a (?P<user_type>.+) logged in with my username (?P<username>.+)")

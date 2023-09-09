@@ -26,10 +26,10 @@ Feature: Display notes
     * I am logged in with my username <username>
     * there are notes <my_page_notes> added by me in the page <page_number> on <date> date marked as <is_favorite> favorite
     When I want to read my notes in the page <page_number>
-    Then it should display my personal notes <my_ordered_notes> ordered by date and favorite
+    Then it should display my personal notes <my_ordered_page_notes> ordered by date and favorite
 
     Examples:
-    | document_title | document_id | username        | page_number | my_page_notes                                      | is_favorite | date                   | my_ordered_notes                                   |
+    | document_title | document_id | username        | page_number | my_page_notes                                      | is_favorite | date                   | my_ordered_page_notes                              |
     | Clean Code     | 1           | Alice Johnson   | 1           | Don't forget these concepts,This part was useful   | 1,0         | 2023-01-01, 2023-01-02 | This part was useful,Don't forget these concepts   |
     | Clean Code     | 1           | David Smith     | 2           | Interesting examples here,Helpful for projects     | 0,1         | 2023-01-01, 2023-01-02 | Interesting examples here,Helpful for projects     |
     | Clean Code     | 1           | Emily Brown     | 10          | Insightful example,Needs more context              | 1,0         | 2023-01-01, 2023-01-02 | Insightful example,Needs more context              |
