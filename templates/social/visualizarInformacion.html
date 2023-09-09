@@ -33,6 +33,19 @@
             object-fit: cover;
             margin-bottom: 10px;
         }
+        .button-container {
+            display: flex;
+            justify-content: center;
+        }
+        .download-button{
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            flex: 0.5;
+        }
+
+
     </style>
 </head>
 <body>
@@ -50,6 +63,13 @@
         <p><strong>Tipo:</strong> <span id="bookType">Tipo</span></p>
     </div>
 </div>
+
+<!-- Botones de guardar y cancelar -->
+
+        <div class="button-container">
+
+            <button type="download" class="download-button">Descargar</button>
+        </div>
 
 <!-- Agrega los scripts de Bootstrap JavaScript al final del cuerpo del documento -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
