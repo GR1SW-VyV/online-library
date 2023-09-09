@@ -15,9 +15,9 @@ Feature: Display notes
     | document_title | document_id | username       | my_general_notes                               | date                  | my_ordered_general_notes                       |
     | Clean Code     | 1           | Alice Johnson  | This book changed my life,This part was useful | 2023-01-01,2023-01-02 | This part was useful,This book changed my life |
     | Clean Code     | 1           | David Smith    | Interesting examples,Helpful for projects      | 2023-01-01,2023-01-02 | Helpful for projects,Interesting examples      |
-    | OOP Design     | 2           | Alex Carter    | Practical examples,Needs more context          | 2023-01-01,2023-01-02 | Needs more context,Practical examples          |
-    | OOP Design     | 2           | Sarah Miller   | Comprehensive coverage,Clear explanation       | 2023-01-01,2023-01-02 | Clear explanation,Comprehensive coverage       |
-    | OOP Design     | 2           | Robert Lee     | Step-by-step guide,This part was very clear    | 2023-01-01,2023-01-02 | This part was very clear,Step-by-step guide    |
+    | OOP Design     | 2           | Alex Carter    | Practical examples,Needs more context          | 2023-02-01,2023-01-02 | Practical examples,Needs more context          |
+    | OOP Design     | 2           | Sarah Miller   | Comprehensive coverage,Clear explanation       | 2023-01-01,2023-01-10 | Clear explanation,Comprehensive coverage       |
+    | OOP Design     | 2           | Robert Lee     | Step-by-step guide,This part was very clear    | 2023-07-11,2023-01-02 | Step-by-step guide,This part was very clear    |
     | ML Algorithms  | 3           | Julia Chen     | Clear and concise,Pretty repetitive            | 2023-01-01,2023-01-02 | Pretty repetitive,Clear and concise            |
 
 
@@ -30,14 +30,14 @@ Feature: Display notes
 
     Examples:
     | document_title | document_id | username        | page_number | my_page_notes                                      | is_favorite | date                  | my_ordered_page_notes                              |
-    | Clean Code     | 1           | Alice Johnson   | 1           | Don't forget these concepts,This part was useful   | 1,0         | 2023-01-01,2023-01-02 | This part was useful,Don't forget these concepts   |
-    | Clean Code     | 1           | David Smith     | 2           | Interesting examples here,Helpful for projects     | 0,1         | 2023-01-01,2023-01-02 | Interesting examples here,Helpful for projects     |
-    | Clean Code     | 1           | Emily Brown     | 10          | Insightful example,Needs more context              | 1,0         | 2023-01-01,2023-01-02 | Insightful example,Needs more context              |
-    | OOP Design     | 2           | Alex Carter     | 3           | Practical exercise,Clear explanation               | 1,0         | 2023-01-01,2023-01-02 | Clear explanation,Practical exercise               |
-    | OOP Design     | 2           | Sarah Miller    | 8           | Comprehensive explanation,This part was very clear | 0,1         | 2023-01-01,2023-01-02 | Comprehensive explanation,This part was very clear |
-    | OOP Design     | 2           | Robert Lee      | 12          | Step-by-step guide,Pretty repetitive               | 1,0         | 2023-01-01,2023-01-02 | Pretty repetitive,Step-by-step guide               |
-    | ML Algorithms  | 3           | Julia Chen      | 2           | Clear and concise explanation,Needs more examples  | 0,1         | 2023-01-01,2023-01-02 | Clear and concise explanation,Needs more examples  |
-    | ML Algorithms  | 3           | Michael Wong    | 7           | In-depth analysis,Practical examples               | 0,1         | 2023-01-01,2023-01-02 | In-depth analysis,Practical examples               |
+    | Clean Code     | 1           | Alice Johnson   | 1           | Don't forget these concepts,This part was useful   | 1,1         | 2023-01-01,2023-01-02 | This part was useful,Don't forget these concepts   |
+    | Clean Code     | 1           | David Smith     | 2           | Interesting examples here,Helpful for projects     | 0,0         | 2023-01-03,2023-01-01 | Interesting examples here,Helpful for projects     |
+    | Clean Code     | 1           | Emily Brown     | 10          | Insightful example,Needs more context              | 0,0         | 2023-01-01,2023-01-09 | Needs more context,Insightful example              |
+    | OOP Design     | 2           | Alex Carter     | 3           | Practical exercise,Clear explanation               | 1,0         | 2023-01-01,2023-01-01 | Practical exercise,Clear explanation               |
+    | OOP Design     | 2           | Sarah Miller    | 8           | Comprehensive explanation,This part was very clear | 0,1         | 2023-03-02,2023-03-02 | This part was very clear,Comprehensive explanation |
+    | OOP Design     | 2           | Robert Lee      | 12          | Step-by-step guide,Pretty repetitive               | 1,0         | 2023-01-01,2023-01-02 | Step-by-step guide,Pretty repetitive               |
+    | ML Algorithms  | 3           | Julia Chen      | 2           | Clear and concise explanation,Needs more examples  | 0,1         | 2023-01-01,2023-01-02 | Needs more examples,Clear and concise explanation  |
+    | ML Algorithms  | 3           | Michael Wong    | 7           | In-depth analysis,Practical examples               | 1,0         | 2023-01-01,2023-01-02 | In-depth analysis,Practical examples               |
 
 
   Scenario Outline: General notes
