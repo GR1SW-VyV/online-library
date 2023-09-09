@@ -42,40 +42,38 @@ Feature: Display notes
 
   Scenario Outline: General notes
     Given I have the document <document_title> with the id <document_id>
-    * I am a <user_type> logged in with my username <username>
-    * I have <followers> followers
-    * there are general notes <general_notes> added by other users on <date> date
+    * I am logged in with my username <username>
+    * there are general notes <general_notes> added by other users who are <user_type> with <followers> followers on <date> date
     When I want to read the general notes
     Then it should display the general notes <ordered_general_notes> ordered by date
 
     Examples:
-    | document_title | document_id | username      | user_type    | followers | general_notes                                                            | date                  | ordered_general_notes                             |
-    | Clean Code     | 1           | alice.johnson | reader       | 1         | Important concepts,Explained well,Not relevant                           | 2023-01-01,2023-01-02 | Important concepts,Explained well,Not relevant    |
-    | Clean Code     | 1           | david.smith   | professor    | 2         | Remember for future projects,Skipped,Interesting                         | 2023-01-01,2023-01-02 | Skipped,Remember for future projects,Interesting  |
-    | OOP Design     | 2           | alex.carter   | professor    | 3         | Missing real-world scenarios,Too theoretical                             | 2023-01-01,2023-01-02 | Missing real-world scenarios,Too theoretical      |
-    | OOP Design     | 2           | sarah.miller  | reader       | 4         | Confusing terminology,Useful diagrams,Too verbose                        | 2023-01-01,2023-01-02 | Useful diagrams,Confusing terminology,Too verbose |
-    | OOP Design     | 2           | robert.lee    | professor    | 5         | Simplified explanations,Repetitive content,Too advanced                  | 2023-01-01,2023-01-02 | Simplified explanations,Repetitive content        |
-    | ML Algorithms  | 3           | julia.chen    | reader       | 6         | Lacks advanced topics,Great for beginners,Too shallow                    | 2023-01-01,2023-01-02 | Great for beginners,Lacks advanced topics         |
-    | ML Algorithms  | 3           | michael.wong  | reader       | 7         | Real-world case studies missing,Well-structured,Requires prior knowledge | 2023-01-01,2023-01-02 | Real-world case studies missing,Well-structured   |
-    | ML Algorithms  | 3           | nicole.patel  | reader       | 8         | Comprehensive resource,Requires more examples,Good references            | 2023-01-01,2023-01-02 | Requires more examples,Comprehensive resource     |
+    | document_title | document_id | username      | user_type                     | followers | general_notes                                                            | date                             | ordered_general_notes                                                    |
+    | Clean Code     | 1           | alice.johnson | reader,reader,professor       | 1,2,3     | Important concepts,Explained well,Not relevant                           | 2023-01-03,2023-01-02,2023-01-01 | Not relevant,Important concepts,Explained well                           |
+    | Clean Code     | 1           | david.smith   | professor,reader,professor    | 2,3,4     | Remember for future projects,Skipped,Interesting                         | 2023-01-03,2023-01-02,2023-01-01 | Remember for future projects,Interesting,Skipped                         |
+    | OOP Design     | 2           | alex.carter   | professor,professor,reader    | 3,4,5     | Missing real-world scenarios,Too theoretical,Not interesting             | 2023-01-03,2023-01-02,2023-01-01 | Too theoretical,Missing real-world scenarios,Not interesting             |
+    | OOP Design     | 2           | sarah.miller  | reader,professor,reader       | 4,5,6     | Confusing terminology,Useful diagrams,Too verbose                        | 2023-01-03,2023-01-02,2023-01-01 | Useful diagrams,Too verbose,Confusing terminology,                       |
+    | OOP Design     | 2           | robert.lee    | professor,professor,reader    | 5,6,7     | Simplified explanations,Repetitive content,Too advanced                  | 2023-01-03,2023-01-02,2023-01-01 | Simplified explanations,Too advanced,Repetitive content                  |
+    | ML Algorithms  | 3           | julia.chen    | reader,reader,professor       | 6,7,8     | Lacks advanced topics,Great for beginners,Too shallow                    | 2023-01-03,2023-01-02,2023-01-01 | Too shallow,Lacks advanced topics,Great for beginners                    |
+    | ML Algorithms  | 3           | michael.wong  | professor,professor,professor | 7,8,9     | Real-world case studies missing,Well-structured,Requires prior knowledge | 2023-01-03,2023-01-02,2023-01-01 | Real-world case studies missing,Requires prior knowledge,Well-structured |
+    | ML Algorithms  | 3           | nicole.patel  | professor,reader,reader       | 8,9,10    | Comprehensive resource,Requires more examples,Good references            | 2023-01-03,2023-01-02,2023-01-01 | Comprehensive resource,Good references,Requires more examples            |
+
 
 
   Scenario Outline: Page notes
     Given I have the document <document_title> with the id <document_id>
-    * I am a <user_type> logged in with my username <username>
-    * I have <followers> followers
-    * there are notes <page_notes> added by other users in the page <page_number> on <date> date marked as <is_favorite> favorite
+    * I am logged in with my username <username>
+    * there are notes <page_notes> added by other users who are <user_type> with <followers> followers in the page <page_number> on <date> date marked as <is_favorite> favorite
     When I want to read the notes in the page <page_number>
     Then it should display the notes <ordered_page_notes> ordered by date and favorite
 
     Examples:
-    | document_title | document_id | username      | user_type | followers | page_number | page_notes                                                           | date                             | is_favorite | ordered_page_notes                                                   |
-    | Clean Code     | 1           | alice.johnson | reader    | 1         | 1           | Important introduction,Explained well,Not relevant                   | 2023-01-01,2023-01-02,2023-01-03 | 1,0,0       | Not relevant,Explained well,Important introduction                   |
-    | Clean Code     | 1           | david.smith   | professor | 2         | 2           | Remember for future projects,Skipped,Interesting                     | 2023-01-01,2023-01-02,2023-01-03 | 0,1,1       | Interesting,Remember for future projects,Skipped                     |
-    | Clean Code     | 1           | emily.brown   | professor | 3         | 10          | Important concept,Useful code snippet,Needs more context             | 2023-01-01,2023-01-02,2023-01-03 | 1,0,0       | Needs more context,Important concept,Useful code snippet             |
-    | OOP Design     | 2           | alex.carter   | reader    | 4         | 3           | Missing explanation,Well-structured,Too simple                       | 2023-01-01,2023-01-02,2023-01-03 | 0,1,1       | Too simple,Well-structured,Missing explanation                       |
-    | OOP Design     | 2           | sarah.miller  | professor | 5         | 8           | Unclear terminology,Great diagram,Advanced content                   | 2023-01-01,2023-01-02,2023-01-03 | 1,0,1       | Advanced content,Unclear terminology,Great diagram                   |
-    | OOP Design     | 2           | robert.lee    | reader    | 6         | 12          | Repetitive content,Valuable insights,Not necessary                   | 2023-01-01,2023-01-02,2023-01-03 | 0,1,0       | Valuable insights,Repetitive content,Not necessary                   |
-    | ML Algorithms  | 3           | julia.chen    | reader    | 7         | 2           | Lacks real-world examples,Good for beginners,Too shallow             | 2023-01-01,2023-01-02,2023-01-03 | 1,0,1       | Too shallow,Good for beginners,Lacks real-world examples             |
-    | ML Algorithms  | 3           | michael.wong  | reader    | 8         | 7           | Missing practical cases,Structured content,Requires prior knowledge  | 2023-01-01,2023-01-02,2023-01-03 | 0,1,1       | Requires prior knowledge,Structured content,Missing practical cases  |
-    | ML Algorithms  | 3           | nicole.patel  | professor | 9         | 10          | Needs more practical insights,Good references,Comprehensive resource | 2023-01-01,2023-01-02,2023-01-03 | 1,0,0       | Comprehensive resource,Needs more practical insights,Good references |
+    | document_title | document_id | username      | user_type                     | followers | page_number | page_notes                                                          | date                             | is_favorite | ordered_page_notes                                                  |
+    | Clean Code     | 1           | emily.brown   | professor,professor,reader    | 3,4,5     | 10          | Needs more context,Important concept,Useful code snippet            | 2023-01-03,2023-01-01,2023-01-02 | 0,1,0       | Needs more context,Important concept,Useful code snippet            |
+    | OOP Design     | 2           | sarah.miller  | professor,professor,reader    | 5,6,7     | 8           | Advanced content,Unclear terminology,Great diagram                  | 2023-01-03,2023-01-01,2023-01-02 | 1,0,0       | Advanced content,Unclear terminology,Great diagram                  |
+    | OOP Design     | 2           | alex.carter   | reader,professor,reader       | 4,5,6     | 3           | Too simple,Well-structured,Missing explanation                      | 2023-01-03,2023-01-01,2023-01-02 | 0,1,1       | Well-structured,Missing explanation,Too simple                      |
+    | Clean Code     | 1           | david.smith   | professor,reader,professor    | 2,3,4     | 2           | Interesting,Remember for future projects,Skipped                    | 2023-01-03,2023-01-01,2023-01-02 | 0,0,1       | Interesting,Remember for future projects,Skipped                    |
+    | ML Algorithms  | 3           | julia.chen    | professor,professor,professor | 7,8,9     | 2           | Too shallow,Good for beginners,Lacks real-world examples            | 2023-01-03,2023-01-01,2023-01-02 | 1,1,0       | Too shallow,Good for beginners,Lacks real-world examples            |
+    | ML Algorithms  | 3           | michael.wong  | professor,reader,reader       | 8,9,10    | 7           | Requires prior knowledge,Structured content,Missing practical cases | 2023-01-03,2023-01-01,2023-01-02 | 1,1,1       | Requires prior knowledge,Structured content,Missing practical cases |
+    | OOP Design     | 2           | robert.lee    | reader,reader,professor       | 6,7,8     | 12          | Valuable insights,Repetitive content,Not necessary                  | 2023-01-03,2023-01-01,2023-01-02 | 1,0,1       | Valuable insights,Repetitive content,Not necessary                  |
+    | Clean Code     | 1           | alice.johnson | reader,reader,professor       | 1,2,3     | 1           | Important introduction,Explained well,Not relevant                  | 2023-01-03,2023-01-01,2023-01-02 | 0,0,0       | Important introduction,Explained well,Not relevant                  |
