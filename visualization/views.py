@@ -14,9 +14,8 @@ def document_info(request, document_id):
     username = request.user.username
     general_notes = GeneralNoteDAO.get_personal_general_notes(username, id)
     general_notes.append(GeneralNoteDAO.get_general_notes(username, id))
-    template = loader.get_template('annotations/document_info.html')
     context = {
         'document': document,
         'document_notes': general_notes
     }
-    return HttpResponse(template.render(context, request))
+    return render(request, 'annotations/document_info.html', context)
