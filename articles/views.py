@@ -17,13 +17,15 @@ def serve_document(request, file_path: str):
     return FileResponse(open(f"{file_path}", 'rb'))
 
 @csrf_exempt
-def show_upload_document(request:HttpRequest):
+def show_upload_document_form(request:HttpRequest):
     if(request.method == "GET"):
         return FileResponse(open(f"templates/social/subirArticulo.html", 'rb'))
 
     title = request.POST["title"]
     category = request.POST["materia-tematica"]
     type = request.POST["tipo"]
+    author = request.POST["author"]
+
     filename:str = str(request.FILES["file"])
     rnd_dir = hashlib.md5(random.randbytes(128)).hexdigest()
     rnd_path = os.path.join(rnd_dir,filename)
@@ -38,9 +40,16 @@ def show_upload_document(request:HttpRequest):
         tmp_path,
         title = title,
         category = category,
-        type = type
+        type = type,
+        author = author
     )
 
-    print(request.FILES["file"])
 
-    return redirect(doc.url())
+    return redirect(f"/articles/document/{doc.uid}")
+
+def show_document(request:HttpRequest, document_id):
+    doc:Document = Document.objects.get(uid=document_id)
+
+    return render(request,"social/visualizarInformacion.html",{
+        "document":doc
+    })

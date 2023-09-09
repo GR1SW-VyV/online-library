@@ -56,11 +56,10 @@
         <img class="book-image img-fluid" src="https://th.bing.com/th/id/R.50ce2cd13ed2e7a732c57abe7ab19cf0?rik=7SUFzI9KU6IMOQ&riu=http%3a%2f%2f3.bp.blogspot.com%2f-ll15GKfuAfU%2fUD_QRuRT3SI%2fAAAAAAAAi-w%2f_VQ08qSDwAE%2fs1600%2fLibros-Viejos-Apilados_Imagenes-de-Libros.jpg&ehk=ITajz1yk%2bQeZz6zZHmcxf5Xbt89WsaenbI3pTQzlkcw%3d&risl=&pid=ImgRaw&r=0" alt="Imagen del libro" id="bookImage">
 
         <!-- Campos de información del libro -->
-        <h1 id="bookTitle">Título del Libro</h1>
-        <h1 id="author">Autor</h1>
-        <p><strong>Categoria:</strong> <span id="category">Categoria</span></p>
-        <p><strong>Materia/Temática:</strong> <span id="bookSubject">Materia</span></p>
-        <p><strong>Tipo:</strong> <span id="bookType">Tipo</span></p>
+        <h1 id="bookTitle">Título del Libro: {{ document.title }}</h1>
+        <h1 id="author">Autor: {{ document.author.name }}</h1>
+        <p><strong>Materia/Temática: {{ document.category.capitalize }}</strong> <span id="bookSubject"></span></p>
+        <p><strong>Tipo:</strong> {{ document.type.capitalize }} <span id="bookType"></span></p>
     </div>
 </div>
 
@@ -68,7 +67,7 @@
 
         <div class="button-container">
 
-            <button type="download" class="download-button">Descargar</button>
+            <button onclick="window.open('{{ document.url }}', '_blank');" class="download-button" >Descargar</button>
         </div>
 
 <!-- Agrega los scripts de Bootstrap JavaScript al final del cuerpo del documento -->
@@ -80,10 +79,10 @@
     const selectedFileData = localStorage.getItem('selectedFile');
     if (selectedFileData) {
         const selectedFile = JSON.parse(selectedFileData);
-        document.getElementById('bookImage').src = "URL DE LA IMAGEN DEL LIBRO";
-        document.getElementById('bookTitle').textContent = "Título del Libro";
-        document.getElementById('bookSubject').textContent = "Materia";
-        document.getElementById('bookType').textContent = "Tipo";
+        {#document.getElementById('bookImage').src = "URL DE LA IMAGEN DEL LIBRO";#}
+        {#document.getElementById('bookTitle').textContent = "Título del Libro";#}
+        {#document.getElementById('bookSubject').textContent = "Materia";#}
+        {#document.getElementById('bookType').textContent = "Tipo";#}
     }
 </script>
 </body>
