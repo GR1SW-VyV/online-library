@@ -57,7 +57,8 @@ class GeneralNoteDAO:
     def get_general_notes(cls, username, book_id):
         notes = GeneralNote.objects.all().exclude(user__username=username).filter(document__uid=book_id)
         ordered_notes = list(notes)
-        ordered_notes.sort(key=lambda note: (-note.user.is_professor(), note.user.followers, -note.date))
+        ordered_notes.sort(key=lambda note: note.date, reverse=True)
+        ordered_notes.sort(key=lambda note: (-note.user.is_professor(), -note.user.followers_count()))
         return list(ordered_notes)
 
     @classmethod
