@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.db.models import Value, Case, When, BooleanField
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
@@ -17,6 +18,14 @@ def book_user_notes(request, document_id):
     document = Document.objects.get(uid=document_id)
     page_counter = int(request.GET.get('page', 1))
 
+    # Partial note update
+    if request.GET.get('action'):
+        note_id = request.GET.get('action').split("_")[1]
+        temp_note = Note.objects.get(id=note_id)
+        temp_note.is_favorite = not temp_note.is_favorite
+        temp_note.save()
+        return redirect(f'/annotations/book/{document_id}/?page={page_counter}')
+
     # Create a note
 
     if request.method == 'POST':
@@ -31,7 +40,15 @@ def book_user_notes(request, document_id):
         # Redirect, to avoid duplicated notes
         return redirect(f'/annotations/book/{document_id}/?page={page_counter}')
 
-    notes = NoteDAO.get_notes_by_page(user_id=1, document_id=document_id, page=page_counter).order_by('-date')
+    notes = NoteDAO.get_notes_by_page(user_id=1, document_id=document_id, page=page_counter) \
+        .annotate(
+        is_favorite_order=Case(
+            When(is_favorite=True, then=Value(1)),
+            default=Value(0),
+            output_field=BooleanField()
+        )
+    ) \
+        .order_by('-is_favorite_order', '-date')
 
     return render(request, '../templates/annotations/my-notes.html',
                   {'document': document,
