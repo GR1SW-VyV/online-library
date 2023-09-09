@@ -33,8 +33,9 @@ class PageNoteDAO:
     def get_page_notes(cls, username, book_id, page):
         notes = PageNote.objects.all().exclude(user__username=username).filter(document__uid=book_id, page=page)
         ordered_notes = list(notes)
+        ordered_notes.sort(key=lambda note: note.date, reverse=True)
         ordered_notes.sort(
-            key=lambda note: (-note.user.is_professor(), -note.is_favorite, note.user.followers, -note.date))
+            key=lambda note: (-note.user.is_professor(), -note.is_favorite, -note.user.followers_count()))
         return list(ordered_notes)
 
     @classmethod
