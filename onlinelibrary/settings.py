@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'behave_django',
     'polymorphic',
     'annotations',
-    'recommendations'
+    'recommendations',
+    'visualization'
 ]
 
 MIDDLEWARE = [
