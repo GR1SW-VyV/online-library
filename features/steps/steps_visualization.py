@@ -61,7 +61,8 @@ def step_impl(context, my_ordered_general_notes):
     expect(GeneralNoteDAO.get_str_general_notes(context.my_general_notes)).to(equal(my_ordered_general_notes))
 
 
-@step("there are notes (?P<my_page_notes>.+) added by me in the page (?P<page_number>.+) on (?P<date>.+) date marked as (?P<is_favorite>.+) favorite")
+@step(
+    "there are notes (?P<my_page_notes>.+) added by me in the page (?P<page_number>.+) on (?P<date>.+) date marked as (?P<is_favorite>.+) favorite")
 def step_impl(context, my_page_notes, page_number, date, is_favorite):
     """
     :type context: behave.runner.Context
@@ -87,7 +88,8 @@ def step_impl(context, page_number):
     :type context: behave.runner.Context
     :type page_number: str
     """
-    context.my_page_notes = PageNoteDAO.get_personal_page_notes(context.user.username, context.document.uid, page_number)
+    context.my_page_notes = PageNoteDAO.get_personal_page_notes(context.user.username, context.document.uid,
+                                                                page_number)
 
 
 @then("it should display my personal notes (?P<my_ordered_page_notes>.+) ordered by date and favorite")
@@ -123,12 +125,15 @@ def step_impl(context, followers):
         context.follower.follow(context.user)
 
 
-@step("there are general notes (?P<general_notes>.+) added by other users on (?P<date>.+) date")
-def step_impl(context, general_notes, date):
+@step(
+    "there are general notes (?P<general_notes>.+) added by other users who are (?P<user_type>.+) with (?P<date>.+) followers on (?P<date>.+) date")
+def step_impl(context, general_notes, user_type, date, followers):
     """
     :type context: behave.runner.Context
     :type general_notes: str
+    :type user_type: str
     :type date: str
+    :type followers: str
     """
     for note, date in zip(general_notes.split(","), date.split(",")):
         context.general_note = GeneralNote.objects.create(
@@ -157,17 +162,19 @@ def step_impl(context, ordered_general_notes):
 
 
 @step(
-    "there are notes (?P<page_notes>.+) added by other users in the page (?P<page_number>.+) on (?P<date>.+) date marked as (?P<is_favorite>.+) favorite")
-def step_impl(context, page_notes, page_number, date, is_favorite):
+    "there are notes (?P<page_notes>.+) added by other users who are (?P<user_type>.+) with (?P<followers>.+) followers in the page (?P<page_number>.+) on (?P<date>.+) date marked as (?P<is_favorite>.+) favorite")
+def step_impl(context, page_notes, user_type, followers, page_number, date, is_favorite):
     """
     :type context: behave.runner.Context
     :type page_notes: str
+    :type user_type: str
+    :type followers: str
     :type page_number: str
     :type date: str
     :type is_favorite: str
     """
     for note, page, date, favorite in zip(page_notes.split(","), page_number.split(","), date.split(","),
-                                             is_favorite.split(",")):
+                                          is_favorite.split(",")):
         context.page_note = PageNote.objects.create(
             content=note,
             date=date,
