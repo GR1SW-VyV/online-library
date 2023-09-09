@@ -137,24 +137,5 @@
 <script>
     let pageCounter = {{ page }};
 </script>
-<script>
-    const botones = document.querySelectorAll(".favorite");
 
-    botones.forEach(function (boton) {
-        boton.addEventListener("click", function () {
-            // Verifica la clase actual del botón
-            if (boton.classList.contains("fa-regular")) {
-                boton.classList.remove("fa-regular");
-                boton.style.color = "red"
-                boton.classList.add("fa-solid");
-
-            } else {
-                // Si tiene la nueva clase, la quíta y agrega la clase original
-                boton.classList.remove("fa-solid");
-                boton.style.color = "black"
-                boton.classList.add("fa-regular");
-            }
-        });
-    });
-</script>
 {% endblock %}
