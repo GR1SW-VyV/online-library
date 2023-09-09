@@ -31,13 +31,12 @@ def step_impl(context, username):
     context.user = User.objects.create_reader_user(username=username, password=Faker().password())
 
 
-@step("there are notes (?P<my_general_notes>.+) added by me on (?P<date>.+) date marked as (?P<is_favorite>.+) favorite")
-def step_impl(context, my_general_notes, date, is_favorite):
+@step("there are notes (?P<my_general_notes>.+) added by me on (?P<date>.+) date")
+def step_impl(context, my_general_notes, date):
     """
     :type context: behave.runner.Context
     :type my_general_notes: str
     :type date: str
-    :type is_favorite: str
     """
     for note, date in zip(my_general_notes.split(","), date.split(",")):
         context.my_general_note = GeneralNote.objects.create(
@@ -126,13 +125,12 @@ def step_impl(context, followers):
         context.follower.follow(context.user)
 
 
-@step("there are general notes (?P<general_notes>.+) added by other users on (?P<date>.+) date marked as (?P<is_favorite>.+) favorite")
-def step_impl(context, general_notes, date, is_favorite):
+@step("there are general notes (?P<general_notes>.+) added by other users on (?P<date>.+) date")
+def step_impl(context, general_notes, date):
     """
     :type context: behave.runner.Context
     :type general_notes: str
     :type date: str
-    :type is_favorite: str
     """
     for note, date, is_favorite in zip(general_notes.split(","), date.split(","), is_favorite.split(",")):
         context.general_note = GeneralNote.objects.create(
@@ -162,7 +160,7 @@ def step_impl(context, ordered_general_notes):
 
 
 @step(
-    "there are notes (?P<notes>.+) added by other users in the page (?P<page_number>.+) on (?P<date>.+) date marked as (?P<is_favorite>.+) favorite")
+    "there are notes (?P<page_notes>.+) added by other users in the page (?P<page_number>.+) on (?P<date>.+) date marked as (?P<is_favorite>.+) favorite")
 def step_impl(context, page_notes, page_number, date, is_favorite):
     """
     :type context: behave.runner.Context

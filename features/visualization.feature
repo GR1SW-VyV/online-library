@@ -7,18 +7,18 @@ Feature: Display notes
   Scenario Outline: My ordered general notes
     Given I have the document <document_title> with the id <document_id>
     * I am logged in with my username <username>
-    * there are notes <my_general_notes> added by me on <date> date marked as <is_favorite> favorite
+    * there are notes <my_general_notes> added by me on <date> date
     When I want to read my notes
     Then it should display my personal notes <my_ordered_general_notes> ordered by date and favorite
 
     Examples:
-    | document_title | document_id | username       | my_general_notes                               | date                  | is_favorite | my_ordered_general_notes                       |
-    | Clean Code     | 1           | Alice Johnson  | This book changed my life,This part was useful | 2023-01-01,2023-01-02 | 1,0         | This part was useful,This book changed my life |
-    | Clean Code     | 1           | David Smith    | Interesting examples,Helpful for projects      | 2023-01-01,2023-01-02 | 0,1         | Interesting examples,Helpful for projects      |
-    | OOP Design     | 2           | Alex Carter    | Practical examples,Needs more context          | 2023-01-01,2023-01-02 || Practical examples,Needs more context          |
-    | OOP Design     | 2           | Sarah Miller   | Comprehensive coverage,Clear explanation       | 2023-01-01,2023-01-02 || Clear explanation,Comprehensive coverage       |
-    | OOP Design     | 2           | Robert Lee     | Step-by-step guide,This part was very clear    | 2023-01-01,2023-01-02 || This part was very clear,Step-by-step guide    |
-    | ML Algorithms  | 3           | Julia Chen     | Clear and concise,Pretty repetitive            | 2023-01-01,2023-01-02 || Pretty repetitive,Clear and concise            |
+    | document_title | document_id | username       | my_general_notes                               | date                  | my_ordered_general_notes                       |
+    | Clean Code     | 1           | Alice Johnson  | This book changed my life,This part was useful | 2023-01-01,2023-01-02 | This part was useful,This book changed my life |
+    | Clean Code     | 1           | David Smith    | Interesting examples,Helpful for projects      | 2023-01-01,2023-01-02 | Interesting examples,Helpful for projects      |
+    | OOP Design     | 2           | Alex Carter    | Practical examples,Needs more context          | 2023-01-01,2023-01-02 | Practical examples,Needs more context          |
+    | OOP Design     | 2           | Sarah Miller   | Comprehensive coverage,Clear explanation       | 2023-01-01,2023-01-02 | Clear explanation,Comprehensive coverage       |
+    | OOP Design     | 2           | Robert Lee     | Step-by-step guide,This part was very clear    | 2023-01-01,2023-01-02 | This part was very clear,Step-by-step guide    |
+    | ML Algorithms  | 3           | Julia Chen     | Clear and concise,Pretty repetitive            | 2023-01-01,2023-01-02 | Pretty repetitive,Clear and concise            |
 
 
   Scenario Outline: My ordered page notes
@@ -44,20 +44,20 @@ Feature: Display notes
     Given I have the document <document_title> with the id <document_id>
     * I am a <user_type> logged in with my username <username>
     * I have <followers> followers
-    * there are general notes <general_notes> added by other users on <date> date marked as <is_favorite> favorite
+    * there are general notes <general_notes> added by other users on <date> date
     When I want to read the general notes
     Then it should display the general notes <ordered_general_notes> ordered by date and favorite
 
     Examples:
-    | document_title | document_id | username      | user_type    | followers | general_notes                                                            | date                   | is_favorite | ordered_general_notes                             |
-    | Clean Code     | 1           | alice.johnson | reader       | 1         | Important concepts,Explained well,Not relevant                           | 2023-01-01, 2023-01-02 | 1,0         | Important concepts,Explained well,Not relevant    |
-    | Clean Code     | 1           | david.smith   | professor    | 2         | Remember for future projects,Skipped,Interesting                         | 2023-01-01, 2023-01-02 | 0,1         | Skipped,Remember for future projects,Interesting  |
-    | OOP Design     | 2           | alex.carter   | professor    | 3         | Missing real-world scenarios,Too theoretical                             | 2023-01-01, 2023-01-02 | 1,0         | Missing real-world scenarios,Too theoretical      |
-    | OOP Design     | 2           | sarah.miller  | reader       | 4         | Confusing terminology,Useful diagrams,Too verbose                        | 2023-01-01, 2023-01-02 | 0,1         | Useful diagrams,Confusing terminology,Too verbose |
-    | OOP Design     | 2           | robert.lee    | professor    | 5         | Simplified explanations,Repetitive content,Too advanced                  | 2023-01-01, 2023-01-02 | 1,0         | Simplified explanations,Repetitive content        |
-    | ML Algorithms  | 3           | julia.chen    | reader       | 6         | Lacks advanced topics,Great for beginners,Too shallow                    | 2023-01-01, 2023-01-02 | 0,1         | Great for beginners,Lacks advanced topics         |
-    | ML Algorithms  | 3           | michael.wong  | reader       | 7         | Real-world case studies missing,Well-structured,Requires prior knowledge | 2023-01-01, 2023-01-02 | 1,0         | Real-world case studies missing,Well-structured   |
-    | ML Algorithms  | 3           | nicole.patel  | reader       | 8         | Comprehensive resource,Requires more examples,Good references            | 2023-01-01, 2023-01-02 | 0,1         | Requires more examples,Comprehensive resource     |
+    | document_title | document_id | username      | user_type    | followers | general_notes                                                            | date                   | ordered_general_notes                             |
+    | Clean Code     | 1           | alice.johnson | reader       | 1         | Important concepts,Explained well,Not relevant                           | 2023-01-01, 2023-01-02 | Important concepts,Explained well,Not relevant    |
+    | Clean Code     | 1           | david.smith   | professor    | 2         | Remember for future projects,Skipped,Interesting                         | 2023-01-01, 2023-01-02 | Skipped,Remember for future projects,Interesting  |
+    | OOP Design     | 2           | alex.carter   | professor    | 3         | Missing real-world scenarios,Too theoretical                             | 2023-01-01, 2023-01-02 | Missing real-world scenarios,Too theoretical      |
+    | OOP Design     | 2           | sarah.miller  | reader       | 4         | Confusing terminology,Useful diagrams,Too verbose                        | 2023-01-01, 2023-01-02 | Useful diagrams,Confusing terminology,Too verbose |
+    | OOP Design     | 2           | robert.lee    | professor    | 5         | Simplified explanations,Repetitive content,Too advanced                  | 2023-01-01, 2023-01-02 | Simplified explanations,Repetitive content        |
+    | ML Algorithms  | 3           | julia.chen    | reader       | 6         | Lacks advanced topics,Great for beginners,Too shallow                    | 2023-01-01, 2023-01-02 | Great for beginners,Lacks advanced topics         |
+    | ML Algorithms  | 3           | michael.wong  | reader       | 7         | Real-world case studies missing,Well-structured,Requires prior knowledge | 2023-01-01, 2023-01-02 | Real-world case studies missing,Well-structured   |
+    | ML Algorithms  | 3           | nicole.patel  | reader       | 8         | Comprehensive resource,Requires more examples,Good references            | 2023-01-01, 2023-01-02 | Requires more examples,Comprehensive resource     |
 
 
   Scenario Outline: Page notes
