@@ -9,9 +9,10 @@ from articles.models import Document
 
 
 # Create your views here.
-# @login_required
+@login_required
 def book_user_notes(request, document_id):
-    current_user = User.objects.get(id=1)
+
+    current_user = request.user
 
     document = Document.objects.get(uid=document_id)
     page_counter = int(request.GET.get('page', 1))
@@ -35,7 +36,7 @@ def book_user_notes(request, document_id):
         Note.objects.create(
             user_id=current_user.id,
             document_id=document_id,
-            is_favorite=True,
+            is_favorite=False,
             content=annotation_text,
             page=page_counter
         )
