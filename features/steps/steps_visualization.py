@@ -31,12 +31,13 @@ def step_impl(context, username):
     context.user = User.objects.create_reader_user(username=username, password=Faker().password())
 
 
-@step("there are notes (?P<my_general_notes>.+) added by me on (?P<date>.+) date")
-def step_impl(context, my_general_notes, date):
+@step("there are notes (?P<my_general_notes>.+) added by me on (?P<date>.+) date marked as (?P<is_favorite>.+) favorite")
+def step_impl(context, my_general_notes, date, is_favorite):
     """
     :type context: behave.runner.Context
     :type my_general_notes: str
     :type date: str
+    :type is_favorite: str
     """
     for note, date in zip(my_general_notes.split(","), date.split(",")):
         context.my_general_note = GeneralNote.objects.create(
@@ -64,15 +65,16 @@ def step_impl(context, my_ordered_general_notes):
     expect(context.my_general_notes).to(equal(my_ordered_general_notes))
 
 
-@step("there are notes (?P<my_notes>.+) added by me in the page (?P<page_number>.+) on (?P<date>.+) date")
-def step_impl(context, my_notes, page_number, date):
+@step("there are notes (?P<my_page_notes>.+) added by me in the page (?P<page_number>.+) on (?P<date>.+) date marked as (?P<is_favorite>.+) favorite")
+def step_impl(context, my_page_notes, page_number, date, is_favorite):
     """
     :type context: behave.runner.Context
-    :type my_notes: str
+    :type my_page_notes: str
     :type page_number: str
     :type date: str
+    :type is_favorite: str
     """
-    for note, page, date in zip(my_notes.split(","), page_number.split(","), date.split(",")):
+    for note, page, date in zip(my_page_notes.split(","), page_number.split(","), date.split(",")):
         context.my_page_note = PageNote.objects.create(
             content=note,
             date=date,
@@ -161,15 +163,15 @@ def step_impl(context, ordered_general_notes):
 
 @step(
     "there are notes (?P<notes>.+) added by other users in the page (?P<page_number>.+) on (?P<date>.+) date marked as (?P<is_favorite>.+) favorite")
-def step_impl(context, notes, page_number, date, is_favorite):
+def step_impl(context, page_notes, page_number, date, is_favorite):
     """
     :type context: behave.runner.Context
-    :type notes: str
+    :type page_notes: str
     :type page_number: str
     :type date: str
     :type is_favorite: str
     """
-    for note, page, date, is_favorite in zip(notes.split(","), page_number.split(","), date.split(","),
+    for note, page, date, is_favorite in zip(page_notes.split(","), page_number.split(","), date.split(","),
                                              is_favorite.split(",")):
         context.page_note = PageNote.objects.create(
             content=note,
@@ -190,10 +192,10 @@ def step_impl(context, page_number):
     context.page_notes = PageNoteDAO.get_page_notes(context.user.username, context.document.id, page_number)
 
 
-@then("it should display the notes (?P<ordered_notes>.+) ordered by date and favorite")
-def step_impl(context, ordered_notes):
+@then("it should display the notes (?P<ordered_page_notes>.+) ordered by date and favorite")
+def step_impl(context, ordered_page_notes):
     """
     :type context: behave.runner.Context
-    :type ordered_notes: str
+    :type ordered_page_notes: str
     """
-    expect(context.page_notes).to(equal(ordered_notes))
+    expect(context.page_notes).to(equal(ordered_page_notes))

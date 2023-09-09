@@ -7,37 +7,37 @@ Feature: Display notes
   Scenario Outline: My ordered general notes
     Given I have the document <document_title> with the id <document_id>
     * I am logged in with my username <username>
-    * there are notes <my_general_notes> added by me on <date> date
+    * there are notes <my_general_notes> added by me on <date> date marked as <is_favorite> favorite
     When I want to read my notes
-    Then it should display my personal notes <my_ordered_general_notes> ordered by date
+    Then it should display my personal notes <my_ordered_general_notes> ordered by date and favorite
 
     Examples:
-    | document_title | document_id | username       | my_general_notes                               | date                  | my_ordered_general_notes                       |
-    | Clean Code     | 1           | Alice Johnson  | This book changed my life,This part was useful | 2023-01-01,2023-01-02 | This part was useful,This book changed my life |
-    | Clean Code     | 1           | David Smith    | Interesting examples,Helpful for projects      | 2023-01-01,2023-01-02 | Interesting examples,Helpful for projects      |
-    | OOP Design     | 2           | Alex Carter    | Practical examples,Needs more context          | 2023-01-01,2023-01-02 | Practical examples,Needs more context          |
-    | OOP Design     | 2           | Sarah Miller   | Comprehensive coverage,Clear explanation       | 2023-01-01,2023-01-02 | Clear explanation,Comprehensive coverage       |
-    | OOP Design     | 2           | Robert Lee     | Step-by-step guide,This part was very clear    | 2023-01-01,2023-01-02 | This part was very clear,Step-by-step guide    |
-    | ML Algorithms  | 3           | Julia Chen     | Clear and concise,Pretty repetitive            | 2023-01-01,2023-01-02 | Pretty repetitive,Clear and concise            |
+    | document_title | document_id | username       | my_general_notes                               | date                  | is_favorite | my_ordered_general_notes                       |
+    | Clean Code     | 1           | Alice Johnson  | This book changed my life,This part was useful | 2023-01-01,2023-01-02 | 1,0         | This part was useful,This book changed my life |
+    | Clean Code     | 1           | David Smith    | Interesting examples,Helpful for projects      | 2023-01-01,2023-01-02 | 0,1         | Interesting examples,Helpful for projects      |
+    | OOP Design     | 2           | Alex Carter    | Practical examples,Needs more context          | 2023-01-01,2023-01-02 || Practical examples,Needs more context          |
+    | OOP Design     | 2           | Sarah Miller   | Comprehensive coverage,Clear explanation       | 2023-01-01,2023-01-02 || Clear explanation,Comprehensive coverage       |
+    | OOP Design     | 2           | Robert Lee     | Step-by-step guide,This part was very clear    | 2023-01-01,2023-01-02 || This part was very clear,Step-by-step guide    |
+    | ML Algorithms  | 3           | Julia Chen     | Clear and concise,Pretty repetitive            | 2023-01-01,2023-01-02 || Pretty repetitive,Clear and concise            |
 
 
   Scenario Outline: My ordered page notes
     Given I have the document <document_title> with the id <document_id>
     * I am logged in with my username <username>
-    * there are notes <my_notes> added by me in the page <page_number> on <date> date
+    * there are notes <my_page_notes> added by me in the page <page_number> on <date> date marked as <is_favorite> favorite
     When I want to read my notes in the page <page_number>
     Then it should display my personal notes <my_ordered_notes> ordered by date and favorite
 
     Examples:
-    | document_title | document_id | username        | page_number | my_notes                                           | date                   | my_ordered_notes                                   |
-    | Clean Code     | 1           | Alice Johnson   | 1           | Don't forget these concepts,This part was useful   | 2023-01-01, 2023-01-02 | This part was useful,Don't forget these concepts   |
-    | Clean Code     | 1           | David Smith     | 2           | Interesting examples here,Helpful for projects     | 2023-01-01, 2023-01-02 | Interesting examples here,Helpful for projects     |
-    | Clean Code     | 1           | Emily Brown     | 10          | Insightful example,Needs more context              | 2023-01-01, 2023-01-02 | Insightful example,Needs more context              |
-    | OOP Design     | 2           | Alex Carter     | 3           | Practical exercise,Clear explanation               | 2023-01-01, 2023-01-02 | Clear explanation,Practical exercise               |
-    | OOP Design     | 2           | Sarah Miller    | 8           | Comprehensive explanation,This part was very clear | 2023-01-01, 2023-01-02 | Comprehensive explanation,This part was very clear |
-    | OOP Design     | 2           | Robert Lee      | 12          | Step-by-step guide,Pretty repetitive               | 2023-01-01, 2023-01-02 | Pretty repetitive,Step-by-step guide               |
-    | ML Algorithms  | 3           | Julia Chen      | 2           | Clear and concise explanation,Needs more examples  | 2023-01-01, 2023-01-02 | Clear and concise explanation,Needs more examples  |
-    | ML Algorithms  | 3           | Michael Wong    | 7           | In-depth analysis,Practical examples               | 2023-01-01, 2023-01-02 | In-depth analysis,Practical examples               |
+    | document_title | document_id | username        | page_number | my_page_notes                                      | is_favorite | date                   | my_ordered_notes                                   |
+    | Clean Code     | 1           | Alice Johnson   | 1           | Don't forget these concepts,This part was useful   | 1,0         | 2023-01-01, 2023-01-02 | This part was useful,Don't forget these concepts   |
+    | Clean Code     | 1           | David Smith     | 2           | Interesting examples here,Helpful for projects     | 0,1         | 2023-01-01, 2023-01-02 | Interesting examples here,Helpful for projects     |
+    | Clean Code     | 1           | Emily Brown     | 10          | Insightful example,Needs more context              | 1,0         | 2023-01-01, 2023-01-02 | Insightful example,Needs more context              |
+    | OOP Design     | 2           | Alex Carter     | 3           | Practical exercise,Clear explanation               | 1,0         | 2023-01-01, 2023-01-02 | Clear explanation,Practical exercise               |
+    | OOP Design     | 2           | Sarah Miller    | 8           | Comprehensive explanation,This part was very clear | 0,1         | 2023-01-01, 2023-01-02 | Comprehensive explanation,This part was very clear |
+    | OOP Design     | 2           | Robert Lee      | 12          | Step-by-step guide,Pretty repetitive               | 1,0         | 2023-01-01, 2023-01-02 | Pretty repetitive,Step-by-step guide               |
+    | ML Algorithms  | 3           | Julia Chen      | 2           | Clear and concise explanation,Needs more examples  | 0,1         | 2023-01-01, 2023-01-02 | Clear and concise explanation,Needs more examples  |
+    | ML Algorithms  | 3           | Michael Wong    | 7           | In-depth analysis,Practical examples               | 0,1         | 2023-01-01, 2023-01-02 | In-depth analysis,Practical examples               |
 
 
   Scenario Outline: General notes
@@ -64,12 +64,12 @@ Feature: Display notes
     Given I have the document <document_title> with the id <document_id>
     * I am a <user_type> logged in with my username <username>
     * I have <followers> followers
-    * there are notes <notes> added by other users in the page <page_number> on <date> date marked as <is_favorite> favorite
+    * there are notes <page_notes> added by other users in the page <page_number> on <date> date marked as <is_favorite> favorite
     When I want to read the notes in the page <page_number>
-    Then it should display the notes <ordered_notes> ordered by date and favorite
+    Then it should display the notes <ordered_page_notes> ordered by date and favorite
 
     Examples:
-    | document_title | document_id | username      | user_type | followers | page_number | notes                                                                | date                             | is_favorite | ordered_notes                                                        |
+    | document_title | document_id | username      | user_type | followers | page_number | page_notes                                                           | date                             | is_favorite | ordered_page_notes                                                   |
     | Clean Code     | 1           | alice.johnson | reader    | 1         | 1           | Important introduction,Explained well,Not relevant                   | 2023-01-01,2023-01-02,2023-01-03 | 1,0,0       | Not relevant,Explained well,Important introduction                   |
     | Clean Code     | 1           | david.smith   | professor | 2         | 2           | Remember for future projects,Skipped,Interesting                     | 2023-01-01,2023-01-02,2023-01-03 | 0,1,1       | Interesting,Remember for future projects,Skipped                     |
     | Clean Code     | 1           | emily.brown   | professor | 3         | 10          | Important concept,Useful code snippet,Needs more context             | 2023-01-01,2023-01-02,2023-01-03 | 1,0,0       | Needs more context,Important concept,Useful code snippet             |
