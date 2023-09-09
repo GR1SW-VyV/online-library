@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const pdfViewer = document.getElementById("pdfViewer");
     const currentPageSpan = document.getElementById("currentPage");
     const totalPagesSpan = document.getElementById("totalPages");
-    let currentPage = 1; // Inicialmente en la página 1
+    let currentPage = pageCounter; // Inicialmente en la página 1
     let totalPages = 1;
 
     pdfjsLib
@@ -34,25 +34,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 viewport: viewport,
             });
 
-            // OJO: Actualiza el número de página actual del documento PDF
-            currentPage = 1;
             updatePage()
 
-           // currentPageSpan.textContent = currentPage;
         });
-
-
-    // Función para cambiar a la página siguiente
-    function nextPage() {
-        currentPage += 1;
-        updatePage();
-    }
-
-    // Función para cambiar a la página anterior
-    function prevPage() {
-        currentPage -= 1;
-        updatePage();
-    }
 
     // Actualiza el número de página y muestra la página correspondiente
     function updatePage() {
@@ -93,12 +77,4 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
             });
     }
-
-    // Escucha eventos de los botones para cambiar de página
-    const nextPageButton = document.getElementById("nextPage");
-    nextPageButton.addEventListener("click", nextPage);
-
-    const prevPageButton = document.getElementById("prevPage");
-    prevPageButton.addEventListener("click", prevPage);
-
 });
