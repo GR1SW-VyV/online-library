@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const pdfViewer = document.getElementById("pdfViewer");
     const currentPageSpan = document.getElementById("currentPage");
     const totalPagesSpan = document.getElementById("totalPages");
+    const btnPreviousPage = document.getElementById("btnPrevious");
+    const btnNextPage = document.getElementById("btnNext")
     let currentPage = pageCounter; // Inicialmente en la página 1
     let totalPages = 1;
 
@@ -34,9 +36,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 viewport: viewport,
             });
 
+            //Deshabilita botones segun el numero de pagina
+            if (currentPage === 1) {
+                btnPreviousPage.classList.add('d-none')
+            }
+            if (currentPage === totalPages) {
+                btnNextPage.classList.add('d-none')
+            }
+
             updatePage()
 
         });
+
 
     // Actualiza el número de página y muestra la página correspondiente
     function updatePage() {
