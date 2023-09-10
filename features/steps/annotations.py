@@ -63,7 +63,7 @@ def step_impl(context):
 @step("I want to take an important note")
 def step_impl(context):
     context.note = PageNote.objects.create(
-        content="Me parece muy importante la línea 23",
+        content="",
         page=23,
         user=context.user,
         document=context.document,

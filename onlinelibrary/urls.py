@@ -27,5 +27,6 @@ urlpatterns = [
     path('collections/', include("bookcollections.urls")),
     path('social/', include('social.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('visualization/', include('visualization.urls')),
     path('', include('home.urls'))
 ]
