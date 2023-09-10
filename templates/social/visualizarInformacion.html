@@ -37,6 +37,13 @@
             display: flex;
             justify-content: center;
         }
+
+           /* Estilo para los campos de entrada en el contenedor superior */
+        .input-field {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 5px;
+        }
         .download-button {
             padding: 5px 10px; /* Reduzco el padding para hacerlo más pequeño */
             font-size: 14px; /* Reduzco el tamaño de fuente */
@@ -64,11 +71,16 @@
         <p><strong>Tipo:</strong> {{ document.type.capitalize }} <span id="bookType"></span></p>
         <p><strong>Calificación:</strong>  <span id="bookScore">{{ document.score }}</span>/5</p>
 
-        <button onclick="setScore(5)">Dar 5 estrellas</button>
-        <button onclick="setScore(4)">Dar 4 estrellas</button>
-        <button onclick="setScore(3)">Dar 3 estrellas</button>
-        <button onclick="setScore(2)">Dar 2 estrellas</button>
-        <button onclick="setScore(1)">Dar 1 estrellas</button>
+
+        <!-- Campo de calificacion por numero de estrellas (Libro/Artículo) -->
+        <label for="calificacion"><strong>Calificación del libro/artículo:</strong></label>
+            <select class="input-field form-control" name="calificacion">
+                <option value="FiveStars">5 estrellas</option>
+                 <option value="FourStars">4 estrellas</option>
+                 <option value="TreeStars">3 estrellas</option>
+                 <option value="TwoStars">2 estrellas</option>
+                 <option value="OneStar">1 estrella</option>
+            </select>
 
         <button onclick="window.open('{{ document.url }}', '_blank');" class="download-button" >Descargar documento</button>
 
