@@ -75,7 +75,7 @@
 
         <!-- Campo de calificacion por numero de estrellas (Libro/Artículo) -->
         <label for="calificacion"><strong>Calificación del libro/artículo:</strong></label>
-            <select class="input-field form-control" name="calificacion">
+            <select class="input-field form-control" name="calificacion" onchange="setScore(this.value)">
                 <option value="FiveStars">5 estrellas</option>
                  <option value="FourStars">4 estrellas</option>
                  <option value="TreeStars">3 estrellas</option>
