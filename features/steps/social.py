@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 
 import faker
 from behave import *
@@ -42,7 +42,7 @@ def step_impl(context):
     context.activity.document = context.document
     context.activity.collection = context.collection
     context.activity.detail = "add a new document"
-    context.activity.date = datetime.date.today()
+    context.activity.date = datetime.today().date()
 
 
 @then("the book will appear in my feed")
@@ -51,7 +51,10 @@ def step_impl(context):
     :type context: behave.runner.Context
     """
 
-    assert context.user.in_my_feed(context.activity)
+    assert context.user.feed.get(
+        detail=context.activity.detail,
+        date=context.activity.date
+    ) is not None
 
 
 @given("that there is a reader Andrés")
@@ -132,7 +135,7 @@ def step_impl(context):
     context.activity = UserActivity()
     context.activity.responsible = context.followed_user
     context.activity.detail = "does a new activity"
-    context.activity.date = datetime.date.today()
+    context.activity.date = datetime.today().date(),
     context.followed_user.do_activity()
 
 
@@ -141,7 +144,11 @@ def step_impl(context):
     """
     :type context: behave.runner.Context
     """
-    assert context.user.in_my_feed(context.activity)
+    assert UserActivity.objects.get(
+        detail="does a new activity",
+        responsible=context.followed_user,
+        date=datetime.today().date()
+    ) is not None
 
 
 @given("that there is a collection")
