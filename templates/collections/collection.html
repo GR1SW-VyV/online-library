@@ -22,33 +22,46 @@
 
     </style>
 {% endblock %}
+
+
+
 {% block content %}
-    <div class="container">
-        <h1 class="my-2">{{ collection.name }} <span class="badge bg-secondary">{{ collection.calc_score }}</span></h1>
-        <p>{{ collection.description }}</p>
-        <h2>Documentos de la colección</h2>
-        <div class="grid gap-3">
-            {% for book in collection.books.all %}
 
-                <div class="d-flex flex-column align-items-center rounded-5 border border-1 border-secondary-subtle p-3 rounded">
-                    <div class="img-container rounded-2 mb-3 bg-secondary">
-                        <img src="/static/img/library.jpg" alt="">
-                    </div>
-                    <div class="d-flex gap-1">
-                        <span class="badge bg-secondary">{{ book.score }}</span>
-                        <span class="badge bg-secondary">{{ book.category }}</span>
-                    </div>
+<div class="container rounded">
+    <div class="row">
+        <!-- Columna de la portada de la colección (izquierda) -->
+        <div class="col-md-4 my-4">
+            <img src="https://i.pinimg.com/564x/a6/46/b2/a646b21d519edd807e7817e14c28af07.jpg" alt="Portada de la colección" class="img-fluid">
+            <h1 class="my-2 pt-4 fs-2 text fw-bold">{{ collection.name }} <span class="badge bg-info mx-4">{{ collection.calc_score }}</span></h1>
+            <p class="py-2">{{ collection.description }}</p>
+        </div>
 
-                    <h3 class="text-center">{{ book.title }}</h3>
-                    <a href="#">
-                        <button class="btn btn-primary text-white">
-                            Ver libro
-                            <i class="fa-solid fa-arrow-right-long"></i>
-                        </button>
-                    </a>
-                </div>
-            {% endfor %}
+        <!-- Columna de información de la colección y tarjetas de libros (derecha) -->
+        <div class="col-md-8 ">
+            <!-- Tarjetas de libros -->
+            <h1 class="my-3 ">Documentos de la colección:</h1>
+            <div class="grid gap-3 my-4 ">
+                {% for book in collection.books.all %}
+                    <div class="d-flex card flex-column align-items-center rounded-5 rounded-top-5 border border-1 border-secondary-subtle pb-4 p-0 rounded shadow">
+                        <div class="img-container  h-50 w-100 rounded-2 mb-3 bg-secondary">
+                            <img src="/static/img/library.jpg" alt="">
+                        </div>
+                        <div class="d-flex gap-1 my-1">
+                            <span class="badge bg-info mx-2"><i class="fa-solid fa-star px-1"></i>{{ book.score }}</span>
+                            <span class="badge bg-secondary">{{ book.category }}</span>
+                        </div>
+                        <h3 class="text-center my-1 fs-4">{{ book.title }}</h3>
+                        <a href="#">
+                            <button class="btn btn-primary text-white my-2">
+                                Ver libro
+                                <i class="fa-solid fa-arrow-right-long"></i>
+                            </button>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
+</div>
 
 {% endblock %}
