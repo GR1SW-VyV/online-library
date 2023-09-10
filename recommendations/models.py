@@ -23,11 +23,6 @@ class RecommendationEngine:
         # Loop through all the user's collections.
         for collection in bookcollections.models.CollectionDAO.get_all_by_user(self.user.id).all():
             # Loop through the documents within each collection.
-
-            # recolect by collection's category
-            # category = collection.category
-            # category_count[category] += 1
-
             # recolect by documents into collection
             for document in articles.models.Document.objects.filter(collections=collection):
                 # Get the category of the document.
