@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+<head>
+    {% block pre-script %}
+    <script src="https://kit.fontawesome.com/258d808132.js" crossorigin="anonymous"></script>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        .nav-tabs .nav-item .nav-active {
+            background-color: rgb(235, 127, 39);
+        }
+        /* Estilo para el contenedor con scroll */
+        .scroll-container {
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        #pdfViewer {
+            max-height: 90vh;
+            overflow: auto;
+        }
+    </style>
+    <title>{{ document.title }}</title>
+    {% endblock %}
+</head>
+
+<body>
+    {% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <h1 class="px-3 my-0">{{ document.title }}</h1>
+        </div>
+
+        <div class="row pt-2">
+            <div class="col-7  px-3 ">
+
+                <div class="d-flex justify-content-center align-items-center   bg-secondary">
+                    <!--Numero de pagina--><!-- Botones para cambiar de página -->
+                    <a id="btnPrevious" class="btn btn-dark mx-1 py-0 text-light"
+                       href="/annotations/book/{{ document.uid }}/?page={{ page|add:"-1"}}">
+                        <i class="fa-solid fa-arrow-right fa-rotate-180" style="color: #ffffff;"></i>
+                    </a>
+                    <span class="px-1 mx-1 text-light fw-bold" id="currentPage">-</span>
+                    <span class="fw-bold px-1 text-light"> / </span>
+                    <span class="px-1 mx-1 text-light fw-bold" id="totalPages">-</span>
+                    <a id="btnNext" class="btn btn-dark mx-1 py-0 text-light"
+                       href="/annotations/book/{{ document.uid }}/?page={{ page|add:"+1" }}">
+                        <i class="fa-solid fa-arrow-right" style="color: #ffffff;"></i>
+                    </a>
+                </div>
+
+                <div class="border border-2 border-secondary d-flex justify-content-center align-items-center bg-light">
+                    <div id="pdfViewer">
+
+                        <!-- Aquí va el PDF -->
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-5">
+                <!--NAVEGACION-->
+                <div class="row">
+                    <ul class="nav nav-tabs nav-justified px-0 ">
+                        <li class="nav-item">
+                            <a class="nav-link nav-active text-light fw-bold bg-secondary py-0" aria-current="page"
+                               href="#">
+                                Mis anotaciones</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark fw-bold py-0" href="#">Otras anotaciones</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!--NUEVA ANOTACION-->
+
+                <div class="row border border-secondary border-2 ">
+                    <div class="mb-1 px-2 pt-2">
+                        <label for="anotation" class="form-label">Nueva anotación</label>
+                        <form method="post" id="note_form">
+                            {% csrf_token %}
+                            <textarea class="form-control" name="annotation" id="anotation" rows="3" required placeholder="Escribe aquí tu anotación"></textarea>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end py-2">
+                                <button class="btn btn-dark text-light fw-bold py-0" type="submit">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+
+                <!--anotaciones-->
+                <div id="notes_container"
+                     class="row scroll-container  px-2 pt-2 border border-right-0 border-top-0 border-left-0 border-secondary border-2">
+                    <div class="card mb-2 px-0 ">
+                        {% for note in notes %}
+                            <div class="card-header d-flex justify-content-between align-items-center px-2 py-0 ">
+                                <div>{{ note.date }}</div>
+                                <div>
+                                    <a href="/annotations/book/{{ document.uid }}/?page={{ page }}&action=favorite_{{ note.id }}"
+                                       class="favorite-link">
+                                        {% if note.is_favorite %}
+                                            <i class="favorite fa-solid fa-heart" style="color: red;"></i>
+                                        {% else %}
+                                            <i class="favorite fa-regular fa-heart" style="color: black;"></i>
+                                        {% endif %}
+                                    </a>
+                                    <a href="/annotations/book/{{ document.uid }}/?page={{ page }}&action=delete_{{ note.id }}"
+                                        class="text-danger"
+                                        style="margin-left: 1rem"
+                                    >
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="card-body text-dark p-2">
+                                <p class="card-text">{{ note.content }}</p>
+                            </div>
+                        {% empty %}
+                            <p>Aún no tienes notas</p>
+                        {% endfor %}
+                    </div>
+
+                </div>
+                <!--fin-anotaciones-->
+            </div>
+        </div>
+    </div>
+{% endblock %}
+</body>
+
+{% block post-script %}
+<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.10.111/build/pdf.min.js"></script>
+<script src="/static/app.js"></script>
+<script>
+    const pdfUrl = "{{ document.url }}";
+</script>
+<script>
+    let pageCounter = {{ page }};
+</script>
+
+{% endblock %}

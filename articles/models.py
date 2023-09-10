@@ -1,9 +1,9 @@
+import os
 import shutil
 
 from django.db.models import Avg
 import hashlib
 from django.utils.translation import gettext_lazy as _
-from bookcollections.models import Collection
 from django.db import models
 from .choices.category import Category
 
@@ -19,7 +19,16 @@ class Score:...
 
 
 class Author(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50,primary_key=True)
+
+    @staticmethod
+    def find_or_create(name):
+        if name is None: return None
+        author = Author.objects.filter(name=name).first()
+        if author is not None: return author
+        author = Author(name)
+        author.save()
+        return author
 
     @staticmethod
     def get_by_prefix(prefix:str):
@@ -46,27 +55,35 @@ class Document(models.Model):
         choices=Category.choices,
         default=Category.UNKNOWN
     )
-    author = models.ManyToManyField(Author)
+    author = models.ForeignKey(Author,on_delete=models.DO_NOTHING,null=True)
     view_count = models.IntegerField(null=False, default=0)
-    collections = models.ManyToManyField(Collection, related_name='books')
+    collections = models.ManyToManyField('bookcollections.Collection', related_name='books')
 
     def increase_view_count(self, count=1):
         self.view_count += 1
         self.save()
 
+    def local_path(self) -> str:
+        return f"static/articles/resources/{self.category.capitalize()}Resources/{self.sha512}/{self.filename}"
+
     def url(self) -> str:
-        return f"/articles/resources/{self.category}/{self.filename}"
+        category_str = str(self.category).capitalize()
+        return f"/static/articles/resources/{category_str}Resources/{self.sha512}/{self.filename}"
 
     def add_score(self, user_id, score):
-        old_score = Score.objects.filter(user=user_id).first()
+        old_score = Score.objects.filter(user=user_id,document=self).first()
         if old_score is None:
             Score(user=user_id,document=self,value=score).save()
             return
         old_score.value = score
         old_score.save()
 
+    def scores(self):
+        return Score.objects.filter(document=self)
+
+
     def score(self):
-        scores = Score.objects.filter(document=self)
+        scores = self.scores()
         if scores.first() is None:
             return 0
         return scores.aggregate(Avg("value"))["value__avg"]
@@ -77,8 +94,30 @@ class Document(models.Model):
         sha512 = hashlib.sha512(file.read()).hexdigest()
         return Document.objects.filter(sha512=sha512).first()
 
+    @staticmethod
+    def from_local_path(path: str, /, author=None, category=Category.UNKNOWN, **kwargs) -> Document:
+        category_str = str(category).capitalize()
+        file = open(path, "rb")
+        sha512 = hashlib.sha512(file.read()).hexdigest()
+        filename = path.split("/")[-1].split('\\')[-1]
+
+        os.makedirs(f'static/articles/resources/{category_str}Resources/{sha512}/', exist_ok=True)
+        shutil.copy(path, f'static/articles/resources/{category_str}Resources/{sha512}/')
+
+
+
+
+        document = Document(
+            filename=filename,
+            sha512=sha512,
+            author=Author.find_or_create(author),
+            category=category, **kwargs)
+        document.save()
+        return document
+
+
 class Score(models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.IntegerField()
-    document = models.ForeignKey(Document, on_delete=models.DO_NOTHING)
+    user = models.BigIntegerField()
+    document = models.ForeignKey(Document, on_delete=models.CASCADE)
     value = models.FloatField()
