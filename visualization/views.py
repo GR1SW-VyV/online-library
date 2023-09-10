@@ -8,9 +8,10 @@ from .models import GeneralNote, GeneralNoteDAO
 
 
 # Create your views here.
-@login_required
+#@login_required
 def document_info(request, document_id):
     document = Document.objects.get(uid=document_id)
+    document.increase_view_count()
     username = request.user.username
     general_notes = GeneralNoteDAO.get_general_notes(username,document_id)
     context = {
