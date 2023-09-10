@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils import timezone
+
 from social.models.user import User
 from articles.models import Document
 
@@ -6,7 +8,7 @@ from articles.models import Document
 # Create your models here.
 class PageNote(models.Model):
     content = models.TextField()
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(default=timezone.now)
     is_favorite = models.BooleanField(default=False)
     page = models.IntegerField(null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -47,9 +49,9 @@ class PageNoteDAO:
     def get_page_notes(cls, username, document_id, page):
         notes = PageNote.objects.all().exclude(user__username=username).filter(document__uid=document_id, page=page)
         ordered_notes = list(notes)
-        ordered_notes.sort(key=lambda note: note.date, reverse=True)
         ordered_notes.sort(
-            key=lambda note: (-note.user.is_professor(), -note.is_favorite, -note.user.followers_count()))
+            key=lambda note: (note.user.is_professor(), note.is_favorite, note.user.followers_count(), note.date), 
+            reverse=True)
         return list(ordered_notes)
 
     @classmethod
