@@ -65,7 +65,7 @@
                     <li class="list-inline-item">
                         {% if not is_own_profile %}
                             {% if not already_following %}
-                                <a href="{% url 'follow_reader' user_id=user_profile.id %}">
+                                <a href="{% url 'follow_reader' user_username=user_profile.username %}">
                                     <button
                                             class="align-bottom btn btn-outline-dark btn-sm btn-block">Seguir
                                     </button>
