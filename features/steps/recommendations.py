@@ -1,6 +1,4 @@
 from behave import *
-import articles.models
-import bookcollections.models
 from articles import models
 from articles.choices.category import Category
 from bookcollections import models
@@ -36,7 +34,6 @@ def step_impl(context):
     """
     :type context: behave.runner.Context
     """
-    #context.recommendations = context.user4.get_recomendations()
     context.recommendations = context.recommendator.get_recomendations()
 
 
@@ -62,7 +59,6 @@ def step_impl(context):
         Category.GEOMETRY,
         context.user4
     )
-    #context.recommendator = RecommendationEngine(context.user)
     context.recommendator = RecommendationEngine(context.user4)
     assert context.recommendator.has_collections()
 

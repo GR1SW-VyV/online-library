@@ -1,10 +1,6 @@
-from django.db import models
 from collections import defaultdict
-
 import articles.models
 import bookcollections.models
-from articles import models
-from bookcollections import models
 from social.models import User
 
 
@@ -22,12 +18,9 @@ class RecommendationEngine:
 
         # Loop through all the user's collections.
         for collection in bookcollections.models.CollectionDAO.get_all_by_user(self.user.id).all():
-            # Loop through the documents within each collection.
-            # recolect by documents into collection
+            # Loop to count how many documents of each category are in the collection.
             for document in articles.models.Document.objects.filter(collections=collection):
-                # Get the category of the document.
                 category = document.category
-                # Update category count.
                 category_count[category] += 1
 
         # Update user preferences based on category count.
@@ -46,6 +39,7 @@ class RecommendationEngine:
         # Initialize a dictionary to keep track of categories and their count.
         preferences_count = defaultdict(int)
 
+        # count how many times each preference is repeated in the list
         for x in preferences:
             preferences_count[x] += 1
 
