@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% block page %}coleciones{% endblock %}
 {% block pre-script %}
     <style>
     .grid {
@@ -20,19 +19,34 @@
             object-fit: cover;
         }
 
+        .spacer {
+            height: 100px !important;
+        }
+
+
     </style>
 {% endblock %}
 
-
+{% block breadcrum %}
+    <div class="py-2 px-5 bg-white d-flex">
+        <nav aria-label="breadcrumb" class="">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/collections">Colecciones</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ collection.name }}</li>
+          </ol>
+        </nav>
+    </div>
+{% endblock %}
 
 {% block content %}
 
 <div class="container rounded">
+
     <div class="row">
         <!-- Columna de la portada de la colección (izquierda) -->
         <div class="col-md-4 my-4">
             <img src="https://i.pinimg.com/564x/a6/46/b2/a646b21d519edd807e7817e14c28af07.jpg" alt="Portada de la colección" class="img-fluid">
-            <h1 class="my-2 pt-4 fs-2 text fw-bold">{{ collection.name }} <span class="badge bg-info mx-4">{{ collection.calc_score }}</span></h1>
+            <h1 class="my-2 pt-4 fs-2 text fw-bold text-center">{{ collection.name }} <span class="badge bg-info mx-4">{{ collection.calc_score }}</span></h1>
             <p class="py-2">{{ collection.description }}</p>
         </div>
 
@@ -65,3 +79,4 @@
 </div>
 
 {% endblock %}
+{% block page %}colecciones{% endblock %}

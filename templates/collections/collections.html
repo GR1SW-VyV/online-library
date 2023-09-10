@@ -35,7 +35,7 @@
         <h1 class="pt-4  fs-1 text fw-bold">Mis colecciones</h1>
 
     <form action="" class="mb-3 pt-4">
-            <div class="row  justify-content-center">
+            <div class="row  justify-content-center align-items-end">
                 <div class="col-8 w-25">
                     <label>Búsqueda</label>
                     <div class="input-group">
@@ -46,14 +46,34 @@
                     </div>
 
                 </div>
-                <div class="col-3">
+                <div class="col-2">
                     <label>Tipo de búsqueda</label>
                     <select name="tipo" class="form-select">
                         <option value="name">Nombre</option>
                         <option value="category">Categoría</option>
                     </select>
                 </div>
+                <div class="col-2 d-flex gap-3">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="privacy" value="all" checked>
+                      <label class="form-check-label" for="flexCheckDefault">
+                        Todo
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="privacy" value="private">
+                      <label class="form-check-label" for="flexCheckDefault">
+                        Privadas
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="privacy" value="public">
+                      <label class="form-check-label" for="flexCheckDefault">
+                        Públicas
+                      </label>
+                    </div>
 
+                </div>
             </div>
         </form>
 
@@ -97,5 +117,5 @@
 </div>
 
 {% endblock %}
-```
+
 
