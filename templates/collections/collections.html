@@ -21,20 +21,25 @@
             object-fit: cover;
         }
 
+        .card:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease;
+        }
+
     </style>
 {% endblock %}
 
 {% block page %}colecciones{% endblock %}
 {% block content %}
     <div class="container">
-        <h1>Mis colecciones</h1>
+        <h1 class="pt-4  fs-1 text fw-bold">Mis colecciones</h1>
 
-    <form action="" class="mb-3">
-            <div class="row">
-                <div class="col-8">
+    <form action="" class="mb-3 pt-4">
+            <div class="row  justify-content-center">
+                <div class="col-8 w-25">
                     <label>Búsqueda</label>
                     <div class="input-group">
-                        <input type="text" name="search" class="form-control" placeholder="Ingresa el texto de búsqueda">
+                        <input type="text" name="search" class="form-control" placeholder="Buscar">
                         <button class="btn btn-primary">
                             Buscar
                         </button>
@@ -52,6 +57,8 @@
             </div>
         </form>
 
+        
+
     {% if collections|length <= 0 %}
         {% if search %}
             <p class="text-secondary" style="font-size: 22px">Resultados para '{{ search }}'</p>
@@ -63,33 +70,31 @@
         <p class="text-secondary" style="font-size: 22px">Resultados para '{{ search }}'</p>
     {% endif %}
 
-    <div class="grid gap-3">
 
+
+
+
+    <div class="grid gap-3 pt-4">
         {% for collection in collections %}
-            <div class="d-flex flex-column align-items-center rounded-5 border border-1 border-secondary-subtle p-3 rounded">
-                <div class="img-container rounded-2 mb-3 bg-secondary">
+            <div class="d-flex card flex-column align-items-center rounded-5 rounded-top-5 border border-1 border-secondary-subtle  p-0 rounded shadow">
+                <div class="img-container h-50 w-100 rounded-2 mb-3 bg-secondary">
                     <img src="/static/img/library.jpg" alt="">
                 </div>
-                <span class="badge bg-secondary">{{ collection.calc_score }}</span>
+                <span class="float-start badge rounded-pill  py-1 px-2 bg-info m-1">
+                    {{ collection.calc_score }}
+                    <i class="fa-solid fa-star"></i>
+                </span>
                 <h2 class="text-center">{{ collection.name }} </h2>
                 <a href="/collections/{{ collection.id }}">
-                    <button class="btn btn-primary text-white">
+                    <button class="btn btn-primary mx-2 pt-2 rounded-2 mt-2 text-white">
                         Ver colección
                         <i class="fa-solid fa-arrow-right-long"></i>
                     </button>
                 </a>
             </div>
         {% endfor %}
-
-    </div>
-    
-
-
-
-    
-    
-    
-    </div>
+    </div> 
+</div>
 
 {% endblock %}
 ```
