@@ -47,11 +47,12 @@
         .download-button {
             padding: 5px 10px; /* Reduzco el padding para hacerlo más pequeño */
             font-size: 14px; /* Reduzco el tamaño de fuente */
-            border: none;
             cursor: pointer;
             flex: 0.01;
-            margin-top: 10px; /* Agrego margen superior para moverlo hacia arriba */
+            margin-top: 5px; /* Agrego margen superior para moverlo hacia arriba */
             border-radius: 10px; /* Agrego bordes redondeados */
+            margin-bottom: 10px;
+            margin: 0 auto;
     }
 
 
@@ -109,7 +110,6 @@
         Http.onload = (e) => {
             document.getElementById("bookScore").innerHTML = Http.responseText
         }
-
         Http.send();
 
 
