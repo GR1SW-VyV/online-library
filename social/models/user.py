@@ -4,6 +4,7 @@ from social.models.activity import UserActivity
 from social.models.observable import Observable
 from social.models.observer import Observer
 from social.models.user_manager import UserManager
+from social.constants import *
 
 
 class User(Observer, Observable, AbstractUser):
@@ -58,7 +59,7 @@ class User(Observer, Observable, AbstractUser):
         return Collection.objects.filter(followers=self).count()
 
     def is_reader(self):
-        return self.groups.filter(name='Reader').exists()
+        return self.groups.filter(name=READER_GROUP).exists()
 
     def is_professor(self):
-        return self.groups.filter(name='Professor').exists()
+        return self.groups.filter(name=PROFESSOR_GROUP).exists()
