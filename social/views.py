@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import User, Collection
+from .models import User
+from bookcollections.models import Collection
 from django.contrib.auth.decorators import login_required
 
 
