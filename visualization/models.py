@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 from articles.models import Document
 from social.models import User
@@ -6,7 +7,7 @@ from social.models import User
 
 class GeneralNote(models.Model):
     content = models.TextField()
-    date = models.DateTimeField()
+    date = models.DateTimeField(default=timezone.now)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     document = models.ForeignKey(Document, on_delete=models.CASCADE)
 
@@ -16,8 +17,8 @@ class GeneralNoteDAO:
     def get_general_notes(cls, username, document_id):
         notes = GeneralNote.objects.all().exclude(user__username=username).filter(document__uid=document_id)
         ordered_notes = list(notes)
-        ordered_notes.sort(key=lambda note: note.date, reverse=True)
-        ordered_notes.sort(key=lambda note: (-note.user.is_professor(), -note.user.followers_count()))
+        ordered_notes.sort(key=lambda note: (note.user.is_professor(), note.user.followers_count(), note.date),
+                           reverse=True)
         return list(ordered_notes)
 
     @classmethod
