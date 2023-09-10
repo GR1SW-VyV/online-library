@@ -12,8 +12,7 @@ from .models import GeneralNote, GeneralNoteDAO
 def document_info(request, document_id):
     document = Document.objects.get(uid=document_id)
     username = request.user.username
-    general_notes = GeneralNoteDAO.get_personal_general_notes(username, id)
-    general_notes.append(GeneralNoteDAO.get_general_notes(username, id))
+    general_notes = GeneralNoteDAO.get_general_notes(username,document_id)
     context = {
         'document': document,
         'document_notes': general_notes
