@@ -79,7 +79,7 @@
                         <label for="anotation" class="form-label">Nueva anotación</label>
                         <form method="post" id="note_form">
                             {% csrf_token %}
-                            <textarea class="form-control" name="annotation" id="anotation" rows="3" placeholder="Escribe aquí tu anotación"></textarea>
+                            <textarea class="form-control" name="annotation" id="anotation" rows="3" required placeholder="Escribe aquí tu anotación"></textarea>
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end py-2">
                                 <button class="btn btn-dark text-light fw-bold py-0" type="submit">Guardar</button>
                             </div>

@@ -33,7 +33,7 @@
                 <label for="general_annotation" class="form-label">Nueva nota general</label>
                     <form method="post" id="general_note_form">
                             {% csrf_token %}
-                            <textarea class="form-control" name="general_annotation" id="general_annotation" rows="3" placeholder="Escribe aquí tu nota"></textarea>
+                            <textarea class="form-control" name="general_annotation" id="general_annotation" required rows="3" placeholder="Escribe aquí tu nota"></textarea>
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end py-2">
                                 <button class="btn btn-dark text-light fw-bold py-0" type="submit">Guardar</button>
                             </div>
