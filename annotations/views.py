@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
-from annotations.models import Note, NoteDAO
+from annotations.models import PageNote, PageNoteDAO
 from social.models import User
 from articles.models import Document
 
@@ -18,7 +18,7 @@ def mynotes(request):
 def book_user_notes(request, document_id):
     current_user = User.objects.get(id=1)
     document = Document.objects.get(uid=document_id)
-    notes = NoteDAO.get_all_notes_of_document(current_user.id, document_id)
+    notes = PageNoteDAO.get_all_notes_of_document(current_user.id, document_id)
     return render(request, '../templates/annotations/my-notes.html',
                   {'document': document,
                    'user': current_user,

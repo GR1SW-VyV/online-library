@@ -8,7 +8,8 @@ from faker import Faker
 # Local module imports
 from articles.models import Document
 from social.models import User
-from visualization.models import GeneralNote, GeneralNoteDAO, PageNote, PageNoteDAO
+from visualization.models import GeneralNote, GeneralNoteDAO
+from annotations.models import PageNote, PageNoteDAO
 
 use_step_matcher("re")
 

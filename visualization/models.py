@@ -11,41 +11,6 @@ class GeneralNote(models.Model):
     document = models.ForeignKey(Document, on_delete=models.CASCADE)
 
 
-class PageNote(models.Model):
-    content = models.TextField()
-    date = models.DateField()
-    is_favorite = models.BooleanField(default=False)
-    page = models.IntegerField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    document = models.ForeignKey(Document, on_delete=models.CASCADE)
-
-
-class PageNoteDAO:
-    @classmethod
-    def get_personal_page_notes(cls, username, document_id, page):
-        notes = PageNote.objects.all().filter(user__username=username, document__uid=document_id, page=page)
-        ordered_notes = list(notes)
-        ordered_notes.sort(key=lambda note: note.date, reverse=True)
-        ordered_notes.sort(key=lambda note: -note.is_favorite)
-        return list(ordered_notes)
-
-    @classmethod
-    def get_page_notes(cls, username, document_id, page):
-        notes = PageNote.objects.all().exclude(user__username=username).filter(document__uid=document_id, page=page)
-        ordered_notes = list(notes)
-        ordered_notes.sort(key=lambda note: note.date, reverse=True)
-        ordered_notes.sort(
-            key=lambda note: (-note.user.is_professor(), -note.is_favorite, -note.user.followers_count()))
-        return list(ordered_notes)
-
-    @classmethod
-    def get_str_page_notes(cls, page_notes):
-        notes = ""
-        for note in page_notes:
-            notes += note.content + ","
-        return notes[:-1]
-
-
 class GeneralNoteDAO:
     @classmethod
     def get_personal_general_notes(cls, username, document_id):
