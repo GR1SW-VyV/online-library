@@ -6,19 +6,12 @@ from social.models import User
 
 class GeneralNote(models.Model):
     content = models.TextField()
-    date = models.DateField()
+    date = models.DateTimeField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     document = models.ForeignKey(Document, on_delete=models.CASCADE)
 
 
 class GeneralNoteDAO:
-    @classmethod
-    def get_personal_general_notes(cls, username, document_id):
-        notes = GeneralNote.objects.all().filter(user__username=username, document__uid=document_id)
-        ordered_notes = list(notes)
-        ordered_notes.sort(key=lambda note: note.date, reverse=True)
-        return list(ordered_notes)
-
     @classmethod
     def get_general_notes(cls, username, document_id):
         notes = GeneralNote.objects.all().exclude(user__username=username).filter(document__uid=document_id)
