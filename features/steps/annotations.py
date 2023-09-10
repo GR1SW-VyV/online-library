@@ -7,7 +7,7 @@ from annotations.testmodels.generalnote import GeneralNote as TestGneralNote
 
 from social.models import User
 from articles.models import Document
-from annotations.models import Note, NoteDAO
+from annotations.models import PageNote, PageNoteDAO
 
 use_step_matcher("re")
 
@@ -56,13 +56,14 @@ def step_impl(context):
     faker = Faker()
     context.user = User.objects.create(
         username=faker.user_name(),
+        password=faker.password()
     )
 
 
 @step("I want to take an important note")
 def step_impl(context):
-    context.note = Note.objects.create(
-        content="Me parece muy importante la línea 23",
+    context.note = PageNote.objects.create(
+        content="",
         page=23,
         user=context.user,
         document=context.document,
@@ -71,10 +72,10 @@ def step_impl(context):
 
 @when("I mark the note as favorite")
 def step_impl(context):
-    NoteDAO.mark_note_as_favorite(context.note.id)
+    PageNoteDAO.mark_note_as_favorite(context.note.id)
 
 
 @then("I should see the note with the mark")
 def step_impl(context):
-    note = NoteDAO.get_note_by_id(context.note.id)
+    note = PageNoteDAO.get_note_by_id(context.note.id)
     assert note.is_favorite is True

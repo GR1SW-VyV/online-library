@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'behave_django',
     'polymorphic',
     'annotations',
-    'recommendations'
+    'recommendations',
+    'visualization'
 ]
 
 MIDDLEWARE = [
@@ -113,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Guayaquil'
 
 USE_I18N = True
 

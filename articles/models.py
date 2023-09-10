@@ -55,7 +55,7 @@ class Document(models.Model):
         choices=Category.choices,
         default=Category.UNKNOWN
     )
-    author = models.OneToOneField(Author,on_delete=models.DO_NOTHING,null=True)
+    author = models.ForeignKey(Author,on_delete=models.DO_NOTHING,null=True)
     view_count = models.IntegerField(null=False, default=0)
     collections = models.ManyToManyField('bookcollections.Collection', related_name='books')
 
