@@ -1,15 +1,7 @@
-from django.db import models
 from collections import defaultdict
-
 import articles.models
 import bookcollections.models
-from articles import models
-from bookcollections import models
 from social.models import User
-
-import json
-# Create your models here.
-
 
 
 class RecommendationEngine:
@@ -26,17 +18,9 @@ class RecommendationEngine:
 
         # Loop through all the user's collections.
         for collection in bookcollections.models.CollectionDAO.get_all_by_user(self.user.id).all():
-            # Loop through the documents within each collection.
-
-            # recolect by collection's category
-            # category = collection.category
-            # category_count[category] += 1
-
-            # recolect by documents into collection
+            # Loop to count how many documents of each category are in the collection.
             for document in articles.models.Document.objects.filter(collections=collection):
-                # Get the category of the document.
                 category = document.category
-                # Update category count.
                 category_count[category] += 1
 
         # Update user preferences based on category count.
@@ -55,6 +39,7 @@ class RecommendationEngine:
         # Initialize a dictionary to keep track of categories and their count.
         preferences_count = defaultdict(int)
 
+        # count how many times each preference is repeated in the list
         for x in preferences:
             preferences_count[x] += 1
 
@@ -66,8 +51,6 @@ class RecommendationEngine:
             # If the category is new, add it with a value of 1.
             else:
                 self.user.preferences[category] = 1
-
-        print(self.user.preferences)
 
         # Save the updated preferences in the database.
         self.user.save()
@@ -112,7 +95,7 @@ class RecommendationEngine:
                 book_info = {
                     'uid': document.uid,
                     'title': document.title,
-                    'author': document.author,
+                    'author': document.author.name,
                     'path': document.url(),
                 }
                 # Add the document dictionary to the current category's 'books' list.
