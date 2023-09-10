@@ -38,7 +38,7 @@ class PageNoteDAO:
     @classmethod
     def mark_note_as_favorite(cls, note_id):
         note = PageNote.objects.get(pk=note_id)
-        note.is_favorite = True
+        note.is_favorite = not note.is_favorite
         note.save()
 
     @classmethod

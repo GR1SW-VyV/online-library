@@ -12,22 +12,6 @@ from annotations.models import PageNote, PageNoteDAO
 use_step_matcher("re")
 
 
-@given('I am reading a document about "Lean Software Development"')
-def step_impl(context):
-    context.document = TestDocument("Lean Software Development", 3)
-    context.user = TestUser(3)
-
-
-@when('I add a note with the text "Tomar en cuenta estos principios" in the page 10')
-def step_impl(context):
-    context.note = TestNote(1, "Tomar en cuenta estos principios", 10, 3, 3)
-    context.document.add_notePage(context.note)
-
-
-@then("I should see the note in the notes section")
-def step_impl(context):
-    assert context.document.notePage_in_document(context.note)
-
 
 @given('I am seeing the document information about "Ensayo sobre la ceguera"')
 def step_impl(context):
@@ -79,3 +63,19 @@ def step_impl(context):
 def step_impl(context):
     note = PageNoteDAO.get_note_by_id(context.note.id)
     assert note.is_favorite is True
+
+
+@given("I am reading a document (?P<document_title>.+)")
+def step_impl(context, document_title):
+    raise NotImplementedError(u'STEP: Given I am reading a document <document_title>')
+
+
+@when("I add a note with the text (?P<text>.+) in the page (?P<page_number>.+)")
+def step_impl(context, text, page_number):
+    raise NotImplementedError(u'STEP: When I add a note with the text <text> in the page <page_number>')
+
+
+@then("I should see the note in the notes section of the page (?P<page_number_with_note>.+)")
+def step_impl(context, page_number_with_note):
+    raise NotImplementedError(
+        u'STEP: Then I should see the note in the notes section of the page <page_number_with_note>')
