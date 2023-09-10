@@ -4,7 +4,7 @@
 
     <div class="container mt-4">
         <h2>RECOMENDACIONES</h2>
-        <h5>No tienes colecciones creadas aún, ¡Te daremos recomendaciones en base a tus preferencias! </h5>
+        <h5> {{ mensaje }}, ¡Te daremos recomendaciones en base a tus preferencias! </h5>
         <form method="POST" action="./send_preferences/"> {% csrf_token %}   <!-- Reemplazar con la URL donde quieran enviar los datos -->
             <div class="form-group mt-3">
                 <label>Selecciona 3 categorías de tu interés:</label>

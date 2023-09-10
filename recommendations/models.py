@@ -7,10 +7,6 @@ from articles import models
 from bookcollections import models
 from social.models import User
 
-import json
-# Create your models here.
-
-
 
 class RecommendationEngine:
     def __init__(self, user):
@@ -66,8 +62,6 @@ class RecommendationEngine:
             # If the category is new, add it with a value of 1.
             else:
                 self.user.preferences[category] = 1
-
-        print(self.user.preferences)
 
         # Save the updated preferences in the database.
         self.user.save()

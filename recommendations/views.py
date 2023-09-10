@@ -1,39 +1,34 @@
 from django.shortcuts import render
 
-import social.models
 from social.models import User
 from recommendations.models import RecommendationEngine
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login
-from bookcollections import models
-from articles.choices.category import Category
-from django.http import HttpResponse
+
+categories_dict = {'MATH': 'Matemática', 'PHYSICS': 'Física', 'CALCULUS': 'Cálculo',
+                   'PROGRAMMING': 'Programación', 'LITERATURE': 'Literatura',
+                   'GEOMETRY': 'Geometría', 'ECONOMY': 'Economía', 'CHEMISTRY': 'Química'}
 
 
+@login_required
 def init_recommedation_engine(request):
-    # Test
-    #user = User.objects.create_reader_user(username="test28", password="123")
-
-    # collection_1 = models.CollectionDAO.create(
-    #    "Coleccion 1",
-    #    "Descripcion",
-    #    True,
-    #    Category.GEOMETRY,
-    #    user
-    # )
-
-    # user = authenticate(request, username="test8", password="123")
-
-    user = User.objects.get(id=request.user.id)
-    # user = request.user
-    if user is not None:
-        login(request, user)
+    user = request.user
     recomender = RecommendationEngine(user)
     if recomender.has_collections():
         recommendations = recomender.get_recomendations()
-        return render(request, './recommendation/recommended.html', context={'recommendations': recommendations})
+        for recommendation in recommendations:
+            # Check if recommended list has some recommendations
+            if recommendation['books']:
+                category = recommendation['category']
+                recommendation['category'] = categories_dict[category]
+                return render(request, './recommendation/recommended.html',
+                              context={'recommendations': recommendations})
+            # It happens went user has collections without any book
+            else:
+                mensaje = 'Al parecer no tienes libros asignados a tus colecciones'
+                return render(request, './recommendation/form_preferences.html', context={'mensaje': mensaje})
     else:
-        return render(request, './recommendation/form_preferences.html', )
+        mensaje = 'No tienes colecciones creadas aún'
+        return render(request, './recommendation/form_preferences.html', context={'mensaje': mensaje})
 
 
 @login_required
@@ -42,6 +37,7 @@ def view_form_preferences(request):
     return render(request, './recommendation/form_preferences.html', )
 
 
+@login_required
 def send_preferences(request):
     user = User.objects.get(id=request.user.id)
     recomender = RecommendationEngine(user)
@@ -49,9 +45,12 @@ def send_preferences(request):
         # Acces categories wich are selected
         selected_categories = request.POST.getlist('categorias[]')
         tuple_selected_categories = tuple(selected_categories)
-        # Test
-        print(tuple_selected_categories)
         # Call specific view
         recomender.recive_preferences(*tuple_selected_categories)
         recommendations = recomender.get_recomendations()
+        for recommendation in recommendations:
+            category = recommendation['category']
+            recommendation['category'] = categories_dict[category]
         return render(request, './recommendation/recommended.html', context={'recommendations': recommendations})
+
+
