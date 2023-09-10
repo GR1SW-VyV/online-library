@@ -28,5 +28,6 @@ urlpatterns = [
     path('social/', include('social.urls')),
     path('visualization/', include('visualization.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('visualization/', include('visualization.urls')),
     path('', include('home.urls'))
 ]

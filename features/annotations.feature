@@ -10,9 +10,8 @@ Feature: Write notes
 
   Scenario: Take notes of a document
     Given I am seeing the document information about "Ensayo sobre la ceguera"
-    When I add an note with the text "Que interesante libro" 
+    When I add an note with the text "Que interesante libro"
     Then I should see the note with the information of the document
-
 
   Scenario: Mark an annotation as favorite
     Given I am reading the book "Cien años de soledad"
