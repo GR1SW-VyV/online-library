@@ -62,6 +62,13 @@
         <h1 id="author">Autor: {{ document.author.name }}</h1>
         <p><strong>Materia/Temática: {{ document.category.capitalize }}</strong> <span id="bookSubject"></span></p>
         <p><strong>Tipo:</strong> {{ document.type.capitalize }} <span id="bookType"></span></p>
+        <p><strong>Calificación:</strong>  <span id="bookScore">{{ document.score }}</span>/5</p>
+
+        <button onclick="setScore(5)">Dar 5 estrellas</button>
+        <button onclick="setScore(4)">Dar 4 estrellas</button>
+        <button onclick="setScore(3)">Dar 3 estrellas</button>
+        <button onclick="setScore(2)">Dar 2 estrellas</button>
+        <button onclick="setScore(1)">Dar 1 estrellas</button>
 
         <button onclick="window.open('{{ document.url }}', '_blank');" class="download-button" >Descargar documento</button>
 
@@ -82,6 +89,18 @@
         {#document.getElementById('bookTitle').textContent = "Título del Libro";#}
         {#document.getElementById('bookSubject').textContent = "Materia";#}
         {#document.getElementById('bookType').textContent = "Tipo";#}
+    }
+
+    function setScore(score){
+        const Http = new XMLHttpRequest();
+        Http.open("GET", "/articles/score/{{ document.uid }}/"+score.toString());
+        Http.onload = (e) => {
+            document.getElementById("bookScore").innerHTML = Http.responseText
+        }
+
+        Http.send();
+
+
     }
 </script>
 </body>

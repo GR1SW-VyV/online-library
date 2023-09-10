@@ -53,3 +53,13 @@ def show_document(request:HttpRequest, document_id):
     return render(request,"social/visualizarInformacion.html",{
         "document":doc
     })
+
+def score_document(request:HttpRequest, document_id, score):
+    doc:Document = Document.objects.get(uid=document_id)
+    current_user = request.user
+    if not request.user.is_authenticated:
+        return HttpResponse(status=403)
+
+    doc.add_score(current_user.id,score)
+
+    return HttpResponse(doc.score(),status=200)
