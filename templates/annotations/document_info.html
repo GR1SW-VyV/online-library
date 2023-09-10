@@ -1,0 +1,77 @@
+
+{% extends 'base.html' %}
+
+{% block pre-script %}
+    <script src="https://kit.fontawesome.com/77c9f8f14c.js" crossorigin="anonymous"></script>
+    <title>{{ document.title }}</title>
+{% endblock %}
+
+{% block content %}
+	 <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1>{{ document.title }}</h1>
+                <div>
+                    <img src="" alt="Portada del libro {{ document.title }}" id="coverImage" data-path="{{ document.path }}" />
+                </div>
+            </div>
+            <div class="col">
+                <h2>Descripcion</h2>
+                <p>Autor: {{ document.author.name }}</p>
+                <p>Categoria: {{ document.category }}</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pellentesque eros elit, vitae cursus odio egestas et. Nullam vestibulum malesuada fermentum. Fusce lacus nibh, volutpat eu tempor pretium, feugiat nec odio. Praesent facilisis nibh ac tortor egestas, sed venenatis dolor volutpat. Duis vitae porttitor dolor. In quis pellentesque nunc. Phasellus et quam sit amet diam feugiat luctus. Sed in commodo leo. Etiam aliquam, purus sed luctus accumsan, eros quam aliquam tortor, eu feugiat massa leo efficitur justo. Fusce convallis lorem ac mi tempor, eget sodales lorem ornare. Morbi tincidunt convallis venenatis.</p>
+                <div class="text-center">
+                    <a role="button" href="#" class="btn btn-primary">Ver documento</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <h2>Notas</h2>
+            <div class="col">
+                {% block general_notes %}{% endblock %}
+            </div>
+            <div class="col">
+                <p>Insert notes go here</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+   
+
+{% block post-script %}
+
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.10.111/build/pdf.min.js"></script>
+
+   <script>
+        const coverImage = document.getElementById('coverImage');
+        const pdfPath = coverImage.getAttribute('data-path');
+
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+
+        // Cargar el PDF y renderizar la primera página en el canvas
+        pdfjsLib.getDocument(pdfPath).promise
+        .then(pdfDoc => pdfDoc.getPage(1))
+        .then(page => {
+            const viewport = page.getViewport({ scale: 1.0 }); // Ajusta la escala según sea necesario
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            const renderContext = {
+                canvasContext: context,
+                viewport: viewport,
+            };
+            return page.render(renderContext).promise;
+        })
+        .then(() => {
+            // Convertir el canvas en una imagen base64
+            const imageDataURL = canvas.toDataURL('image/png');
+
+            // Establecer la imagen base64 como fuente de la imagen en tu HTML
+            coverImage.src = imageDataURL;
+        })
+        .catch(error => {
+            console.error('Error al cargar y renderizar el PDF:', error);
+        });
+    </script>
+{% endblock %}
+
