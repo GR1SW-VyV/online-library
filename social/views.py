@@ -17,7 +17,10 @@ def profile(request, user_username):
 @login_required
 def feed(request):
     user_profile = request.user
-    return render(request, 'social/feed.html', {'user_profile': user_profile})
+    feed_items = user_profile.feed.all().order_by('-date', '-time')
+    return render(request, 'social/feed.html', {
+        'feed': feed_items
+    })
 
 
 @login_required

@@ -6,6 +6,7 @@ from polymorphic.models import PolymorphicModel
 class Activity(PolymorphicModel):
     detail = models.CharField(max_length=100)
     date = models.DateField(default=datetime.today)
+    time = models.TimeField(default=datetime.now().time())
 
     def __eq__(self, other):
         if isinstance(other, Activity):
