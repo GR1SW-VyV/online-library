@@ -95,7 +95,7 @@ class RecommendationEngine:
                 book_info = {
                     'uid': document.uid,
                     'title': document.title,
-                    'author': document.author,
+                    'author': document.author.name,
                     'path': document.url(),
                 }
                 # Add the document dictionary to the current category's 'books' list.

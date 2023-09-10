@@ -16,12 +16,11 @@ def init_recommedation_engine(request):
     if recomender.has_collections():
         recommendations = recomender.get_recomendations()
         for recommendation in recommendations:
+            category = recommendation['category']
+            recommendation['category'] = categories_dict[category]
             # Check if recommended list has some recommendations
             if recommendation['books']:
-                category = recommendation['category']
-                recommendation['category'] = categories_dict[category]
-                return render(request, './recommendation/recommended.html',
-                              context={'recommendations': recommendations})
+                return render(request, './recommendation/recommended.html', context={'recommendations': recommendations})
             # It happens went user has collections without any book
             else:
                 mensaje = 'Al parecer no tienes libros asignados a tus colecciones'
