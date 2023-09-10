@@ -3,8 +3,8 @@ from .models import User, Collection
 from django.contrib.auth.decorators import login_required
 
 
-def profile(request, user_id):
-    user_profile = User.objects.get(id=user_id)
+def profile(request, user_username):
+    user_profile = User.objects.get(username=user_username)
     is_own_profile = request.user.is_authenticated and request.user == user_profile
     already_following = request.user.is_authenticated and user_profile.is_followed_by(request.user)
     return render(request, 'social/profile.html', {
@@ -32,15 +32,12 @@ def follow_collection(request, collection_id):
 
 
 @login_required
-def follow_reader(request, user_id):
-    reader_to_follow = User.objects.get(id=user_id)
+def follow_reader(request, user_username):
+    reader_to_follow = User.objects.get(username=user_username)
     user_profile = request.user
 
-    if reader_to_follow.id == user_profile.id:
-        return redirect('profile', user_id=user_id)
-
-    if reader_to_follow.is_followed_by(user_profile):
-        return redirect('profile', user_id=user_id)
+    if reader_to_follow.id == user_profile.id or reader_to_follow.is_followed_by(user_profile):
+        return redirect('profile', user_username=user_username)
 
     user_profile.follow(reader_to_follow)
-    return redirect('profile', user_id=user_id)
+    return redirect('profile', user_username=user_username)
