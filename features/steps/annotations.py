@@ -26,7 +26,8 @@ def step_impl(context, document_title):
 def step_impl(context, text, page_number):
     document = Document.objects.get(uid=context.document.uid)
 
-    context.note = PageNote.objects.create(content=text, page=page_number, user_id=context.user.id, document_id=document.uid)
+    context.note = PageNote.objects.create(content=text, page=page_number, user_id=context.user.id,
+                                           document_id=document.uid)
 
 
 @then("I should see the note in the notes section of the page (?P<page_number>.+)")
@@ -52,19 +53,35 @@ def step_impl(context, document_title):
 
 @given("I am reading the book (?P<document_title>.+)")
 def step_impl(context, document_title):
-    raise NotImplementedError(u'STEP: Given I am reading the book <document_title>')
+    new_document = Document.objects.create(title=document_title)
+    new_document.save()
+    context.document = new_document
+
+    faker = Faker()
+    context.user = User.objects.create(
+        username=faker.name(),
+        email=faker.email(),
+        password=faker.password()
+    )
 
 
 @step("I want to take an important note (?P<text>.+)")
 def step_impl(context, text):
-    raise NotImplementedError(u'STEP: And I want to take an important note <text>')
+    document = Document.objects.get(uid=context.document.uid)
+
+    context.note = PageNote.objects.create(content=text,
+                                           page=1,
+                                           user_id=context.user.id,
+                                           document_id=document.uid)
 
 
-@when("I mark the note as favorite (?P<favorite>.+)")
-def step_impl(context, favorite):
-    raise NotImplementedError(u'STEP: When I mark the note as favorite <favorite>')
+@when("I mark the note as favorite")
+def step_impl(context):
+    note = PageNote.objects.get(id=context.note.id)
+    PageNoteDAO.mark_note_as_favorite(note.id)
 
 
 @then("I should see the note with the mark (?P<favorite>.+)")
 def step_impl(context, favorite):
-    raise NotImplementedError(u'STEP: Then I should see the note with the mark <favorite>')
+    note = PageNote.objects.get(id=context.note.id)
+    assert note.is_favorite

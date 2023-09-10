@@ -13,7 +13,6 @@ from articles.models import Document
 def book_user_notes(request, document_id):
     current_user = request.user
     document = Document.objects.get(uid=document_id)
-    notes = PageNoteDAO.get_all_notes_of_document(current_user.id, document_id)
     page_counter = int(request.GET.get('page', 1))
 
     # Partial note update/delete

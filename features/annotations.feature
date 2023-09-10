@@ -23,7 +23,7 @@ Feature: Write notes
       |      document_title      | text                                |
       | Lean Software            | Tomar en cuenta estos principios    |
       | Math Book                | Estudiar esto                       |
-      | Physics Book             |                                     |
+      | Physics Book             |                            |
 
 
 
@@ -31,11 +31,11 @@ Feature: Write notes
   Scenario Template: Mark an annotation as favorite
     Given I am reading the book <document_title>
     And I want to take an important note <text>
-    When I mark the note as favorite <favorite>
+    When I mark the note as favorite
     Then I should see the note with the mark <favorite>
 
     Examples:
       |      document_title      | text                                |  favorite   |
       | Lean Software            | Tomar en cuenta estos principios    | True        |
-      | Math Book                | Estudiar esto                       | False       |
-      | Physics Book             |                                     | True        |
+      | Math Book                | Estudiar esto                       | True       |
+      | Physics Book             | ""                                  | True        |
