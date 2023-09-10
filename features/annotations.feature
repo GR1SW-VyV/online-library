@@ -23,7 +23,7 @@ Feature: Write notes
       |      document_title      | text                                |
       | Lean Software            | Tomar en cuenta estos principios    |
       | Math Book                | Estudiar esto                       |
-      | Physics Book             |                            |
+      | Physics Book             | ""                                   |
 
 
 
@@ -38,4 +38,4 @@ Feature: Write notes
       |      document_title      | text                                |  favorite   |
       | Lean Software            | Tomar en cuenta estos principios    | True        |
       | Math Book                | Estudiar esto                       | True       |
-      | Physics Book             | ""                                  | True        |
+      | Physics Book             |                                   | True        |

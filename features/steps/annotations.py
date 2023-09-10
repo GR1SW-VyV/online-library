@@ -4,6 +4,7 @@ from faker import Faker
 from annotations.models import PageNote, PageNoteDAO
 from articles.models import Document
 from social.models import User
+from visualization.models import GeneralNote, GeneralNoteDAO
 
 use_step_matcher("re")
 
@@ -38,18 +39,27 @@ def step_impl(context, page_number):
 
 @given("I am seeing the document information about a document (?P<document_title>.+)")
 def step_impl(context, document_title):
-    raise NotImplementedError(u'STEP: Given I am seeing the document information about a document <document_title>')
+    new_document = Document.objects.create(title=document_title)
+    new_document.save()
+    context.document = new_document
 
+    faker = Faker()
+    context.user = User.objects.create(
+        username=faker.name(),
+        email=faker.email(),
+        password=faker.password()
+    )
 
 @when("I add an note with the text (?P<text>.+)")
 def step_impl(context, text):
-    raise NotImplementedError(u'STEP: When I add an note with the text <text>')
-
+    print("Hola mundo " + text)
+    document = Document.objects.get(uid=context.document.uid)
+    context.generalNote = GeneralNote.objects.create(content=text, user_id=context.user.id, document_id=document.uid)
 
 @then("I should see the note with the information of the document (?P<document_title>.+)")
 def step_impl(context, document_title):
-    raise NotImplementedError(u'STEP: Then I should see the note with the information of the document <document_title>')
-
+    notes = GeneralNoteDAO.get_general_notes(context.user.id, context.document.uid)
+    assert context.generalNote in notes
 
 @given("I am reading the book (?P<document_title>.+)")
 def step_impl(context, document_title):
