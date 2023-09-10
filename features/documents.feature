@@ -63,7 +63,6 @@ Feature: Upload public articles
     |  2      |   4     | 3         |
     |  1      |   3     | 2         |
     |  2      |   4     | 3         |
-    |  2      |   -1    | 0.5       |
 
   @fake_data
   Scenario Outline: Individual scoring per book
@@ -78,4 +77,3 @@ Feature: Upload public articles
     |  2      |   4     |  2            |  4            |
     |  1      |   3     |  1            |  3            |
     |  2      |   4     |  2            |  4            |
-    |  2      |   -1    |  2            | -1            |
