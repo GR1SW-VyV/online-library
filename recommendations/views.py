@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from social.models import User
 from recommendations.models import RecommendationEngine
@@ -47,7 +47,7 @@ def send_preferences(request):
         selected_categories = request.POST.getlist('categorias[]')
         if len(selected_categories) == 0:
             mensaje = 'Debe seleccionar al menos 1 categoría'
-            return render(request, './recommendation/form_preferences.html', context={'mensaje': mensaje})
+            return redirect('/recommendations', context={'mensaje': mensaje})
         else:
             tuple_selected_categories = tuple(selected_categories)
             # Call specific view

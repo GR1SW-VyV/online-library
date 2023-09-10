@@ -20,7 +20,7 @@
         <!-- Books recommended for category-->
         {% for book in recommendation.books %}
         <div class="col-md-3">
-            <a style="text-decoration: none; color: black" href="/document/{{ book.uid }}">  <!-- Change url to open book content-->
+            <a style="text-decoration: none; color: black" href="/visualization/document/{{ book.uid }}">  <!-- Change url to open book content-->
                 <div class="card">
                     <img src="" alt="coverImage" data-path="{{ book.path }}" class="cover-image" />
                 <div class="card-body">
