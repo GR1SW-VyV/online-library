@@ -4,7 +4,7 @@ from articles.models import Document
 
 
 # Create your models here.
-class Note(models.Model):
+class PageNote(models.Model):
     content = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
     is_favorite = models.BooleanField(default=False)
@@ -13,7 +13,7 @@ class Note(models.Model):
     document = models.ForeignKey(Document, on_delete=models.CASCADE)
 
 
-class NoteDAO:
+class PageNoteDAO:
     @classmethod
     def get_notes_by_page(cls, user_id, document_id, page):
         """
@@ -22,7 +22,7 @@ class NoteDAO:
             :param page: Número de página.
             :return: Lista de notas de la página especificada.
         """
-        return Note.objects.filter(user_id=user_id, document_id=document_id, page=page)
+        return PageNote.objects.filter(user_id=user_id, document_id=document_id, page=page)
 
     @classmethod
     def get_all_notes_of_document(cls, user_id, document_id):
@@ -31,14 +31,14 @@ class NoteDAO:
             :param document_id: ID del documento.
             :return: Lista de todas las notas del documento.
         """
-        return Note.objects.filter(user_id=user_id, document_id=document_id)
+        return PageNote.objects.filter(user_id=user_id, document_id=document_id)
 
     @classmethod
     def mark_note_as_favorite(cls, note_id):
-        note = Note.objects.get(pk=note_id)
+        note = PageNote.objects.get(pk=note_id)
         note.is_favorite = True
         note.save()
 
     @classmethod
     def get_note_by_id(cls, note_id):
-        return Note.objects.get(pk=note_id)
+        return PageNote.objects.get(pk=note_id)

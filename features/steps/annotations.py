@@ -7,7 +7,7 @@ from annotations.testmodels.generalnote import GeneralNote as TestGneralNote
 
 from social.models import User
 from articles.models import Document
-from annotations.models import Note, NoteDAO
+from annotations.models import PageNote, PageNoteDAO
 
 use_step_matcher("re")
 
@@ -61,7 +61,7 @@ def step_impl(context):
 
 @step("I want to take an important note")
 def step_impl(context):
-    context.note = Note.objects.create(
+    context.note = PageNote.objects.create(
         content="Me parece muy importante la línea 23",
         page=23,
         user=context.user,
