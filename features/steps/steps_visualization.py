@@ -14,12 +14,11 @@ from annotations.models import PageNote, PageNoteDAO
 use_step_matcher("re")
 
 
-@given("I have the document (?P<document_title>.+) with the id (?P<document_id>.+)")
-def step_impl(context, document_title, document_id):
+@given("I have the document (?P<document_title>.+)")
+def step_impl(context, document_title):
     """
     :type context: behave.runner.Context
     :type document_title: str
-    :type document_id: str
     """
     context.document = Document.objects.get_or_create(title=document_title)[0]
 
