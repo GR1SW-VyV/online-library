@@ -56,6 +56,7 @@ def step_impl(context):
     faker = Faker()
     context.user = User.objects.create(
         username=faker.user_name(),
+        password=faker.password()
     )
 
 
@@ -71,10 +72,10 @@ def step_impl(context):
 
 @when("I mark the note as favorite")
 def step_impl(context):
-    NoteDAO.mark_note_as_favorite(context.note.id)
+    PageNoteDAO.mark_note_as_favorite(context.note.id)
 
 
 @then("I should see the note with the mark")
 def step_impl(context):
-    note = NoteDAO.get_note_by_id(context.note.id)
+    note = PageNoteDAO.get_note_by_id(context.note.id)
     assert note.is_favorite is True
