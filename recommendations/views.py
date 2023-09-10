@@ -17,14 +17,16 @@ def init_recommedation_engine(request):
         recommendations = recomender.get_recomendations()
         for recommendation in recommendations:
             category = recommendation['category']
-            recommendation['category'] = categories_dict[category]
-            # Check if recommended list has some recommendations
-            if recommendation['books']:
-                return render(request, './recommendation/recommended.html', context={'recommendations': recommendations})
-            # It happens went user has collections without any book
-            else:
-                mensaje = 'Al parecer no tienes libros asignados a tus colecciones'
-                return render(request, './recommendation/form_preferences.html', context={'mensaje': mensaje})
+            if category in categories_dict:
+                recommendation['category'] = categories_dict[category]
+                # Check if recommended list has some recommendations
+                if recommendation['books']:
+                    return render(request, './recommendation/recommended.html',
+                                  context={'recommendations': recommendations})
+                # It happens went user has collections without any book
+                else:
+                    mensaje = 'Al parecer no tienes libros asignados a tus colecciones'
+                    return render(request, './recommendation/form_preferences.html', context={'mensaje': mensaje})
     else:
         mensaje = 'No tienes colecciones creadas aún'
         return render(request, './recommendation/form_preferences.html', context={'mensaje': mensaje})
@@ -43,13 +45,18 @@ def send_preferences(request):
     if request.method == 'POST':
         # Acces categories wich are selected
         selected_categories = request.POST.getlist('categorias[]')
-        tuple_selected_categories = tuple(selected_categories)
-        # Call specific view
-        recomender.recive_preferences(*tuple_selected_categories)
-        recommendations = recomender.get_recomendations()
-        for recommendation in recommendations:
-            category = recommendation['category']
-            recommendation['category'] = categories_dict[category]
-        return render(request, './recommendation/recommended.html', context={'recommendations': recommendations})
+        if len(selected_categories) == 0:
+            mensaje = 'Debe seleccionar al menos 1 categoría'
+            return render(request, './recommendation/form_preferences.html', context={'mensaje': mensaje})
+        else:
+            tuple_selected_categories = tuple(selected_categories)
+            # Call specific view
+            recomender.recive_preferences(*tuple_selected_categories)
+            recommendations = recomender.get_recomendations()
+            for recommendation in recommendations:
+                category = recommendation['category']
+                if category in categories_dict:
+                    recommendation['category'] = categories_dict[category]
+            return render(request, './recommendation/recommended.html', context={'recommendations': recommendations})
 
 
