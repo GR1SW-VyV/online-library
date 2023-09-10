@@ -1,81 +1,100 @@
 from behave import *
 from faker import Faker
-from annotations.testmodels.note import Note as TestNote
-from annotations.testmodels.user import User as TestUser
-from annotations.testmodels.document import Document as TestDocument
-from annotations.testmodels.generalnote import GeneralNote as TestGneralNote
 
-from social.models import User
-from articles.models import Document
 from annotations.models import PageNote, PageNoteDAO
+from articles.models import Document
+from social.models import User
+from visualization.models import GeneralNote, GeneralNoteDAO
 
 use_step_matcher("re")
 
 
-@given('I am reading a document about "Lean Software Development"')
-def step_impl(context):
-    context.document = TestDocument("Lean Software Development", 3)
-    context.user = TestUser(3)
-
-
-@when('I add a note with the text "Tomar en cuenta estos principios" in the page 10')
-def step_impl(context):
-    context.note = TestNote(1, "Tomar en cuenta estos principios", 10, 3, 3)
-    context.document.add_notePage(context.note)
-
-
-@then("I should see the note in the notes section")
-def step_impl(context):
-    assert context.document.notePage_in_document(context.note)
-
-
-@given('I am seeing the document information about "Ensayo sobre la ceguera"')
-def step_impl(context):
-    context.document = TestDocument("Ensayo sobre la ceguera", 2)
-    context.user = TestUser(2)
-
-
-@when('I add an note with the text "Que interesante libro"')
-def step_impl(context):
-    context.generalNote = TestGneralNote("Que interesante libro", 2, 2)
-    context.document.add_generalNote(context.generalNote)
-
-
-@then("I should see the note with the information of the document")
-def step_impl(context):
-    assert context.document.note_in_document(context.generalNote)
-
-
-@given('I am reading the book "Cien años de soledad"')
-def step_impl(context):
-
-    context.document = Document.objects.create(
-        title="Cien años de soledad"
-    )
+@given("I am reading a document (?P<document_title>.+)")
+def step_impl(context, document_title):
+    new_document = Document.objects.create(title=document_title)
+    new_document.save()
+    context.document = new_document
 
     faker = Faker()
     context.user = User.objects.create(
-        username=faker.user_name(),
+        username=faker.name(),
+        email=faker.email(),
         password=faker.password()
     )
 
 
-@step("I want to take an important note")
-def step_impl(context):
-    context.note = PageNote.objects.create(
-        content="",
-        page=23,
-        user=context.user,
-        document=context.document,
+@when("I add a note with the text (?P<text>.+) in the page (?P<page_number>.+)")
+def step_impl(context, text, page_number):
+    document = Document.objects.get(uid=context.document.uid)
+
+    context.note = PageNote.objects.create(content=text, page=page_number, user_id=context.user.id,
+                                           document_id=document.uid)
+
+
+@then("I should see the note in the notes section of the page (?P<page_number>.+)")
+def step_impl(context, page_number):
+    notes = PageNoteDAO.get_notes_by_page(context.user.id, context.document.uid, page_number)
+    assert context.note in notes
+
+
+@given("I am seeing the document information about a document (?P<document_title>.+)")
+def step_impl(context, document_title):
+    new_document = Document.objects.create(title=document_title)
+    new_document.save()
+    context.document = new_document
+
+    faker = Faker()
+    context.user = User.objects.create(
+        username=faker.name(),
+        email=faker.email(),
+        password=faker.password()
     )
+
+
+@when("I add an note with the text (?P<text>.+)")
+def step_impl(context, text):
+    print("Hola mundo " + text)
+    document = Document.objects.get(uid=context.document.uid)
+    context.generalNote = GeneralNote.objects.create(content=text, user_id=context.user.id, document_id=document.uid)
+
+
+@then("I should see the note with the information of the document (?P<document_title>.+)")
+def step_impl(context, document_title):
+    notes = GeneralNoteDAO.get_general_notes(context.user.id, context.document.uid)
+    assert context.generalNote in notes
+
+
+@given("I am reading the book (?P<document_title>.+)")
+def step_impl(context, document_title):
+    new_document = Document.objects.create(title=document_title)
+    new_document.save()
+    context.document = new_document
+
+    faker = Faker()
+    context.user = User.objects.create(
+        username=faker.name(),
+        email=faker.email(),
+        password=faker.password()
+    )
+
+
+@step("I want to take an important note (?P<text>.+)")
+def step_impl(context, text):
+    document = Document.objects.get(uid=context.document.uid)
+
+    context.note = PageNote.objects.create(content=text,
+                                           page=1,
+                                           user_id=context.user.id,
+                                           document_id=document.uid)
 
 
 @when("I mark the note as favorite")
 def step_impl(context):
-    PageNoteDAO.mark_note_as_favorite(context.note.id)
+    note = PageNote.objects.get(id=context.note.id)
+    PageNoteDAO.mark_note_as_favorite(note.id)
 
 
-@then("I should see the note with the mark")
-def step_impl(context):
-    note = PageNoteDAO.get_note_by_id(context.note.id)
-    assert note.is_favorite is True
+@then("I should see the note with the mark (?P<favorite>.+)")
+def step_impl(context, favorite):
+    note = PageNote.objects.get(id=context.note.id)
+    assert note.is_favorite
