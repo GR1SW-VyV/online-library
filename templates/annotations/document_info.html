@@ -19,9 +19,8 @@
                 <h2>Descripcion</h2>
                 <p>Autor: {{ document.author.name }}</p>
                 <p>Categoria: {{ document.category }}</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pellentesque eros elit, vitae cursus odio egestas et. Nullam vestibulum malesuada fermentum. Fusce lacus nibh, volutpat eu tempor pretium, feugiat nec odio. Praesent facilisis nibh ac tortor egestas, sed venenatis dolor volutpat. Duis vitae porttitor dolor. In quis pellentesque nunc. Phasellus et quam sit amet diam feugiat luctus. Sed in commodo leo. Etiam aliquam, purus sed luctus accumsan, eros quam aliquam tortor, eu feugiat massa leo efficitur justo. Fusce convallis lorem ac mi tempor, eget sodales lorem ornare. Morbi tincidunt convallis venenatis.</p>
                 <div class="text-center">
-                    <a role="button" href="#" class="btn btn-primary">Ver documento</a>
+                    <a role="button" href="/annotations/book/{{ document.uid }}" class="btn btn-primary">Ver documento</a>
                 </div>
             </div>
         </div>
@@ -31,7 +30,14 @@
                 {% block general_notes %}{% endblock %}
             </div>
             <div class="col">
-                <p>Insert notes go here</p>
+                <label for="general_annotation" class="form-label">Nueva nota general</label>
+                    <form method="post" id="general_note_form">
+                            {% csrf_token %}
+                            <textarea class="form-control" name="general_annotation" id="general_annotation" required rows="3" placeholder="Escribe aquí tu nota"></textarea>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end py-2">
+                                <button class="btn btn-dark text-light fw-bold py-0" type="submit">Guardar</button>
+                            </div>
+                    </form>
             </div>
         </div>
     </div>
