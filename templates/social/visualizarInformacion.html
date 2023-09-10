@@ -75,12 +75,13 @@
 
         <!-- Campo de calificacion por numero de estrellas (Libro/Artículo) -->
         <label for="calificacion"><strong>Calificación del libro/artículo:</strong></label>
-            <select class="input-field form-control" name="calificacion" onchange="setScore(this.value)">
-                <option value="5">5 estrellas</option>
-                 <option value="4">4 estrellas</option>
-                 <option value="3">3 estrellas</option>
-                 <option value="2">2 estrellas</option>
-                 <option value="1">1 estrella</option>
+            <select class="input-field form-control" name="calificacion">
+                <option onclick="setScore(5)" value="FiveStars">5 estrellas</option>
+                 <option onclick="setScore(4)" value="FourStars">4 estrellas</option>
+                 <option onclick="setScore(3)" value="TreeStars">3 estrellas</option>
+                 <option onclick="setScore(2)" value="TwoStars">2 estrellas</option>
+                 <option onclick="setScore(1)" value="OneStar">1 estrella</option>
+
             </select>
 
         <button onclick="window.open('{{ document.url }}', '_blank');" class="download-button" >Descargar documento</button>
