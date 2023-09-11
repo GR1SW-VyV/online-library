@@ -5,6 +5,7 @@ from social.models.observable import Observable
 from social.models.observer import Observer
 from social.models.user_manager import UserManager
 from social.constants import *
+from datetime import datetime
 
 
 class User(Observer, Observable, AbstractUser):
@@ -35,6 +36,8 @@ class User(Observer, Observable, AbstractUser):
         activity.responsible = self
         activity.collection = collection
         activity.detail = detail
+        activity.date = datetime.now().date()
+        activity.time = datetime.now().time()
         return activity
 
     def add_follower(self, observer):

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load filters %}
 {% block pre-script %}
     <style>
         .profile-head {
@@ -32,6 +33,7 @@
 
         .image-background {
             filter: brightness(75%);
+            width: 100%;
         }
     </style>
 {% endblock %}
@@ -72,11 +74,11 @@
                             {% endif %}
                         </li>
                         <li class="list-inline-item">
-                            <h5 class="font-weight-bold mb-0 d-block">{{ user_profile.followers_count }}</h5><small
+                            <h5 class="font-weight-bold mb-0 d-block">{{ user_profile.followers_count|format_counter }}</h5><small
                                 class="text-muted">Seguidores</small>
                         </li>
                         <li class="list-inline-item">
-                            <h5 class="font-weight-bold mb-0 d-block">{{ user_profile.following_users_count }}</h5><small
+                            <h5 class="font-weight-bold mb-0 d-block">{{ user_profile.following_users_count|format_counter }}</h5><small
                                 class="text-muted">Seguidos
                         </li>
                     </ul>
@@ -100,9 +102,9 @@
                                             <div class="image-container">
                                                 <img
                                                         src="https://api.dicebear.com/7.x/shapes/svg?seed={{ collection.name }}"
-                                                        alt class="img-fluid rounded shadow-sm image-background">
+                                                        class="img-fluid rounded shadow-sm image-background">
                                                 <div class="centered-text">
-                                                    {{ collections.name }}
+                                                    {{ collection.name }}
                                                 </div>
                                             </div>
                                         </div>

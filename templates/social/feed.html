@@ -39,20 +39,22 @@
                                 Agregó un documento a la colección: {{ activity.document.title }}
                             </div>
                         {% elif activity|is_user_activity %}
-                            <div class="text-truncate fw-bold">
-                                <i class="fa-solid fa-user"></i>
-                                {{ activity.responsible.first_name }} {{ activity.responsible.last_name }}
-                            </div>
-                            <div class="small">
-                                Creó la colección: {{ activity.collection.name }}
-                            </div>
+                            <a href="/collections/{{ activity.collection.id }}" class="link-dark text-decoration-none">
+                                <div class="text-truncate fw-bold">
+                                    <i class="fa-solid fa-user"></i>
+                                    {{ activity.responsible.first_name }} {{ activity.responsible.last_name }}
+                                </div>
+                                <div class="small">
+                                    Creó la colección: {{ activity.collection.name }}
+                                </div>
+                            </a>
                         {% endif %}
 
                     </div>
 
                     <span class="col-1 ml-auto mb-auto">
                         <div class="text-right text-muted pt-1">
-                            {{ activity.date }}
+                            Hace {{ activity.date|time_since:activity.time }}
                         </div>
                     </span>
 
