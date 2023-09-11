@@ -19,7 +19,7 @@ def serve_document(request, file_path: str):
 @csrf_exempt
 def show_upload_document_form(request:HttpRequest):
     if(request.method == "GET"):
-        return FileResponse(open(f"templates/social/subirArticulo.html", 'rb'))
+        return FileResponse(open(f"templates/upload/subirArticulo.html", 'rb'))
 
     title = request.POST["title"]
     category = request.POST["materia-tematica"]
