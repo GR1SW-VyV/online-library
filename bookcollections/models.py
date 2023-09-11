@@ -4,6 +4,7 @@ from django.db import models
 from social.models import Observable, CollectionActivity, User
 from django.utils.translation import gettext_lazy as _
 from articles.choices.category import Category
+from datetime import datetime
 
 
 # A collection has many books
@@ -38,6 +39,8 @@ class Collection(models.Model, Observable):
         activity.collection = self
         activity.document = document
         activity.detail = "add a new document"
+        activity.date = datetime.now().date()
+        activity.time = datetime.now().time()
         activity.save()
         self.add_activity(activity)
 
