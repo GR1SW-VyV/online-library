@@ -18,6 +18,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
+from home import views as home
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,6 +29,7 @@ urlpatterns = [
     path('social/', include('social.urls')),
     path('visualization/', include('visualization.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/register/', home.register),
     path('visualization/', include('visualization.urls')),
     path('', include('home.urls'))
 ]
