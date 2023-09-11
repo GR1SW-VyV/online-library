@@ -31,8 +31,8 @@
                             documento</a>
                     </div>
                 </div>
-                <div class="row">
-                    <label for="general_annotation" class="form-label">Nueva nota general</label>
+                <div class="row border rounded">
+                    <label for="general_annotation" class="form-label mx-1 mt-1 fw-bold">Nueva nota general</label>
                     <form method="post" id="general_note_form">
                         {% csrf_token %}
                         <textarea class="form-control" name="general_annotation" id="general_annotation" required
@@ -60,18 +60,24 @@
                     </div>
                 {% endfor %}
             </div>
-
+            <!--NOTAS PERSONALES-->
             <div class="col">
                 <h2>Notas personales</h2>
                 {% for note in personal_notes %}
                     <div class="row p-2">
-                        <div class="row border rounded bg-body-secondary p-0" >
-                            <div class=" border rounded bg-body-secondary"
+                        <div class="row border rounded bg-body-secondary p-0">
+                            <div class=" border rounded bg-body-secondary d-flex justify-content-between"
                                  style="background: #c8cad0;">
                                 {{ note.date }}
+                                <a href="/annotations/book/{{ document.uid }}/?page={{ page }}&action=delete_{{ note.id }}"
+                                   class="text-danger"
+                                   style="margin-left: 1rem"
+                                >
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
                             </div>
                         </div>
-                        <div class="row border rounded bg-body-secondary p-0" >
+                        <div class="row border rounded bg-body-secondary p-0">
                             <p class="m-0">{{ note.content }}</p>
                         </div>
                     </div>
