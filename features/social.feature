@@ -1,5 +1,5 @@
 # language:en
-Feature:
+Feature: Following activities
   As a reader
   I want to follow the activities or collections of another reader of my interest as a follow-up
   so that I can easily access the content of other users
