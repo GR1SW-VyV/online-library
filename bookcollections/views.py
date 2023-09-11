@@ -1,38 +1,10 @@
 from django.shortcuts import render, redirect
 from bookcollections.models import Collection, CollectionDAO
 from articles.models import Document, Category
-import faker
-from django.http import HttpResponse
-
-is_set = False
+from django.contrib.auth.decorators import login_required
 
 
-# return collections.html
-
-# create collections data for test
-def create_base_data(request, is_set):
-    def create_col(user):
-        fake = faker.Faker()
-        col = CollectionDAO.create(
-            name=fake.name(),
-            description=fake.text(),
-            category=Category.UNKNOWN,
-            is_public=True,
-            user_ref=request.user.id
-        )
-
-        for i in range(0, 10):
-            doc = Document.objects.create(title=fake.name())
-            CollectionDAO.add_book(col, doc)
-
-        return col
-
-    if not is_set:
-        is_set = True
-        for i in range(0, 5):
-            create_col(request.user.id)
-
-
+@login_required
 def view_collections(request):
     # create_base_data(request, is_set)
     collections = []
@@ -69,39 +41,67 @@ def view_collections(request):
     return render(request, './collections/collections.html', context=context)
 
 
+@login_required
 def view_singe_collection(request, id):
     collection = CollectionDAO.get_collection(id)
     print(collection.user.followers)
     return render(request, 'collections/collection.html', context={'collection': collection})
 
-def add_book(request, book_id):
-    book = Document.objects.filter(uid=book_id).first()
-    if request.POST:
-        collection_id = request.POST.get("collection")
-        CollectionDAO.add_book(int(collection_id), book_id)
-        return redirect('/collections/'+collection_id)
 
-    collections = Collection.objects.filter(category=book.category, user_id=request.user.id)
-    if len(collections) == 0:
-        return redirect(f'/collections/create/?doc_id={book_id}')
+@login_required
+def add_book(request, collection_id):
+    collection = Collection.objects.filter(user_id=request.user.id, id=collection_id).first()
+    if request.POST:
+        for i in request.POST.getlist("selected_books"):
+            CollectionDAO.add_book(collection, Document.objects.get(uid=i))
+        return redirect(f'/collections/{collection_id}')
+
     context = {
-        'book': book,
-        'collections': collections
+        'books': Document.objects.filter(category=collection.category),
+        'collection': collection
     }
     return render(request, 'collections/add_book.html', context=context)
 
 
+@login_required
 def create_coll(request):
     context = {}
+    context["categories"] = [c[0] for c in Category.choices ]
+    category = request.GET.get("category")
+    first = request.GET.get("first")
+    if first:
+        context["books"] = Document.objects.filter(category=category)
+        context["category"] = category
+
+    if request.POST:
+        selected_books_ids = request.POST.getlist("selected_books")
+        selected_books = []
+        col = CollectionDAO.create(
+            name=request.POST.get("name"),
+            description=request.POST.get("desc"),
+            is_public=request.POST.get("public") == "on",
+            category=request.POST.get("category"),
+            user_ref=request.user.id
+        )
+
+        for i in selected_books_ids:
+            CollectionDAO.add_book(col, Document.objects.get(uid=i))
+        return redirect('/collections')
+
+    return render(request, 'collections/create.html', context=context)
+
+"""
     if request.GET:
 
         book_id = request.GET.get("doc_id", "")
+        category = request.GET.get("category", "")
         book = None
         if book_id:
             book_id = int(book_id)
             book = Document.objects.filter(uid=book_id).first()
             context['doc'] = book
             context['categories'] = Category.choices
+
         return render(request, './collections/create.html', context)
 
     elif request.POST:
@@ -122,3 +122,4 @@ def create_coll(request):
 
         return redirect('/collections')
     return render(request, './collections/create.html')
+"""

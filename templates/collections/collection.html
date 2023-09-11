@@ -54,7 +54,7 @@
             <img src="https://i.pinimg.com/564x/a6/46/b2/a646b21d519edd807e7817e14c28af07.jpg" alt="Portada de la colección" class="img-fluid">
             <div class="d-flex flex-column gap-2 align-items-center">
                 <h1 class="my-2 pt-4 fs-2 text fw-bold text-center">{{ collection.name }}</h1>
-                <span class="badge bg-info mx-4 fs-5" >{{ collection.calc_score }}<i class="fa-solid fa-star px-1"></i></span>
+                <span class="badge bg-info mx-4 fs-5" >{{ collection.calc_score|floatformat:2 }}<i class="fa-solid fa-star px-1"></i></span>
                 <p class="">{{ collection.description }}</p>
                 {% if collection.user_id != user.id %}
                     {% if not collection.user in user.user_following.all %}
@@ -65,7 +65,7 @@
                     </a>
                     {% else %}
                         <a href="/social/profile/{{ collection.user.username }}">
-                        <button class="btn btn-outline-primary">
+                        <button class="btn btn-outline-primary rounded-pill">
                             Ver perfil de {{ collection.user.get_full_name }}
                         </button>
                     </a>
@@ -81,6 +81,11 @@
         <div class="col-md-8 ">
             <!-- Tarjetas de libros -->
             <h1 class="my-3 ">Documentos de la colección:</h1>
+            {% if collection.user_id == user.id %}
+                <a href="/collections/add_book/{{ collection.id }}">
+                    <button class="btn btn-outline-primary">Agregar libros</button>
+                </a>
+            {% endif %}
             <div class="grid gap-3 my-4 ">
                 {% for book in collection.books.all %}
                     <div class="d-flex card flex-column align-items-center rounded-5 rounded-top-5 border border-1 border-secondary-subtle pb-4 p-0 rounded shadow">
@@ -94,7 +99,7 @@
                         </div>
                         <h3 class="text-center my-1 fs-4">{{ book.title }}</h3>
                         <a href="/annotations/book/{{ book.uid }}">
-                            <button class="btn btn-primary text-white my-2">
+                            <button class="btn btn-primary text-white my-2 rounded-pill">
                                 Ver libro
                                 <i class="fa-solid fa-arrow-right-long"></i>
                             </button>

@@ -33,13 +33,18 @@
 {% block content %}
     <div class="container">
         <h1 class="pt-4  fs-1 text fw-bold">Mis colecciones</h1>
+        <a href="/collections/create">
+            <button class="btn btn-primary">
+                Crear colección
+            </button>
+        </a>
 
     <form action="" class="mb-3 pt-4">
             <div class="row  justify-content-center align-items-end">
-                <div class="col-8 w-25">
+                <div class="col-8 w-25 ">
                     <label>Búsqueda</label>
-                    <div class="input-group">
-                        <input type="text" name="search" class="form-control" placeholder="Buscar">
+                    <div class="input-group ">
+                        <input type="text" name="search" class="form-control " placeholder="Buscar">
                         <button class="btn btn-primary">
                             Buscar
                         </button>
@@ -89,11 +94,7 @@
     {% elif search%}
         <p class="text-secondary" style="font-size: 22px">Resultados para '{{ search }}'</p>
     {% endif %}
-
-
-
-
-
+    
     <div class="grid gap-3 pt-4">
         {% for collection in collections %}
             <div class="d-flex card flex-column align-items-center rounded-5 rounded-top-5 border border-1 border-secondary-subtle  p-0 rounded shadow">
@@ -106,7 +107,7 @@
                 </span>
                 <h2 class="text-center">{{ collection.name }} </h2>
                 <a href="/collections/{{ collection.id }}">
-                    <button class="btn btn-primary mx-2 pt-2 rounded-2 mt-2 text-white">
+                    <button class="btn btn-primary mx-2 pt-2 rounded-2 mt-2 text-white rounded-pill">
                         Ver colección
                         <i class="fa-solid fa-arrow-right-long"></i>
                     </button>
@@ -128,7 +129,7 @@
                 </span>
                 <h2 class="text-center">{{ collection.name }} </h2>
                 <a href="/collections/{{ collection.id }}">
-                    <button class="btn btn-primary mx-2 pt-2 rounded-2 mt-2 text-white">
+                    <button class="btn btn-primary mx-2 pt-2 rounded-2 mt-2 text-white rounded-pill">
                         Ver colección
                         <i class="fa-solid fa-arrow-right-long"></i>
                     </button>

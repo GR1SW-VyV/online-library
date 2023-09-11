@@ -10,25 +10,28 @@
 {% endblock %}
 {% block content %}
    <div class="d-flex p-3 justify-content-center">
-    <form method="post" action="" class="gap-3 d-flex flex-column">
+    <form method="post" action="" class="gap-3">
         {% csrf_token %}
-        <h1>Agregar libro a la colección</h1>
-        <p>Libro por agregar</p>
-        <div class="d-flex flex-column align-items-center">
-            <h2>{{ book.title }}</h2>
-            <img src="" alt="coverImage" data-path="{{ book.url }}" class="cover-image bg-secondary rounded border border-secondary" />
+        <h1>{{ collection.name }}</h1>
+        <h2>Libros por agregar</h2>
+        <input type="hidden" name="collection" value="{{ collection.id }}">
+        <div class="d-flex flex-wrap gap-3 p-3 border border-secondary-subtle">
+            {% for book in books %}
+                <div class="d-flex flex-column align-items-center" >
+                       <img src="" alt="coverImage" data-path="{{ book.url }}" class="cover-image border border-secondary-subtle" />
+                        <div class="form-check">
+                            <label class="form-check-label">{{ book.title }}</label>
+                            <input type="checkbox" name="selected_books" value="{{ book.uid }}" class="form-check-input">
+                        </div>
+                   </div>
+            {% endfor %}
         </div>
-        <div class="">
-            <label>Selecciona la colección</label>
-            <select name="collection" class="form-select">
-                {% for collection in collections %}
-                    <option value="{{ collection.id }}">{{ collection.name }}</option>
-                {% endfor %}
-            </select>
+        <div class="d-flex justify-content-center">
+            <button class="btn btn-primary mt-3" type="submit">
+                Agregar libros
+            </button>
         </div>
-        <button class="btn btn-primary" type="submit">
-            Agregar libro
-        </button>
+
     </form>
    </div>
 {% endblock %}
