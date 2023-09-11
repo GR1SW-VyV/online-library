@@ -30,6 +30,5 @@ urlpatterns = [
     path('visualization/', include('visualization.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/register/', home.register),
-    path('visualization/', include('visualization.urls')),
     path('', include('home.urls'))
 ]

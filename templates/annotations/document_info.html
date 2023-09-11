@@ -11,23 +11,39 @@
         <div class="row">
             <div class="col">
                 <h1>{{ document.title }}</h1>
-                <div>
-                    <img src="" alt="Portada del libro {{ document.title }}" id="coverImage" data-path="{{ document.path }}" />
+                <div class="text-center">
+                    <img class="border rounded bg-body-secondary" src="" alt="Portada del libro {{ document.title }}" id="coverImage" data-path="{{ document.url }}" />
                 </div>
             </div>
             <div class="col">
-                <h2>Descripcion</h2>
-                <p>Autor: {{ document.author.name }}</p>
-                <p>Categoria: {{ document.category }}</p>
-                <div class="text-center">
-                    <a role="button" href="/annotations/book/{{ document.uid }}" class="btn btn-primary">Ver documento</a>
+                <h2>Descripción</h2>
+                <ul class="list-group">
+                    <li class="list-group list-group-item">
+                        <strong>Autor: </strong>  {{ document.author.name }}
+                    </li>
+                    <li class="list-group list-group-item">
+                        <strong>Categoria: </strong> {{ document.category }}
+                    </li>
+                </ul>
+                <div class="text-center p-3">
+                    <a role="button" href="/annotations/book/{{ document.uid }}" class="btn btn-dark text-light">Ver documento</a>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row p-3">
             <h2>Notas</h2>
             <div class="col">
-                {% block general_notes %}{% endblock %}
+                    {% for note in document_notes %}
+                        <div class="row p-2">
+                            <div class="row border rounded bg-body-secondary" style="background: #c8cad0">
+                                <div class="col-3"><strong>{{ note.user }}</strong></div>
+                                <div class="col">{{ note.date }}</div>
+                            </div>
+                            <div class="row border rounded">
+                                <p class="m-0">{{ note.content }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
             </div>
             <div class="col">
                 <label for="general_annotation" class="form-label">Nueva nota general</label>
@@ -59,7 +75,7 @@
         pdfjsLib.getDocument(pdfPath).promise
         .then(pdfDoc => pdfDoc.getPage(1))
         .then(page => {
-            const viewport = page.getViewport({ scale: 1.0 }); // Ajusta la escala según sea necesario
+            const viewport = page.getViewport({ scale: 0.5 }); // Ajusta la escala según sea necesario
             canvas.width = viewport.width;
             canvas.height = viewport.height;
             const renderContext = {

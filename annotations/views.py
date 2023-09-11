@@ -52,10 +52,13 @@ def book_user_notes(request, document_id):
     ) \
         .order_by('-is_favorite_order', '-date')
 
+    other_notes = PageNoteDAO.get_page_notes(current_user.username, document_id, page_counter)
+
     return render(request, '../templates/annotations/my-notes.html',
                   {'document': document,
                    'user': current_user,
                    'notes': notes,
+                   'other_notes': other_notes,
                    'page': page_counter
                    })
 
