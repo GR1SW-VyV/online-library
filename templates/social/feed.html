@@ -31,13 +31,15 @@
                     <div class="col-9 font-weight-bold mr-3">
 
                         {% if activity|is_collection_activity %}
-                            <div class="text-truncate fw-bold">
-                                <i class="fa-solid fa-book"></i>
-                                {{ activity.collection.name }}
-                            </div>
-                            <div class="small">
-                                Agregó un documento a la colección: {{ activity.document.title }}
-                            </div>
+                             <a href="/visualization/document/{{ activity.document.uid }}" class="link-dark text-decoration-none">
+                                <div class="text-truncate fw-bold">
+                                    <i class="fa-solid fa-book"></i>
+                                    {{ activity.collection.name }}
+                                </div>
+                                <div class="small">
+                                    Agregó un documento a la colección: {{ activity.document.title }}
+                                </div>
+                             </a>
                         {% elif activity|is_user_activity %}
                             <a href="/collections/{{ activity.collection.id }}" class="link-dark text-decoration-none">
                                 <div class="text-truncate fw-bold">
