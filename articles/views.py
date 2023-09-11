@@ -3,6 +3,7 @@ import os
 import random
 import time
 
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, FileResponse,HttpRequest
 from django.shortcuts import render,redirect
 from django.template.backends import django
@@ -17,9 +18,10 @@ def serve_document(request, file_path: str):
     return FileResponse(open(f"{file_path}", 'rb'))
 
 @csrf_exempt
+@login_required
 def show_upload_document_form(request:HttpRequest):
     if(request.method == "GET"):
-        return FileResponse(open(f"templates/social/subirArticulo.html", 'rb'))
+        return render(request,"upload/subirArticulo.html")
 
     title = request.POST["title"]
     category = request.POST["materia-tematica"]
@@ -47,13 +49,15 @@ def show_upload_document_form(request:HttpRequest):
 
     return redirect(f"/articles/document/{doc.uid}")
 
+@login_required
 def show_document(request:HttpRequest, document_id):
     doc:Document = Document.objects.get(uid=document_id)
 
-    return render(request,"social/visualizarInformacion.html",{
+    return render(request, "./upload/visualizarInformacion.html", {
         "document":doc
     })
 
+@login_required
 def score_document(request:HttpRequest, document_id, score):
     doc:Document = Document.objects.get(uid=document_id)
     current_user = request.user
