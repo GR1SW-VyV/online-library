@@ -35,7 +35,7 @@ def follow_collection(request, collection_id):
     if not collection.is_followed_by(user_profile):
         user_profile.follow(collection)
 
-    return redirect('collections', user_id=request.user.id)
+    return redirect(f'/collection{collection_id}', user_id=request.user.id)
 
 
 @login_required
