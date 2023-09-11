@@ -45,9 +45,12 @@
                                 <i class="fa-solid fa-user text-white fa-lg"></i>
                             </div>
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ user.username|default:"nothing" }}
+                                {{ user.get_full_name|default:"nothing" }}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-lg-end">
+                                <li><a class="dropdown-item" href="/social/profile/{{ user.username }}">
+                                    Ver perfil
+                                </a></li>
                                 <li><a class="dropdown-item" href="/accounts/logout">
                                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
                                     Cerrar sesión

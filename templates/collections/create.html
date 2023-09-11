@@ -41,6 +41,7 @@
        {% endif %}
        {% csrf_token %}
        {% if books|length <= 0 %}
+           <label >Selecciona la categoría de la colección</label>
             <div class="input-group mt-3">
                <select name="category" class="form-select" >
                    {% for category_ in categories %}
