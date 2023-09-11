@@ -96,7 +96,8 @@
         const Http = new XMLHttpRequest();
         Http.open("GET", `/articles/score/{{ document.uid }}/${score}`);
         Http.onload = (e) => {
-            document.getElementById("bookScore").innerHTML = Http.responseText;
+            if(Http.status === 403) document.location.href = "/accounts/login/?next=/articles/document/{{ document.uid }}/"
+            else document.getElementById("bookScore").innerHTML = Http.responseText;
         }
         Http.send();
     }
