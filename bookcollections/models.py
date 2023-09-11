@@ -4,6 +4,7 @@ from django.db import models
 from social.models import Observable, CollectionActivity, User
 from django.utils.translation import gettext_lazy as _
 from articles.choices.category import Category
+from django.core.validators import MinLengthValidator
 
 
 # A collection has many books
@@ -17,7 +18,11 @@ class Collection(models.Model, Observable):
     Model representing a collection of books.
     """
 
-    name = models.CharField(max_length=255, null=False)
+    name = models.CharField(
+        max_length=80,
+        null=False,
+        validators=[MinLengthValidator(8, message="Name must be at least 8 characters long")]
+    )
     description = models.TextField()
     is_public = models.BooleanField(default=False, null=False)
     category = models.CharField(
