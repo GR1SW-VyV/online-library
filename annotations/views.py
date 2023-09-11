@@ -26,8 +26,6 @@ def book_user_notes(request, document_id):
         elif action == 'delete':
             handle_delete(note_id)
 
-        return redirect(f'/annotations/book/{document_id}/?page={page_counter}')
-
     # Create a note
 
     if request.method == 'POST':
