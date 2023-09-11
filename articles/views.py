@@ -50,7 +50,7 @@ def show_upload_document_form(request:HttpRequest):
 def show_document(request:HttpRequest, document_id):
     doc:Document = Document.objects.get(uid=document_id)
 
-    return render(request,"social/visualizarInformacion.html",{
+    return render(request, "social/../templates/upload/visualizarInformacion.html", {
         "document":doc
     })
 
