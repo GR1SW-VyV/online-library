@@ -1,17 +1,19 @@
 from django.shortcuts import render, redirect
 from .models import User
-from bookcollections.models import Collection
+from bookcollections.models import Collection, CollectionDAO
 from django.contrib.auth.decorators import login_required
 
 
 def profile(request, user_username):
     user_profile = User.objects.get(username=user_username)
+    collections = CollectionDAO.get_all_by_user(user_profile.id).filter(is_public=True)
     is_own_profile = request.user.is_authenticated and request.user == user_profile
     already_following = request.user.is_authenticated and user_profile.is_followed_by(request.user)
     return render(request, 'social/profile.html', {
         'user_profile': user_profile,
         'is_own_profile': is_own_profile,
-        'already_following': already_following
+        'already_following': already_following,
+        'collections': collections
     })
 
 

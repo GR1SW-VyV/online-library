@@ -29,6 +29,10 @@
             font-size: 17px;
             text-align: center;
         }
+
+        .image-background {
+            filter: brightness(75%);
+        }
     </style>
 {% endblock %}
 
@@ -79,22 +83,38 @@
                 </div>
 
                 <div class="py-4 px-4">
-                    <div
-                            class="d-flex align-items-center justify-content-between mb-3">
-                        <h5 class="mb-0">Colecciones</h5>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6 mb-2 pr-lg-1">
-                            <div class="image-container">
-                                <img
-                                        src="https://images.unsplash.com/photo-1469594292607-7bd90f8d3ba4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
-                                        alt class="img-fluid rounded shadow-sm">
-                                <div class="centered-text">Nombre de la
-                                    coleccion
-                                </div>
-                            </div>
+                    {% if is_own_profile %}
+                        <div class="d-flex align-items-center justify-content-center">
+                            <a href="/collections"><button class="btn btn-outline-dark btn-block">Ir a mis colecciones</button></a>
                         </div>
-                    </div>
+                    {% else %}
+                        {% if collections %}
+                            <div
+                                    class="d-flex align-items-center justify-content-between mb-3">
+                                <h5 class="mb-0">Colecciones</h5>
+                            </div>
+                            <div class="row">
+                                {% for collection in collections %}
+                                    <a href="/collections/{{ collection.id }}">
+                                        <div class="col-lg-6 mb-2 pr-lg-1">
+                                            <div class="image-container">
+                                                <img
+                                                        src="https://api.dicebear.com/7.x/shapes/svg?seed={{ collection.name }}"
+                                                        alt class="img-fluid rounded shadow-sm image-background">
+                                                <div class="centered-text">
+                                                    {{ collections.name }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="d-flex align-items-center justify-content-center">
+                                <p class="mb-0 me-auto ms-auto">{{ user_profile.first_name }} {{ user_profile.last_name }} no tiene colecciones.</p>
+                            </div>
+                        {% endif %}
+                    {% endif %}
                 </div>
             </div>
         </div>
