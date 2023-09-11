@@ -1,11 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Agrega los estilos de Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
         /* Estilo para el contenedor principal */
         .container {
@@ -37,47 +29,56 @@
             display: flex;
             justify-content: center;
         }
+
+           /* Estilo para los campos de entrada en el contenedor superior */
+        .input-field {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 5px;
+        }
         .download-button {
             padding: 5px 10px; /* Reduzco el padding para hacerlo más pequeño */
             font-size: 14px; /* Reduzco el tamaño de fuente */
-            border: none;
             cursor: pointer;
             flex: 0.01;
-            margin-top: 10px; /* Agrego margen superior para moverlo hacia arriba */
+            margin-top: 5px; /* Agrego margen superior para moverlo hacia arriba */
             border-radius: 10px; /* Agrego bordes redondeados */
+            margin-bottom: 10px;
+            margin: 0 auto;
     }
 
 
     </style>
-</head>
-<body>
+
+{% extends 'base.html' %}
+{% block content %}
+
 <div class="container">
     <!-- Contenedor de información del libro -->
     <div class="book-info-container">
         <!-- Imagen del libro -->
-        <img class="book-image img-fluid" src="https://th.bing.com/th/id/R.50ce2cd13ed2e7a732c57abe7ab19cf0?rik=7SUFzI9KU6IMOQ&riu=http%3a%2f%2f3.bp.blogspot.com%2f-ll15GKfuAfU%2fUD_QRuRT3SI%2fAAAAAAAAi-w%2f_VQ08qSDwAE%2fs1600%2fLibros-Viejos-Apilados_Imagenes-de-Libros.jpg&ehk=ITajz1yk%2bQeZz6zZHmcxf5Xbt89WsaenbI3pTQzlkcw%3d&risl=&pid=ImgRaw&r=0" alt="Imagen del libro" id="bookImage">
+        <img class="book-image img-fluid" src="{{ document.image_url }}" alt="Imagen del libro" id="bookImage">
 
         <!-- Campos de información del libro -->
         <h1 id="bookTitle">Título del Libro: {{ document.title }}</h1>
         <h1 id="author">Autor: {{ document.author.name }}</h1>
         <p><strong>Materia/Temática: {{ document.category.capitalize }}</strong> <span id="bookSubject"></span></p>
         <p><strong>Tipo:</strong> {{ document.type.capitalize }} <span id="bookType"></span></p>
-        <p><strong>Calificación:</strong>  <span id="bookScore">{{ document.score }}</span>/5</p>
+        <p><strong>Calificación:</strong> <span id="bookScore">{{ document.score }}</span>/5</p>
 
-        <button onclick="setScore(5)">Dar 5 estrellas</button>
-        <button onclick="setScore(4)">Dar 4 estrellas</button>
-        <button onclick="setScore(3)">Dar 3 estrellas</button>
-        <button onclick="setScore(2)">Dar 2 estrellas</button>
-        <button onclick="setScore(1)">Dar 1 estrellas</button>
+        <!-- Campo de calificación por número de estrellas (Libro/Artículo) -->
+        <label for="calificacion"><strong>Calificación del libro/artículo:</strong></label>
+        <select class="input-field form-control" name="calificacion">
+            <option value="5" onclick="setScore(5)">5 estrellas</option>
+            <option value="4" onclick="setScore(4)">4 estrellas</option>
+            <option value="3" onclick="setScore(3)">3 estrellas</option>
+            <option value="2" onclick="setScore(2)">2 estrellas</option>
+            <option value="1" onclick="setScore(1)">1 estrella</option>
+        </select>
 
-        <button onclick="window.open('{{ document.url }}', '_blank');" class="download-button" >Descargar documento</button>
-
+        <button onclick="window.open('{{ document.url }}', '_blank');" class="download-button">Descargar documento</button>
     </div>
 </div>
-
-
-<!-- Agrega los scripts de Bootstrap JavaScript al final del cuerpo del documento -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Script para cargar la información del libro seleccionado desde el almacenamiento local -->
 <script>
@@ -85,23 +86,21 @@
     const selectedFileData = localStorage.getItem('selectedFile');
     if (selectedFileData) {
         const selectedFile = JSON.parse(selectedFileData);
-        {#document.getElementById('bookImage').src = "URL DE LA IMAGEN DEL LIBRO";#}
-        {#document.getElementById('bookTitle').textContent = "Título del Libro";#}
-        {#document.getElementById('bookSubject').textContent = "Materia";#}
-        {#document.getElementById('bookType').textContent = "Tipo";#}
+        {#document.getElementById('bookImage').src = selectedFile.image_url; // Reemplaza con la URL de la imagen del libro#}
+        {#document.getElementById('bookTitle').textContent = `Título del Libro: ${selectedFile.title}`;#}
+        {#document.getElementById('bookSubject').textContent = `Materia/Temática: ${selectedFile.subject}`;#}
+        {#document.getElementById('bookType').textContent = `Tipo: ${selectedFile.type}`;#}
     }
 
-    function setScore(score){
+    function setScore(score) {
         const Http = new XMLHttpRequest();
-        Http.open("GET", "/articles/score/{{ document.uid }}/"+score.toString());
+        Http.open("GET", `/articles/score/{{ document.uid }}/${score}`);
         Http.onload = (e) => {
-            document.getElementById("bookScore").innerHTML = Http.responseText
+            if(Http.status === 403) document.location.href = "/accounts/login/?next=/articles/document/{{ document.uid }}/"
+            else document.getElementById("bookScore").innerHTML = Http.responseText;
         }
-
         Http.send();
-
-
     }
 </script>
-</body>
-</html>
+
+{% endblock %}

@@ -1,0 +1,110 @@
+<testsuite name="bookcollections.Generate a Book Collection" tests="8" errors="0" failures="0" skipped="0" time="0.158085" timestamp="2023-09-10T07:11:57.783980" hostname="luis-deb"><testcase classname="bookcollections.Generate a Book Collection" name="Creation of a book collection" status="passed" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario: Creation of a book collection
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="bookcollections.Generate a Book Collection" name=" -- @1.1 " status="passed" time="0.021121"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline:  -- @1.1 
+    Given the collection's name: Math Books, a description and type of privacy: True ... passed in 0.004s
+    And the book "Baldor's Algebra" with 10 points ... passed in 0.003s
+    When the user creates the collection ... passed in 0.009s
+    Then the collection will be created with the given name, description and type of privacy ... passed in 0.003s
+    And will contain the given book ... passed in 0.002s
+    And will have 10 points ... passed in 0.001s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="bookcollections.Generate a Book Collection" name=" -- @1.2 " status="passed" time="0.022907"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline:  -- @1.2 
+    Given the collection's name: Chemistry Books, a description and type of privacy: False ... passed in 0.003s
+    And the book "The name of the wind" with 20 points ... passed in 0.003s
+    When the user creates the collection ... passed in 0.007s
+    Then the collection will be created with the given name, description and type of privacy ... passed in 0.003s
+    And will contain the given book ... passed in 0.005s
+    And will have 20 points ... passed in 0.001s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="bookcollections.Generate a Book Collection" name=" -- @1.3 " status="passed" time="0.016946"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline:  -- @1.3 
+    Given the collection's name: Personal Books, a description and type of privacy: True ... passed in 0.003s
+    And the book "The way to the self-discovery" with 30 points ... passed in 0.003s
+    When the user creates the collection ... passed in 0.007s
+    Then the collection will be created with the given name, description and type of privacy ... passed in 0.002s
+    And will contain the given book ... passed in 0.002s
+    And will have 30 points ... passed in 0.001s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="bookcollections.Generate a Book Collection" name="Calculating the value of a collection" status="passed" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario: Calculating the value of a collection
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="bookcollections.Generate a Book Collection" name=" -- @1.1 " status="passed" time="0.029744"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline:  -- @1.1 
+    Given the collection with two books ... passed in 0.003s
+    And their respective points: 8, 9 ... passed in 0.014s
+    And the user want to add a new book with 10 points ... passed in 0.002s
+    When the user adds the book ... passed in 0.008s
+    Then the collection score will be 9 representing average points of all books ... passed in 0.002s
+
+@scenario.end
+--------------------------------------------------------------------------------
+
+Captured stdout:
+<class 'float'> <class 'decimal.Decimal'>
+
+]]>
+</system-out></testcase><testcase classname="bookcollections.Generate a Book Collection" name=" -- @1.2 " status="passed" time="0.03555"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline:  -- @1.2 
+    Given the collection with two books ... passed in 0.004s
+    And their respective points: 7, 8 ... passed in 0.017s
+    And the user want to add a new book with 9 points ... passed in 0.003s
+    When the user adds the book ... passed in 0.009s
+    Then the collection score will be 8 representing average points of all books ... passed in 0.002s
+
+@scenario.end
+--------------------------------------------------------------------------------
+
+Captured stdout:
+<class 'float'> <class 'decimal.Decimal'>
+
+]]>
+</system-out></testcase><testcase classname="bookcollections.Generate a Book Collection" name=" -- @1.3 " status="passed" time="0.031817"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline:  -- @1.3 
+    Given the collection with two books ... passed in 0.004s
+    And their respective points: 9, 8 ... passed in 0.015s
+    And the user want to add a new book with 9 points ... passed in 0.004s
+    When the user adds the book ... passed in 0.008s
+    Then the collection score will be 8.67 representing average points of all books ... passed in 0.002s
+
+@scenario.end
+--------------------------------------------------------------------------------
+
+Captured stdout:
+<class 'float'> <class 'decimal.Decimal'>
+
+]]>
+</system-out></testcase></testsuite>

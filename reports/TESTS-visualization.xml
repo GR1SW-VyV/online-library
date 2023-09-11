@@ -1,0 +1,324 @@
+<testsuite name="visualization.Display notes" tests="17" errors="0" failures="17" skipped="0" time="0.059878" timestamp="2023-09-10T07:12:12.879815" hostname="luis-deb"><testcase classname="visualization.Display notes" name="General notes -- @1.1 " status="failed" time="0.003803"><failure type="AssertionError" message="&#10;expected: '' to equal 'This book changed my life'">
+<![CDATA[
+Failing step: Then it should display my personal general notes This book changed my life ... failed in 0.001s
+Location: features/visualization.feature:11
+Assertion Failed: 
+expected: '' to equal 'This book changed my life']]>
+</failure><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: General notes -- @1.1 
+    Given I have the book 1 ... passed in 0.001s
+    And I am logged in with my username Alice Johnson ... passed in 0.001s
+    When I am reading the details of the book ... passed in 0.001s
+    Then it should display my personal general notes This book changed my life ... failed in 0.001s
+    And the general notes Important concepts,Explained well,Not relevant from other users ordered by their number of followers. ... skipped in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="visualization.Display notes" name="General notes -- @1.2 " status="failed" time="0.003186"><failure type="AssertionError" message="&#10;expected: '' to equal 'Interesting examples'">
+<![CDATA[
+Failing step: Then it should display my personal general notes Interesting examples ... failed in 0.001s
+Location: features/visualization.feature:11
+Assertion Failed: 
+expected: '' to equal 'Interesting examples']]>
+</failure><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: General notes -- @1.2 
+    Given I have the book 1 ... passed in 0.001s
+    And I am logged in with my username David Smith ... passed in 0.001s
+    When I am reading the details of the book ... passed in 0.001s
+    Then it should display my personal general notes Interesting examples ... failed in 0.001s
+    And the general notes Remember for future projects,Skipped,Interesting from other users ordered by their number of followers. ... skipped in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="visualization.Display notes" name="General notes -- @1.3 " status="failed" time="0.00305"><failure type="AssertionError" message="&#10;expected: '' to equal 'Practical examples'">
+<![CDATA[
+Failing step: Then it should display my personal general notes Practical examples ... failed in 0.001s
+Location: features/visualization.feature:11
+Assertion Failed: 
+expected: '' to equal 'Practical examples']]>
+</failure><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: General notes -- @1.3 
+    Given I have the book 2 ... passed in 0.001s
+    And I am logged in with my username Alex Carter ... passed in 0.001s
+    When I am reading the details of the book ... passed in 0.001s
+    Then it should display my personal general notes Practical examples ... failed in 0.001s
+    And the general notes Missing real-world scenarios,Too theoretical from other users ordered by their number of followers. ... skipped in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="visualization.Display notes" name="General notes -- @1.4 " status="failed" time="0.003327"><failure type="AssertionError" message="&#10;expected: '' to equal 'Comprehensive coverage'">
+<![CDATA[
+Failing step: Then it should display my personal general notes Comprehensive coverage ... failed in 0.001s
+Location: features/visualization.feature:11
+Assertion Failed: 
+expected: '' to equal 'Comprehensive coverage']]>
+</failure><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: General notes -- @1.4 
+    Given I have the book 2 ... passed in 0.001s
+    And I am logged in with my username Sarah Miller ... passed in 0.001s
+    When I am reading the details of the book ... passed in 0.001s
+    Then it should display my personal general notes Comprehensive coverage ... failed in 0.001s
+    And the general notes Confusing terminology,Useful diagrams,Too verbose from other users ordered by their number of followers. ... skipped in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="visualization.Display notes" name="General notes -- @1.5 " status="failed" time="0.003598"><failure type="AssertionError" message="&#10;expected: '' to equal 'Step-by-step guide'">
+<![CDATA[
+Failing step: Then it should display my personal general notes Step-by-step guide ... failed in 0.001s
+Location: features/visualization.feature:11
+Assertion Failed: 
+expected: '' to equal 'Step-by-step guide']]>
+</failure><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: General notes -- @1.5 
+    Given I have the book 2 ... passed in 0.001s
+    And I am logged in with my username Robert Lee ... passed in 0.001s
+    When I am reading the details of the book ... passed in 0.001s
+    Then it should display my personal general notes Step-by-step guide ... failed in 0.001s
+    And the general notes Simplified explanations,Repetitive content,Too advanced from other users ordered by their number of followers. ... skipped in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="visualization.Display notes" name="General notes -- @1.6 " status="failed" time="0.003453"><failure type="AssertionError" message="&#10;expected: '' to equal 'Clear and concise'">
+<![CDATA[
+Failing step: Then it should display my personal general notes Clear and concise ... failed in 0.001s
+Location: features/visualization.feature:11
+Assertion Failed: 
+expected: '' to equal 'Clear and concise']]>
+</failure><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: General notes -- @1.6 
+    Given I have the book 3 ... passed in 0.001s
+    And I am logged in with my username Julia Chen ... passed in 0.001s
+    When I am reading the details of the book ... passed in 0.001s
+    Then it should display my personal general notes Clear and concise ... failed in 0.001s
+    And the general notes Lacks advanced topics,Great for beginners,Too shallow from other users ordered by their number of followers. ... skipped in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="visualization.Display notes" name="General notes -- @1.7 " status="failed" time="0.003517"><failure type="AssertionError" message="&#10;expected: '' to equal 'In-depth exploration'">
+<![CDATA[
+Failing step: Then it should display my personal general notes In-depth exploration ... failed in 0.001s
+Location: features/visualization.feature:11
+Assertion Failed: 
+expected: '' to equal 'In-depth exploration']]>
+</failure><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: General notes -- @1.7 
+    Given I have the book 3 ... passed in 0.001s
+    And I am logged in with my username Michael Wong ... passed in 0.001s
+    When I am reading the details of the book ... passed in 0.001s
+    Then it should display my personal general notes In-depth exploration ... failed in 0.001s
+    And the general notes Real-world case studies missing,Well-structured,Requires prior knowledge from other users ordered by their number of followers. ... skipped in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="visualization.Display notes" name="General notes -- @1.8 " status="failed" time="0.003128"><failure type="AssertionError" message="&#10;expected: '' to equal 'Well-organized content'">
+<![CDATA[
+Failing step: Then it should display my personal general notes Well-organized content ... failed in 0.001s
+Location: features/visualization.feature:11
+Assertion Failed: 
+expected: '' to equal 'Well-organized content']]>
+</failure><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: General notes -- @1.8 
+    Given I have the book 3 ... passed in 0.001s
+    And I am logged in with my username Nicole Patel ... passed in 0.001s
+    When I am reading the details of the book ... passed in 0.001s
+    Then it should display my personal general notes Well-organized content ... failed in 0.001s
+    And the general notes Comprehensive resource,Requires more examples,Good references from other users ordered by their number of followers. ... skipped in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="visualization.Display notes" name="Page notes -- @1.1 " status="failed" time="0.004398"><failure type="AssertionError" message="&#10;expected: '' to equal &quot;Don't forget these concepts&quot;">
+<![CDATA[
+Failing step: Then it should display my personal notes Don't forget these concepts ... failed in 0.001s
+Location: features/visualization.feature:29
+Assertion Failed: 
+expected: '' to equal "Don't forget these concepts"]]>
+</failure><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Page notes -- @1.1 
+    Given I have the book 1 ... passed in 0.001s
+    And I am logged in with my username Alice Johnson ... passed in 0.001s
+    When I am reading the page 1 ... passed in 0.001s
+    Then it should display my personal notes Don't forget these concepts ... failed in 0.001s
+    And the notes Important introduction,Explained well,Not relevant from other users ordered by their number of followers. ... skipped in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="visualization.Display notes" name="Page notes -- @1.2 " status="failed" time="0.003934"><failure type="AssertionError" message="&#10;expected: '' to equal 'Interesting examples here'">
+<![CDATA[
+Failing step: Then it should display my personal notes Interesting examples here ... failed in 0.001s
+Location: features/visualization.feature:29
+Assertion Failed: 
+expected: '' to equal 'Interesting examples here']]>
+</failure><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Page notes -- @1.2 
+    Given I have the book 1 ... passed in 0.001s
+    And I am logged in with my username David Smith ... passed in 0.001s
+    When I am reading the page 2 ... passed in 0.001s
+    Then it should display my personal notes Interesting examples here ... failed in 0.001s
+    And the notes Remember for future projects,Skipped this part,Interesting from other users ordered by their number of followers. ... skipped in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="visualization.Display notes" name="Page notes -- @1.3 " status="failed" time="0.003237"><failure type="AssertionError" message="&#10;expected: '' to equal 'Insightful example'">
+<![CDATA[
+Failing step: Then it should display my personal notes Insightful example ... failed in 0.001s
+Location: features/visualization.feature:29
+Assertion Failed: 
+expected: '' to equal 'Insightful example']]>
+</failure><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Page notes -- @1.3 
+    Given I have the book 1 ... passed in 0.001s
+    And I am logged in with my username Emily Brown ... passed in 0.001s
+    When I am reading the page 10 ... passed in 0.001s
+    Then it should display my personal notes Insightful example ... failed in 0.001s
+    And the notes Important concept,Useful code snippet,Needs more context from other users ordered by their number of followers. ... skipped in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="visualization.Display notes" name="Page notes -- @1.4 " status="failed" time="0.003807"><failure type="AssertionError" message="&#10;expected: '' to equal 'Practical exercise'">
+<![CDATA[
+Failing step: Then it should display my personal notes Practical exercise ... failed in 0.001s
+Location: features/visualization.feature:29
+Assertion Failed: 
+expected: '' to equal 'Practical exercise']]>
+</failure><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Page notes -- @1.4 
+    Given I have the book 2 ... passed in 0.001s
+    And I am logged in with my username Alex Carter ... passed in 0.001s
+    When I am reading the page 3 ... passed in 0.002s
+    Then it should display my personal notes Practical exercise ... failed in 0.001s
+    And the notes Missing explanation,Well-structured,Too simple from other users ordered by their number of followers. ... skipped in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="visualization.Display notes" name="Page notes -- @1.5 " status="failed" time="0.003089"><failure type="AssertionError" message="&#10;expected: '' to equal 'Comprehensive explanation'">
+<![CDATA[
+Failing step: Then it should display my personal notes Comprehensive explanation ... failed in 0.001s
+Location: features/visualization.feature:29
+Assertion Failed: 
+expected: '' to equal 'Comprehensive explanation']]>
+</failure><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Page notes -- @1.5 
+    Given I have the book 2 ... passed in 0.001s
+    And I am logged in with my username Sarah Miller ... passed in 0.001s
+    When I am reading the page 8 ... passed in 0.001s
+    Then it should display my personal notes Comprehensive explanation ... failed in 0.001s
+    And the notes Unclear terminology,Great diagram,Advanced content from other users ordered by their number of followers. ... skipped in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="visualization.Display notes" name="Page notes -- @1.6 " status="failed" time="0.002773"><failure type="AssertionError" message="&#10;expected: '' to equal 'Step-by-step guide'">
+<![CDATA[
+Failing step: Then it should display my personal notes Step-by-step guide ... failed in 0.001s
+Location: features/visualization.feature:29
+Assertion Failed: 
+expected: '' to equal 'Step-by-step guide']]>
+</failure><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Page notes -- @1.6 
+    Given I have the book 2 ... passed in 0.001s
+    And I am logged in with my username Robert Lee ... passed in 0.001s
+    When I am reading the page 12 ... passed in 0.001s
+    Then it should display my personal notes Step-by-step guide ... failed in 0.001s
+    And the notes Repetitive content,Valuable insights,Not necessary from other users ordered by their number of followers. ... skipped in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="visualization.Display notes" name="Page notes -- @1.7 " status="failed" time="0.004315"><failure type="AssertionError" message="&#10;expected: '' to equal 'Clear and concise explanation'">
+<![CDATA[
+Failing step: Then it should display my personal notes Clear and concise explanation ... failed in 0.001s
+Location: features/visualization.feature:29
+Assertion Failed: 
+expected: '' to equal 'Clear and concise explanation']]>
+</failure><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Page notes -- @1.7 
+    Given I have the book 3 ... passed in 0.001s
+    And I am logged in with my username Julia Chen ... passed in 0.002s
+    When I am reading the page 2 ... passed in 0.001s
+    Then it should display my personal notes Clear and concise explanation ... failed in 0.001s
+    And the notes Lacks real-world examples,Good for beginners,Too shallow from other users ordered by their number of followers. ... skipped in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="visualization.Display notes" name="Page notes -- @1.8 " status="failed" time="0.003812"><failure type="AssertionError" message="&#10;expected: '' to equal 'In-depth analysis'">
+<![CDATA[
+Failing step: Then it should display my personal notes In-depth analysis ... failed in 0.001s
+Location: features/visualization.feature:29
+Assertion Failed: 
+expected: '' to equal 'In-depth analysis']]>
+</failure><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Page notes -- @1.8 
+    Given I have the book 3 ... passed in 0.001s
+    And I am logged in with my username Michael Wong ... passed in 0.001s
+    When I am reading the page 7 ... passed in 0.001s
+    Then it should display my personal notes In-depth analysis ... failed in 0.001s
+    And the notes Missing practical cases,Structured content,Requires prior knowledge from other users ordered by their number of followers. ... skipped in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="visualization.Display notes" name="Page notes -- @1.9 " status="failed" time="0.003453"><failure type="AssertionError" message="&#10;expected: '' to equal 'Well-structured content'">
+<![CDATA[
+Failing step: Then it should display my personal notes Well-structured content ... failed in 0.001s
+Location: features/visualization.feature:29
+Assertion Failed: 
+expected: '' to equal 'Well-structured content']]>
+</failure><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Page notes -- @1.9 
+    Given I have the book 3 ... passed in 0.001s
+    And I am logged in with my username Nicole Patel ... passed in 0.001s
+    When I am reading the page 10 ... passed in 0.001s
+    Then it should display my personal notes Well-structured content ... failed in 0.001s
+    And the notes Comprehensive resource,Needs more practical insights,Good references from other users ordered by their number of followers. ... skipped in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>

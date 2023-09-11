@@ -1,0 +1,85 @@
+<testsuite name="recommendations.: Reading recommendations" tests="6" errors="0" failures="0" skipped="0" time="3.11447" timestamp="2023-09-10T07:12:03.974384" hostname="luis-deb"><testcase classname="recommendations.: Reading recommendations" name="Recommendations based on a preferences -- @1.1 " status="passed" time="0.516084"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Recommendations based on a preferences -- @1.1 
+    Given users has no collections ... passed in 0.511s
+    And send preferences "programacion" "matematica" "lenguaje" ... passed in 0.001s
+    When the reader wants recommendations ... passed in 0.003s
+    Then a set of 12 most visited readings are recommended ... passed in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+
+Captured stdout:
+{'"programacion"': 1, '"matematica"': 1, '"lenguaje"': 1}
+
+]]>
+</system-out></testcase><testcase classname="recommendations.: Reading recommendations" name="Recommendations based on a preferences -- @1.2 " status="passed" time="0.494018"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Recommendations based on a preferences -- @1.2 
+    Given users has no collections ... passed in 0.489s
+    And send preferences "programacion" "" "" ... passed in 0.001s
+    When the reader wants recommendations ... passed in 0.003s
+    Then a set of 4 most visited readings are recommended ... passed in 0.001s
+
+@scenario.end
+--------------------------------------------------------------------------------
+
+Captured stdout:
+{'"programacion"': 1, '""': 1}
+
+]]>
+</system-out></testcase><testcase classname="recommendations.: Reading recommendations" name="Recommendations based on a preferences -- @1.3 " status="passed" time="0.48901"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Recommendations based on a preferences -- @1.3 
+    Given users has no collections ... passed in 0.483s
+    And send preferences "programacion" "matematica" "" ... passed in 0.001s
+    When the reader wants recommendations ... passed in 0.004s
+    Then a set of 8 most visited readings are recommended ... passed in 0.001s
+
+@scenario.end
+--------------------------------------------------------------------------------
+
+Captured stdout:
+{'"programacion"': 1, '"matematica"': 1, '""': 1}
+
+]]>
+</system-out></testcase><testcase classname="recommendations.: Reading recommendations" name="Recommendations based on a collection -- @1.1 " status="passed" time="0.481246"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Recommendations based on a collection -- @1.1 
+    Given users has collections ... passed in 0.473s
+    And have this most common categories "programacion" "matematica" "lenguaje" ... passed in 0.002s
+    When the reader wants recommendations ... passed in 0.006s
+    Then a set of 12 most visited readings are recommended based on their collections ... passed in 0.001s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="recommendations.: Reading recommendations" name="Recommendations based on a collection -- @1.2 " status="passed" time="0.502168"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Recommendations based on a collection -- @1.2 
+    Given users has collections ... passed in 0.491s
+    And have this most common categories "programacion" "matematica" "" ... passed in 0.004s
+    When the reader wants recommendations ... passed in 0.006s
+    Then a set of 8 most visited readings are recommended based on their collections ... passed in 0.001s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="recommendations.: Reading recommendations" name="Recommendations based on a collection -- @1.3 " status="passed" time="0.631944"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Recommendations based on a collection -- @1.3 
+    Given users has collections ... passed in 0.620s
+    And have this most common categories "programacion" "" "" ... passed in 0.005s
+    When the reader wants recommendations ... passed in 0.007s
+    Then a set of 4 most visited readings are recommended based on their collections ... passed in 0.001s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>

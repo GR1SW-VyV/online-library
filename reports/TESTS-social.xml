@@ -1,0 +1,57 @@
+<testsuite name="social.social" tests="4" errors="0" failures="0" skipped="0" time="8.008289" timestamp="2023-09-10T07:12:12.130745" hostname="luis-deb"><testcase classname="social.social" name="Show updates of followed collection" status="passed" time="1.647079"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario: Show updates of followed collection
+    Given that I follow a collection ... passed in 1.426s
+    When the owner of the collection adds a new book ... passed in 0.218s
+    Then the book will appear in my feed ... passed in 0.003s
+
+@scenario.end
+--------------------------------------------------------------------------------
+
+Captured stdout:
+----------------------------------
+1
+
+]]>
+</system-out></testcase><testcase classname="social.social" name="Follow a reader" status="passed" time="1.821853"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario: Follow a reader
+    Given that there is a reader Andrés ... passed in 0.919s
+    And that there is a reader Juan ... passed in 0.899s
+    When Andrés follows Juan ... passed in 0.001s
+    Then Juan will appear in the list of following of Andrés ... passed in 0.001s
+    And Andrés will appear in the list of followers of Juan ... passed in 0.001s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="social.social" name="Show updates of followed reader" status="passed" time="3.206462"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario: Show updates of followed reader
+    Given that I follow a reader in my tracked list ... passed in 3.199s
+    When the reader does a new activity ... passed in 0.003s
+    Then the activity will appear in the list of recent activities ... passed in 0.004s
+
+@scenario.end
+--------------------------------------------------------------------------------
+
+Captured stdout:
+----------------------------------
+1
+
+]]>
+</system-out></testcase><testcase classname="social.social" name="Follow a collection of other readers" status="passed" time="1.332896"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario: Follow a collection of other readers
+    Given that there is a collection ... passed in 1.100s
+    When I follow the collection ... passed in 0.232s
+    Then the new collection will appear in my list of followed collections ... passed in 0.001s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>
