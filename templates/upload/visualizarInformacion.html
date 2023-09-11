@@ -57,7 +57,7 @@
     <!-- Contenedor de información del libro -->
     <div class="book-info-container">
         <!-- Imagen del libro -->
-        <img class="book-image img-fluid" src="{{ document.image_url }}" alt="Imagen del libro" id="bookImage">
+        <img class="book-image img-fluid" src="/img/library.jpg" alt="Imagen del libro" id="bookImage">
 
         <!-- Campos de información del libro -->
         <h1 id="bookTitle">Título del Libro: {{ document.title }}</h1>
@@ -86,7 +86,7 @@
     const selectedFileData = localStorage.getItem('selectedFile');
     if (selectedFileData) {
         const selectedFile = JSON.parse(selectedFileData);
-        document.getElementById('bookImage').src = selectedFile.image_url; // Reemplaza con la URL de la imagen del libro
+        {#document.getElementById('bookImage').src = selectedFile.image_url; // Reemplaza con la URL de la imagen del libro#}
         {#document.getElementById('bookTitle').textContent = `Título del Libro: ${selectedFile.title}`;#}
         {#document.getElementById('bookSubject').textContent = `Materia/Temática: ${selectedFile.subject}`;#}
         {#document.getElementById('bookType').textContent = `Tipo: ${selectedFile.type}`;#}
