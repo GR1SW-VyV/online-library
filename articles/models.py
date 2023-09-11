@@ -71,6 +71,7 @@ class Document(models.Model):
         return f"/static/articles/resources/{category_str}Resources/{self.sha512[:32]}/{self.filename}"
 
     def add_score(self, user_id, score):
+        print(user_id)
         old_score = Score.objects.filter(user=user_id,document=self).first()
         if old_score is None:
             Score(user=user_id,document=self,value=score).save()
