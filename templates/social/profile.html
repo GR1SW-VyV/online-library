@@ -96,19 +96,21 @@
                                 <h5 class="mb-0">Colecciones</h5>
                             </div>
                             <div class="row">
+
                                 {% for collection in collections %}
-                                    <a href="/collections/{{ collection.id }}">
-                                        <div class="col-lg-6 mb-2 pr-lg-1">
-                                            <div class="image-container">
-                                                <img
-                                                        src="https://api.dicebear.com/7.x/shapes/svg?seed={{ collection.name }}"
-                                                        class="img-fluid rounded shadow-sm image-background">
-                                                <div class="centered-text">
-                                                    {{ collection.name }}
+                                    <div class="col-lg-6 mb-2 pr-lg-1">
+                                        <a href="/collections/{{ collection.id }}">
+                                                <div class="image-container">
+                                                    <img
+                                                            src="https://api.dicebear.com/7.x/shapes/svg?seed={{ collection.name }}"
+                                                            class="img-fluid rounded shadow-sm image-background">
+                                                    <div class="centered-text">
+                                                        {{ collection.name }}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </a>
+
+                                        </a>
+                                    </div>
                                 {% endfor %}
                             </div>
                         {% else %}
