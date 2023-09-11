@@ -62,12 +62,11 @@
                 <div class="row">
                     <ul class="nav nav-tabs nav-justified px-0 ">
                         <li class="nav-item">
-                            <a class="nav-link nav-active text-light fw-bold bg-secondary py-0" aria-current="page"
-                               href="#">
-                                Mis anotaciones</a>
+                            <button class="nav-link nav-active text-light fw-bold bg-secondary py-0" id="btn_my_notes" aria-current="page">
+                                Mis anotaciones</button>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark fw-bold py-0" href="#">Otras anotaciones</a>
+                            <button class="nav-link text-dark fw-bold py-0" id="btn_other_notes">Otras anotaciones</button>
                         </li>
                     </ul>
                 </div>
@@ -91,7 +90,7 @@
                 <!--anotaciones-->
                 <div id="notes_container"
                      class="row scroll-container  px-2 pt-2 border border-right-0 border-top-0 border-left-0 border-secondary border-2">
-                    <div class="card mb-2 px-0 ">
+                    <div class="card mb-2 px-0 " id="my_notes_block">
                         {% for note in notes %}
                             <div class="card-header d-flex justify-content-between align-items-center px-2 py-0 ">
                                 <div>{{ note.date }}</div>
@@ -120,6 +119,20 @@
                         {% endfor %}
                     </div>
 
+                <div class="card mb-2 px-0 " id="other_notes_block" style="display: none">
+                {% for note in other_notes %}
+                    <div class="card-header d-flex justify-content-between align-items-center px-2 py-0 ">
+                        <div class="col-3"><strong>{{ note.user }}</strong></div>
+                        <div class="col">{{ note.date }}</div>
+                    </div>
+                    <div class="card-body text-dark p-2">
+                        <p class="card-text">{{ note.content }}</p>
+                    </div>
+                {% empty %}
+                    <p>Aún no tienes notas</p>
+                {% endfor %}
+            </div>
+
                 </div>
                 <!--fin-anotaciones-->
             </div>
@@ -137,5 +150,38 @@
 <script>
     let pageCounter = {{ page }};
 </script>
+    <script>
+        function showOtherNotes() {
+            document.getElementById("my_notes_block").style.display = "none";
+            document.getElementById("other_notes_block").style.display = "block";
+        }
+        document.getElementById('btn_other_notes').addEventListener("click", showOtherNotes);
+        function showMyNotes() {
+            document.getElementById("my_notes_block").style.display = "block";
+            document.getElementById("other_notes_block").style.display = "none";
+        }
+        document.getElementById('btn_my_notes').addEventListener("click", showMyNotes);
+        const btnMyNotes = document.getElementById('btn_my_notes')
+        const btnOtherNotes = document.getElementById('btn_other_notes')
+
+        function changeBtnMyNotes(){
+            if(!btnMyNotes.classList.contains('nav-active')){
+                btnOtherNotes.classList.remove('nav-active', 'text-light','bg-secondary')
+                btnOtherNotes.classList.add('text-dark')
+                btnMyNotes.classList.remove('text-dark')
+                btnMyNotes.classList.add('nav-active', 'text-light', 'bg-secondary')
+            }
+        }
+        function changeBtnOtherNotes(){
+            if(!btnOtherNotes.classList.contains('nav-active')){
+                btnMyNotes.classList.remove('nav-active', 'text-light', 'bg-secondary')
+                btnMyNotes.classList.add('text-dark')
+                btnOtherNotes.classList.remove('text-dark')
+                btnOtherNotes.classList.add('nav-active', 'text-light', 'bg-secondary')
+            }
+        }
+        document.getElementById('btn_my_notes').addEventListener("click", changeBtnMyNotes);
+        document.getElementById('btn_other_notes').addEventListener("click", changeBtnOtherNotes);
+    </script>
 
 {% endblock %}
