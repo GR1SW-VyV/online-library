@@ -14,10 +14,12 @@ def document_info(request, document_id):
     user_id = request.user.id
     document.increase_view_count()
     username = request.user.username
+    personal_general_notes = GeneralNoteDAO.get_user_general_notes(user_id, document.uid)
     general_notes = GeneralNoteDAO.get_general_notes(username,document_id)
     context = {
         'document': document,
-        'document_notes': general_notes
+        'document_notes': general_notes,
+        'personal_notes': personal_general_notes
     }
 
     # Create a general note
@@ -27,7 +29,7 @@ def document_info(request, document_id):
         GeneralNote.objects.create(
             user_id=user_id,
             document_id=document_id,
-            content=annotation_text
+            content=annotation_text,
         )
         # Redirect, to avoid duplicated notes
         return redirect(f'/visualization/document/{document_id}')
