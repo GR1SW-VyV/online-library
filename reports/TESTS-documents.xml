@@ -1,0 +1,211 @@
+<testsuite name="documents.Upload public articles" tests="16" errors="0" failures="0" skipped="0" time="0.182413" timestamp="2023-09-10T08:22:00.082289" hostname="luis-deb"><testcase classname="documents.Upload public articles" name="Suggest author for autocomplete -- @1.1 " status="passed" time="0.007141"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Suggest author for autocomplete -- @1.1 
+    Given the text "B" ... passed in 0.001s
+    And a default repertoire of Authors ... passed in 0.004s
+    When lookup for an author ... passed in 0.001s
+    Then it must return ["Baldor Aurelio", "Balaca Ricardo", "Berro Adolfo"] as potential authors ... passed in 0.001s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="documents.Upload public articles" name="Suggest author for autocomplete -- @1.2 " status="passed" time="0.004021"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Suggest author for autocomplete -- @1.2 
+    Given the text "Ba" ... passed in 0.001s
+    And a default repertoire of Authors ... passed in 0.002s
+    When lookup for an author ... passed in 0.001s
+    Then it must return ["Baldor Aurelio", "Balaca Ricardo"] as potential authors ... passed in 0.001s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="documents.Upload public articles" name="Suggest author for autocomplete -- @1.3 " status="passed" time="0.004827"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Suggest author for autocomplete -- @1.3 
+    Given the text "Be" ... passed in 0.001s
+    And a default repertoire of Authors ... passed in 0.002s
+    When lookup for an author ... passed in 0.001s
+    Then it must return ["Berro Adolfo"] as potential authors ... passed in 0.001s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="documents.Upload public articles" name="Upload articles -- @1.1 " status="passed" time="0.010251"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Upload articles -- @1.1 
+    Given a pdf file mathArticle.pdf ... passed in 0.003s
+    When I upload the article as Math ... passed in 0.004s
+    Then the article must be on static/articles/resources/MathResources/*/mathArticle.pdf ... passed in 0.003s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="documents.Upload public articles" name="Upload articles -- @1.2 " status="passed" time="0.007673"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Upload articles -- @1.2 
+    Given a pdf file physicsArticle.pdf ... passed in 0.002s
+    When I upload the article as Physics ... passed in 0.003s
+    Then the article must be on static/articles/resources/PhysicsResources/*/physicsArticle.pdf ... passed in 0.003s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="documents.Upload public articles" name="Serve file -- @1.1 " status="passed" time="0.015831"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Serve file -- @1.1 
+    Given a pdf file mathArticle.pdf ... passed in 0.002s
+    When I upload the article as Math ... passed in 0.003s
+    Then the article is available through http/s ... passed in 0.011s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="documents.Upload public articles" name="Serve file -- @1.2 " status="passed" time="0.004427"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario Outline: Serve file -- @1.2 
+    Given a pdf file physicsArticle.pdf ... passed in 0.001s
+    When I upload the article as Physics ... passed in 0.002s
+    Then the article is available through http/s ... passed in 0.001s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="documents.Upload public articles" name="Avoid duplicate by hash collision -- @1.1 " status="passed" time="0.009639"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @fake_data
+  Scenario Outline: Avoid duplicate by hash collision -- @1.1 
+    Given a document A ... passed in 0.005s
+    And a pdf file A.pdf ... passed in 0.001s
+    When a A hash check is performed on A.pdf ... passed in 0.003s
+    Then one collision/s were/was found ... passed in 0.001s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="documents.Upload public articles" name="Avoid duplicate by hash collision -- @1.2 " status="passed" time="0.011889"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @fake_data
+  Scenario Outline: Avoid duplicate by hash collision -- @1.2 
+    Given a document A ... passed in 0.008s
+    And a pdf file B.pdf ... passed in 0.001s
+    When a A hash check is performed on B.pdf ... passed in 0.002s
+    Then zero collision/s were/was found ... passed in 0.001s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="documents.Upload public articles" name="Scoring of an unrated document" status="passed" time="0.007635"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @fake_data
+  Scenario: Scoring of an unrated document
+    Given a document A ... passed in 0.006s
+    Then document A's final score must be 0 ... passed in 0.002s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="documents.Upload public articles" name="Average book score -- @1.1 " status="passed" time="0.012568"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @fake_data
+  Scenario Outline: Average book score -- @1.1 
+    Given a document A ... passed in 0.006s
+    And someone scores document A a 2 ... passed in 0.002s
+    When someone else scores document A a 4 ... passed in 0.002s
+    Then document A's final score must be 3 ... passed in 0.003s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="documents.Upload public articles" name="Average book score -- @1.2 " status="passed" time="0.012356"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @fake_data
+  Scenario Outline: Average book score -- @1.2 
+    Given a document A ... passed in 0.007s
+    And someone scores document A a 1 ... passed in 0.002s
+    When someone else scores document A a 3 ... passed in 0.002s
+    Then document A's final score must be 2 ... passed in 0.002s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="documents.Upload public articles" name="Average book score -- @1.3 " status="passed" time="0.012457"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @fake_data
+  Scenario Outline: Average book score -- @1.3 
+    Given a document A ... passed in 0.006s
+    And someone scores document A a 2 ... passed in 0.002s
+    When someone else scores document A a 4 ... passed in 0.002s
+    Then document A's final score must be 3 ... passed in 0.003s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="documents.Upload public articles" name="Individual scoring per book -- @1.1 " status="passed" time="0.021755"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @fake_data
+  Scenario Outline: Individual scoring per book -- @1.1 
+    Given a document A ... passed in 0.007s
+    And a document B ... passed in 0.007s
+    And person scores document A a 2 ... passed in 0.002s
+    And person scores document B a 4 ... passed in 0.002s
+    Then document A's final score must be 2 ... passed in 0.002s
+    Then document B's final score must be 4 ... passed in 0.003s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="documents.Upload public articles" name="Individual scoring per book -- @1.2 " status="passed" time="0.018914"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @fake_data
+  Scenario Outline: Individual scoring per book -- @1.2 
+    Given a document A ... passed in 0.005s
+    And a document B ... passed in 0.007s
+    And person scores document A a 1 ... passed in 0.002s
+    And person scores document B a 3 ... passed in 0.001s
+    Then document A's final score must be 1 ... passed in 0.002s
+    Then document B's final score must be 3 ... passed in 0.002s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="documents.Upload public articles" name="Individual scoring per book -- @1.3 " status="passed" time="0.021031"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @fake_data
+  Scenario Outline: Individual scoring per book -- @1.3 
+    Given a document A ... passed in 0.005s
+    And a document B ... passed in 0.005s
+    And person scores document A a 2 ... passed in 0.003s
+    And person scores document B a 4 ... passed in 0.003s
+    Then document A's final score must be 2 ... passed in 0.003s
+    Then document B's final score must be 4 ... passed in 0.002s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>

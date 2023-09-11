@@ -1,0 +1,35 @@
+<testsuite name="annotations.Write notes" tests="3" errors="0" failures="0" skipped="0" time="0.23158" timestamp="2023-09-10T07:11:57.309965" hostname="luis-deb"><testcase classname="annotations.Write notes" name="Take notes of a page of a document" status="passed" time="0.003077"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario: Take notes of a page of a document
+    Given I am reading a document about "Lean Software Development" ... passed in 0.002s
+    When I add a note with the text "Tomar en cuenta estos principios" in the page 10 ... passed in 0.001s
+    Then I should see the note in the notes section ... passed in 0.001s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="annotations.Write notes" name="Take notes of a document" status="passed" time="0.002938"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario: Take notes of a document
+    Given I am seeing the document information about "Ensayo sobre la ceguera" ... passed in 0.001s
+    When I add an note with the text "Que interesante libro" ... passed in 0.002s
+    Then I should see the note with the information of the document ... passed in 0.001s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="annotations.Write notes" name="Mark an annotation as favorite" status="passed" time="0.225564"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario: Mark an annotation as favorite
+    Given I am reading the book "Cien años de soledad" ... passed in 0.222s
+    And I want to take an important note ... passed in 0.001s
+    When I mark the note as favorite ... passed in 0.001s
+    Then I should see the note with the mark ... passed in 0.001s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>
