@@ -57,7 +57,7 @@
     <!-- Contenedor de información del libro -->
     <div class="book-info-container">
         <!-- Imagen del libro -->
-        <img class="book-image img-fluid" src="{{ document.image_url }}" alt="Imagen del libro" id="bookImage">
+        <img class="book-image img-fluid" src="/static/img/library.jpg" alt="Imagen del libro" id="bookImage">
 
         <!-- Campos de información del libro -->
         <h1 id="bookTitle">Título del Libro: {{ document.title }}</h1>
@@ -68,7 +68,7 @@
 
         <!-- Campo de calificación por número de estrellas (Libro/Artículo) -->
         <label for="calificacion"><strong>Calificación del libro/artículo:</strong></label>
-        <select class="input-field form-control" name="calificacion">
+        <select class="input-field form-control" name="calificacion" onclick="setScore(this.value)">
             <option value="5" onclick="setScore(5)">5 estrellas</option>
             <option value="4" onclick="setScore(4)">4 estrellas</option>
             <option value="3" onclick="setScore(3)">3 estrellas</option>
@@ -93,13 +93,14 @@
     }
 
     function setScore(score) {
-        const Http = new XMLHttpRequest();
-        Http.open("GET", `/articles/score/{{ document.uid }}/${score}`);
-        Http.onload = (e) => {
-            if(Http.status === 403) document.location.href = "/accounts/login/?next=/articles/document/{{ document.uid }}/"
-            else document.getElementById("bookScore").innerHTML = Http.responseText;
+        console.log("Canon")
+        const http = new XMLHttpRequest();
+        http.open("GET", `/articles/score/{{ document.uid }}/${score}`);
+        http.onload = (e) => {
+            if(http.status === 403) document.location.href = "/accounts/login/?next=/articles/document/{{ document.uid }}/"
+            else document.getElementById("bookScore").innerHTML = http.responseText;
         }
-        Http.send();
+        http.send();
     }
 </script>
 

@@ -30,13 +30,19 @@ def show_upload_document_form(request:HttpRequest):
 
     filename:str = str(request.FILES["file"])
     rnd_dir = hashlib.md5(random.randbytes(128)).hexdigest()
+
     rnd_path = os.path.join(rnd_dir,filename)
     tmp_path = os.path.join("tmp", rnd_path)
-    os.mkdir(os.path.dirname(tmp_path))
+    os.makedirs(os.path.dirname(tmp_path))
 
     with open(tmp_path,"wb+") as f:
         for c in request.FILES["file"].chunks():
             f.write(c)
+
+    old_doc =Document.find_colliding_document(tmp_path)
+    if old_doc is not None:
+        return redirect(f"/articles/document/{old_doc.uid}")
+
 
     doc:Document = Document.from_local_path(
         tmp_path,
