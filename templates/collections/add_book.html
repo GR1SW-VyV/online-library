@@ -1,11 +1,23 @@
 {% extends 'base.html' %}
+{% block pre-script %}
+    <style>
+        .cover-image {
+            width: 100px !important;
+            height: 150px !important;
+            object-fit: contain;
+        }
+    </style>
+{% endblock %}
 {% block content %}
    <div class="d-flex p-3 justify-content-center">
     <form method="post" action="" class="gap-3 d-flex flex-column">
         {% csrf_token %}
         <h1>Agregar libro a la colección</h1>
         <p>Libro por agregar</p>
-        <h2>{{ book.title }}</h2>
+        <div class="d-flex flex-column align-items-center">
+            <h2>{{ book.title }}</h2>
+            <img src="" alt="coverImage" data-path="{{ book.url }}" class="cover-image bg-secondary rounded border border-secondary" />
+        </div>
         <div class="">
             <label>Selecciona la colección</label>
             <select name="collection" class="form-select">
@@ -19,4 +31,8 @@
         </button>
     </form>
    </div>
+{% endblock %}
+{% block post-script %}
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.10.111/build/pdf.min.js"></script>
+    <script src="/static/js/images.js"></script>
 {% endblock %}

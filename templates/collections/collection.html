@@ -3,7 +3,7 @@
     <style>
     .grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(250px, 300px));
         }
 
         .img-container {
@@ -62,8 +62,9 @@
                 {% for book in collection.books.all %}
                     <div class="d-flex card flex-column align-items-center rounded-5 rounded-top-5 border border-1 border-secondary-subtle pb-4 p-0 rounded shadow">
                         <div class="img-container  h-50 w-100 rounded-2 mb-3 bg-secondary">
-                            <img src="/static/img/library.jpg" alt="">
+                            <img src="" alt="coverImage" data-path="{{ book.url }}" class="cover-image" />
                         </div>
+
                         <div class="d-flex gap-1 my-1">
                             <span class="badge bg-info mx-2"><i class="fa-solid fa-star px-1"></i>{{ book.score }}</span>
                             <span class="badge bg-secondary">{{ book.category }}</span>
@@ -84,3 +85,8 @@
 
 {% endblock %}
 {% block page %}colecciones{% endblock %}
+
+{% block post-script %}
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.10.111/build/pdf.min.js"></script>
+    <script src="/static/js/images.js"></script>
+{% endblock %}

@@ -1,4 +1,13 @@
 {% extends 'base.html' %}
+{% block pre-script %}
+    <style>
+        .cover-image {
+            width: 100px !important;
+            height: 150px !important;
+            object-fit: contain;
+        }
+    </style>
+{% endblock %}
 {% block content %}
    <div class="d-flex p-3 justify-content-center">
     <form method="post" action="/collections/create/" class="gap-3 d-flex flex-column">
@@ -26,14 +35,20 @@
             </select>
         </div>
         {% if doc %}
+            <p>La colección inicia con</p>
             <input type="hidden" value="{{ doc.uid }}" name="doc_id">
-            <p>
-                Documento inicial: {{ doc.title }}
-            </p>
+            <div class="d-flex flex-column align-items-center">
+                <p>{{ doc.title }}</p>
+                <img src="" alt="coverImage" data-path="{{ doc.url }}" class="cover-image bg-secondary rounded border border-secondary" />
+            </div>
             <button type="submit" class="btn btn-primary">Crear colección</button>
         {% else %}
             <div>No puedes crear una colección sin un libro</div>
         {% endif %}
     </form>
    </div>
+{% endblock %}
+{% block post-script %}
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.10.111/build/pdf.min.js"></script>
+    <script src="/static/js/images.js"></script>
 {% endblock %}
