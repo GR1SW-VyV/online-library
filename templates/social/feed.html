@@ -1,18 +1,7 @@
+{% extends 'base.html' %}
 {% load filters %}
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feed</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-</head>
-
-
-<body>
+{% block page %}feed{% endblock %}
+{% block content %}
 <div class="container align-items-center d-flex justify-content-center">
 
     <div class="w-75 box shadow-sm rounded bg-white mb-3">
@@ -23,12 +12,14 @@
         <div class="box-body p-0">
 
 
-            {% for activity in user_profile.feed.all %}
+            {% for activity in feed %}
                 <div class=" p-3 d-flex align-items-center border-bottom osahan-post-header">
 
                     <div class="col-2 dropdown-list-image mr-3 d-flex align-items-center  justify-content-center">
                         {% if activity|is_collection_activity %}
-                            <img class="rounded-circle w-50" src="https://api.dicebear.com/7.x/shapes/svg?seed={{ activity.collection.name }}" alt=""/>
+                            <img class="rounded-circle w-50"
+                                 src="https://api.dicebear.com/7.x/shapes/svg?seed={{ activity.collection.name }}"
+                                 alt=""/>
 
                         {% elif activity|is_user_activity %}
                             <img class="rounded-circle w-50"
@@ -48,20 +39,22 @@
                                 Agregó un documento a la colección: {{ activity.document.title }}
                             </div>
                         {% elif activity|is_user_activity %}
-                            <div class="text-truncate fw-bold">
-                                <i class="fa-solid fa-user"></i>
-                                {{ activity.responsible.first_name }} {{ activity.responsible.last_name }}
-                            </div>
-                            <div class="small">
-                                Creó la colección: {{ activity.collection.name }}
-                            </div>
+                            <a href="/collections/{{ activity.collection.id }}" class="link-dark text-decoration-none">
+                                <div class="text-truncate fw-bold">
+                                    <i class="fa-solid fa-user"></i>
+                                    {{ activity.responsible.first_name }} {{ activity.responsible.last_name }}
+                                </div>
+                                <div class="small">
+                                    Creó la colección: {{ activity.collection.name }}
+                                </div>
+                            </a>
                         {% endif %}
 
                     </div>
 
                     <span class="col-1 ml-auto mb-auto">
                         <div class="text-right text-muted pt-1">
-                            {{ activity.date }}
+                            Hace {{ activity.date|time_since:activity.time }}
                         </div>
                     </span>
 
@@ -72,18 +65,17 @@
         </div>
     </div>
 </div>
-</div>
-</body>
+{% endblock %}
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
-<script src="https://kit.fontawesome.com/9c5bf940c8.js" crossorigin="anonymous"></script>
-
-</html>
+{% block post-script %}
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/9c5bf940c8.js" crossorigin="anonymous"></script>
+{% endblock %}

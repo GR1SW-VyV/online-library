@@ -42,7 +42,7 @@ def book_user_notes(request, document_id):
         # Redirect, to avoid duplicated notes
         return redirect(f'/annotations/book/{document_id}/?page={page_counter}')
 
-    notes = PageNoteDAO.get_notes_by_page(user_id=1, document_id=document_id, page=page_counter) \
+    notes = PageNoteDAO.get_notes_by_page(user_id=current_user.id, document_id=document_id, page=page_counter) \
         .annotate(
         is_favorite_order=Case(
             When(is_favorite=True, then=Value(1)),
