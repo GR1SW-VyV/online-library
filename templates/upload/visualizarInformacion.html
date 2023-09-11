@@ -86,7 +86,7 @@
     const selectedFileData = localStorage.getItem('selectedFile');
     if (selectedFileData) {
         const selectedFile = JSON.parse(selectedFileData);
-        {#document.getElementById('bookImage').src = selectedFile.image_url; // Reemplaza con la URL de la imagen del libro#}
+        document.getElementById('bookImage').src = selectedFile.image_url; // Reemplaza con la URL de la imagen del libro
         {#document.getElementById('bookTitle').textContent = `Título del Libro: ${selectedFile.title}`;#}
         {#document.getElementById('bookSubject').textContent = `Materia/Temática: ${selectedFile.subject}`;#}
         {#document.getElementById('bookType').textContent = `Tipo: ${selectedFile.type}`;#}
