@@ -22,6 +22,10 @@ class GeneralNoteDAO:
         return list(ordered_notes)
 
     @classmethod
+    def get_user_general_notes(cls, user_id, document_id):
+        return GeneralNote.objects.filter(user_id=user_id, document_id=document_id)
+
+    @classmethod
     def get_str_general_notes(cls, general_notes):
         notes = ""
         for note in general_notes:
