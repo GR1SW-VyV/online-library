@@ -18,6 +18,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
+from social.views import search_users
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,5 +30,6 @@ urlpatterns = [
     path('visualization/', include('visualization.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('visualization/', include('visualization.urls')),
+    path('users/', search_users),
     path('', include('home.urls'))
 ]

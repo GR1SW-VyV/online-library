@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import User
 from bookcollections.models import Collection, CollectionDAO
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 
 def profile(request, user_username):
@@ -47,3 +48,14 @@ def follow_reader(request, user_username):
 
     user_profile.follow(reader_to_follow)
     return redirect('profile', user_username=user_username)
+
+
+def search_users(request):
+    q = request.GET.get('q', '')
+    users = User.objects.filter(
+        Q(username__icontains=q) | Q(first_name__icontains=q) | Q(last_name__icontains=q)
+    ).order_by('-followers').distinct()
+    return render(request, 'social/users.html', {
+        'users': users,
+        'q': q
+    })
