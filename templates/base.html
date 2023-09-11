@@ -28,30 +28,37 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-lg-flex w-100">
-                        <li class="nav-item">
+                        <li class="nav-item align-items-center d-flex">
                             <a class="nav-link active" aria-current="page" href="/" id="inicio">Inicio</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item align-items-center d-flex">
                             <a class="nav-link" href="#" id="seguidos">Seguidos</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item align-items-center d-flex">
                             <a class="nav-link" href="/recommendations" id="recomendaciones">Recomendados</a>
                         </li>
-                        <li class="nav-item">
+                        {% if user.is_professor %}
+                        <li class="nav-item align-items-center d-flex">
                             <a class="nav-link" href="/articles/upload" id="publicar">Publicar</a>
                         </li>
-                        <li class="nav-item">
+                        {% endif %}
+                        <li class="nav-item align-items-center d-flex">
                             <a class="nav-link" href="/collections" id="colecciones">Colecciones</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item align-items-center d-flex">
                             <a class="nav-link" href="/social/feed" id="feed">Feed</a>
                         </li>
                         <li class="nav-item dropdown d-flex align-items-center ms-lg-auto" >
-                            <div class="d-flex me-2 me-lg-0">
-                                <i class="fa-solid fa-user text-white fa-lg"></i>
-                            </div>
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ user.username|default:"nothing" }}
+
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <div class="d-flex align-items-center gap-3">
+                                    <i class="fa-solid fa-user text-white fa-lg"></i>
+                                    <div class="d-flex flex-column fs-7">
+                                        {{ user.get_full_name|default:"nothing" }}
+                                    <div class="text-secondary fs-7" style="font-size: 14px">@{{ user.username }}</div>
+                                    </div>
+                                </div>
+
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-lg-end">
                                 <li><a class="dropdown-item" href="/social/profile/{{ user.username }}">

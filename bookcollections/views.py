@@ -71,6 +71,7 @@ def view_collections(request):
 
 def view_singe_collection(request, id):
     collection = CollectionDAO.get_collection(id)
+    print(collection.user.followers)
     return render(request, 'collections/collection.html', context={'collection': collection})
 
 def add_book(request, book_id):

@@ -14,13 +14,19 @@
             overflow: hidden;
         }
         .img-container img {
-            width: 100%;
-            height: 100%;
+            height: 250px;
+            width: auto;
             object-fit: cover;
         }
 
         .spacer {
-            height: 100px !important;
+            height: 130px !important;
+        }
+
+        .cover-image {
+            object-fit: contain;
+            height: 100%;
+            width: auto;
         }
 
 
@@ -49,7 +55,24 @@
             <div class="d-flex flex-column gap-2 align-items-center">
                 <h1 class="my-2 pt-4 fs-2 text fw-bold text-center">{{ collection.name }}</h1>
                 <span class="badge bg-info mx-4 fs-5" >{{ collection.calc_score }}<i class="fa-solid fa-star px-1"></i></span>
-                <p class="py-2">{{ collection.description }}</p>
+                <p class="">{{ collection.description }}</p>
+                {% if collection.user_id != user.id %}
+                    {% if not collection.user in user.user_following.all %}
+                        <a href="/social/follow_reader/{{ collection.user.username }}">
+                        <button class="btn btn-outline-primary">
+                            Seguir a {{ collection.user.get_full_name }}
+                        </button>
+                    </a>
+                    {% else %}
+                        <a href="/social/profile/{{ collection.user.username }}">
+                        <button class="btn btn-outline-primary">
+                            Ver perfil de {{ collection.user.get_full_name }}
+                        </button>
+                    </a>
+
+                    {% endif %}
+
+                {% endif %}
             </div>
 
         </div>
@@ -61,7 +84,7 @@
             <div class="grid gap-3 my-4 ">
                 {% for book in collection.books.all %}
                     <div class="d-flex card flex-column align-items-center rounded-5 rounded-top-5 border border-1 border-secondary-subtle pb-4 p-0 rounded shadow">
-                        <div class="img-container  h-50 w-100 rounded-2 mb-3 bg-secondary">
+                        <div class="img-container  h-50 w-100 rounded-2 mb-3 bg-light border-bottom border-secondary-subtle">
                             <img src="" alt="coverImage" data-path="{{ book.url }}" class="cover-image" />
                         </div>
 
@@ -70,7 +93,7 @@
                             <span class="badge bg-secondary">{{ book.category }}</span>
                         </div>
                         <h3 class="text-center my-1 fs-4">{{ book.title }}</h3>
-                        <a href="/articles/document/{{ book.uid }}">
+                        <a href="/annotations/book/{{ book.uid }}">
                             <button class="btn btn-primary text-white my-2">
                                 Ver libro
                                 <i class="fa-solid fa-arrow-right-long"></i>
