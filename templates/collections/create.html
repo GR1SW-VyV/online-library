@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-   <div class="d-flex p-3">
+   <div class="d-flex p-3 justify-content-center">
     <form method="post" action="/collections/create/" class="gap-3 d-flex flex-column">
         {% csrf_token %}
         <h1>Crear una colección</h1>
@@ -21,8 +21,8 @@
 
         <div class="">
             <label for="a" class="">Categoría</label>
-            <select name="category" id="" class="form-select">
-                <option value="">Math</option>
+            <select name="category" class="form-select">
+                <option>{{ doc.category }}</option>
             </select>
         </div>
         {% if doc %}

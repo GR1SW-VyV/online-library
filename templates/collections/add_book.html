@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+   <div class="d-flex p-3 justify-content-center">
+    <form method="post" action="" class="gap-3 d-flex flex-column">
+        {% csrf_token %}
+        <h1>Agregar libro a la colección</h1>
+        <p>Libro por agregar</p>
+        <h2>{{ book.title }}</h2>
+        <div class="">
+            <label>Selecciona la colección</label>
+            <select name="collection" class="form-select">
+                {% for collection in collections %}
+                    <option value="{{ collection.id }}">{{ collection.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button class="btn btn-primary" type="submit">
+            Agregar libro
+        </button>
+    </form>
+   </div>
+{% endblock %}

@@ -46,8 +46,12 @@
         <!-- Columna de la portada de la colección (izquierda) -->
         <div class="col-md-4 my-4">
             <img src="https://i.pinimg.com/564x/a6/46/b2/a646b21d519edd807e7817e14c28af07.jpg" alt="Portada de la colección" class="img-fluid">
-            <h1 class="my-2 pt-4 fs-2 text fw-bold text-center">{{ collection.name }} <span class="badge bg-info mx-4">{{ collection.calc_score }}</span></h1>
-            <p class="py-2">{{ collection.description }}</p>
+            <div class="d-flex flex-column gap-2 align-items-center">
+                <h1 class="my-2 pt-4 fs-2 text fw-bold text-center">{{ collection.name }}</h1>
+                <span class="badge bg-info mx-4 fs-5" >{{ collection.calc_score }}<i class="fa-solid fa-star px-1"></i></span>
+                <p class="py-2">{{ collection.description }}</p>
+            </div>
+
         </div>
 
         <!-- Columna de información de la colección y tarjetas de libros (derecha) -->
@@ -65,7 +69,7 @@
                             <span class="badge bg-secondary">{{ book.category }}</span>
                         </div>
                         <h3 class="text-center my-1 fs-4">{{ book.title }}</h3>
-                        <a href="#">
+                        <a href="/articles/document/{{ book.uid }}">
                             <button class="btn btn-primary text-white my-2">
                                 Ver libro
                                 <i class="fa-solid fa-arrow-right-long"></i>

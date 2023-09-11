@@ -36,6 +36,7 @@ def create_base_data(request, is_set):
 def view_collections(request):
     # create_base_data(request, is_set)
     collections = []
+    external_collections = []
     search = request.GET.get("search", "")
     tipo = request.GET.get("tipo", "")
     privacidad = request.GET.get("privacy", "all")
@@ -44,25 +45,53 @@ def view_collections(request):
 
         if tipo == "name":
             collections = CollectionDAO.search_by_name_and_user(search, request.user.id)
+            external_collections = Collection.objects.filter(name__icontains=search).exclude(user_id=request.user.id)
         elif tipo == "category":
             collections = CollectionDAO.search_by_category_and_user(search, request.user.id)
+            external_collections = Collection.objects.filter(category__icontains=search).exclude(user_id=request.user.id)
     else:
         collections = CollectionDAO.get_all_by_user(request.user.id)
+        external_collections = Collection.objects.all().exclude(user_id=request.user.id)
 
     if privacidad == "public":
         collections = collections.filter(is_public=True)
+        external_collections = external_collections.filter(is_public=True)[:10]
     elif privacidad == "private":
         collections = collections.filter(is_public=False)
+        external_collections = external_collections.filter(is_public=False)[:10]
 
-    return render(request, './collections/collections.html', context={'collections': collections, 'search': search})
+    context = {
+        'collections': collections,
+        'search': search,
+        'external_collections': external_collections
+    }
+
+    return render(request, './collections/collections.html', context=context)
 
 
 def view_singe_collection(request, id):
     collection = CollectionDAO.get_collection(id)
     return render(request, 'collections/collection.html', context={'collection': collection})
 
+def add_book(request, book_id):
+    book = Document.objects.filter(uid=book_id).first()
+    if request.POST:
+        collection_id = request.POST.get("collection")
+        CollectionDAO.add_book(int(collection_id), book_id)
+        return redirect('/collections/'+collection_id)
+
+    collections = Collection.objects.filter(category=book.category, user_id=request.user.id)
+    if len(collections) == 0:
+        return redirect(f'/collections/create/?doc_id={book_id}')
+    context = {
+        'book': book,
+        'collections': collections
+    }
+    return render(request, 'collections/add_book.html', context=context)
+
 
 def create_coll(request):
+    context = {}
     if request.GET:
 
         book_id = request.GET.get("doc_id", "")
@@ -70,7 +99,9 @@ def create_coll(request):
         if book_id:
             book_id = int(book_id)
             book = Document.objects.filter(uid=book_id).first()
-        return render(request, './collections/create.html', {'doc': book})
+            context['doc'] = book
+            context['categories'] = Category.choices
+        return render(request, './collections/create.html', context)
 
     elif request.POST:
         name = request.POST["name"]
@@ -83,7 +114,7 @@ def create_coll(request):
             name=name,
             description=desc,
             is_public=is_public,
-            category=Category.UNKNOWN,
+            category=category,
             user_ref=request.user.id,
             book_ref=int(book)
         )

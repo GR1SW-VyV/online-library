@@ -3,7 +3,7 @@
 	<div class="row">
         {% for note in page_note %}
             <div class="row border rounded bg-body-secondary">
-                <div class="col-3">{{ note.user }}</div>
+                <div class="col-3">{{ note.user.username }}</div>
                 <div class="col-3">{{ note.date }}</div>
                 <div class="col text-end">
                     {% if note.is_favorite %}
